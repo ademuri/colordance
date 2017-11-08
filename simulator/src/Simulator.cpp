@@ -7,17 +7,28 @@
 #include <OgreSceneNode.h>
 #include <OgreViewport.h>
 
-Simulator::Simulator() : OgreBites::ApplicationContext("OgreTutorialApp") {}
+Ogre::Light *light1;
+Ogre::Light *light2;
+Ogre::Light *light3;
+
+Simulator::Simulator()
+    : OgreBites::ApplicationContext("ColorDance Simulator") {}
 
 bool Simulator::keyPressed(const OgreBites::KeyboardEvent &evt) {
   if (evt.keysym.sym == SDLK_ESCAPE) {
     getRoot()->queueEndRendering();
   }
+  if (evt.keysym.sym == SDLK_LEFT) {
+    light1->setDiffuseColour(0, 0, 0);
+  } else {
+    light1->setDiffuseColour(0, 1.0, 0);
+  }
   return true;
 }
 
-void createLight(Ogre::SceneManager *scnMgr, Ogre::Vector3 const position,
-                 double red, double green, double blue) {
+Ogre::Light *createLight(Ogre::SceneManager *scnMgr,
+                         Ogre::Vector3 const position, double red, double green,
+                         double blue) {
   Ogre::Light *spotLight = scnMgr->createLight();
   spotLight->setDiffuseColour(red, green, blue);
   spotLight->setSpecularColour(red, green, blue);
@@ -94,9 +105,9 @@ void Simulator::setup() {
   scnMgr->setShadowTechnique(
       Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
-  createLight(scnMgr, Ogre::Vector3(0, 100, 800), 0, 0, 1.0);
-  createLight(scnMgr, Ogre::Vector3(100, 100, 800), 1.0, 0, 0);
-  createLight(scnMgr, Ogre::Vector3(-100, 100, 800), 0, 1.0, 0);
+  light1 = createLight(scnMgr, Ogre::Vector3(-100, 100, 800), 0, 1.0, 0);
+  light2 = createLight(scnMgr, Ogre::Vector3(0, 100, 800), 0, 0, 1.0);
+  light3 = createLight(scnMgr, Ogre::Vector3(100, 100, 800), 1.0, 0, 0);
 }
 
 int main(int argc, char **argv) {
