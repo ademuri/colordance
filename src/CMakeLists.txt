@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 cmake_policy(SET CMP0028 NEW)
-project(colors)
+project(colordance LANGUAGES CXX)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${colors_SOURCE_DIR}/cmake")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${colordance_SOURCE_DIR}/cmake")
 
 # Set an output directory for our binaries
-set(BIN_DIR ${colors_SOURCE_DIR}/bin)
+set(BIN_DIR ${colordance_SOURCE_DIR}/bin)
 
 # Set appropriate warning levels for clang, gcc & msvc.
 # Also set debug/optimization flags depending on the build type.
@@ -35,4 +35,4 @@ file(COPY ${OGRE_CONFIG_DIR}/plugins.cfg ${OGRE_CONFIG_DIR}/resources.cfg
 
 file(COPY textures DESTINATION ${CMAKE_BINARY_DIR})
 
-add_subdirectory(src)
+add_subdirectory(simulator)
