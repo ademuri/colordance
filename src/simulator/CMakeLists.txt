@@ -1,6 +1,7 @@
 # Ogre3d
-# specify which version you need
 find_package(OGRE 1.10 REQUIRED)
+add_library(OGRE INTERFACE IMPORTED)
+set_property(TARGET OGRE PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${OGRE_INCLUDE_DIRS})
 
 # the search paths
 include_directories(${OGRE_INCLUDE_DIRS})
