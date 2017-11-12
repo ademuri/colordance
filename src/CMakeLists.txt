@@ -24,3 +24,4 @@ endif()
 file(COPY textures DESTINATION ${CMAKE_BINARY_DIR})
 
 add_subdirectory(simulator)
+add_subdirectory(controller)
