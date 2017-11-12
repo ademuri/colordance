@@ -6,10 +6,8 @@
 #include <OgreRenderWindow.h>
 #include <OgreSceneNode.h>
 #include <OgreViewport.h>
+#include "../controller/LightController.hpp"
 
-Ogre::Light *light1;
-Ogre::Light *light2;
-Ogre::Light *light3;
 
 Simulator::Simulator()
     : OgreBites::ApplicationContext("ColorDance Simulator") {}
@@ -41,6 +39,8 @@ Ogre::Light *createLight(Ogre::SceneManager *scnMgr,
   spotLightNode->setDirection(0, 0, -1);
   spotLightNode->setPosition(position);
   spotLight->setSpotlightRange(Ogre::Degree(35), Ogre::Degree(50));
+
+  return spotLight;
 }
 
 void Simulator::setup() {

@@ -7,6 +7,6 @@ public:
 
   /* Called periodically to perform the effect. */
   virtual void run() = 0;
-}
+};
 
 #endif

@@ -8,6 +8,6 @@
 class LightController {
 public:
   LightController() {}
-}
+};
 
 #endif
