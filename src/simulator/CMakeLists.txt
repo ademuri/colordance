@@ -3,8 +3,8 @@ find_package(OGRE 1.10 REQUIRED)
 add_library(OGRE INTERFACE IMPORTED)
 set_property(TARGET OGRE PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${OGRE_INCLUDE_DIRS})
 
-# the search paths
-include_directories(${OGRE_INCLUDE_DIRS})
+# SYSTEM means that we don't get spammy compiler warnings from OGRE.
+include_directories(SYSTEM ${OGRE_INCLUDE_DIRS})
 link_directories(${OGRE_LIBRARY_DIRS})
 
 # copy essential config files next to our binary where OGRE autodiscovers them
