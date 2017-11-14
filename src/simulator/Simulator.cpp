@@ -1,4 +1,5 @@
 #include "Simulator.hpp"
+#include "../controller/LightController.hpp"
 #include <OgreCamera.h>
 #include <OgreEntity.h>
 #include <OgreMeshManager.h>
@@ -6,8 +7,6 @@
 #include <OgreRenderWindow.h>
 #include <OgreSceneNode.h>
 #include <OgreViewport.h>
-#include "../controller/LightController.hpp"
-
 
 Simulator::Simulator()
     : OgreBites::ApplicationContext("ColorDance Simulator") {}

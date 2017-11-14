@@ -23,5 +23,11 @@ endif()
 
 file(COPY textures DESTINATION ${CMAKE_BINARY_DIR})
 
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+
+enable_testing()
+
+add_subdirectory(color)
 add_subdirectory(controller)
 add_subdirectory(simulator)

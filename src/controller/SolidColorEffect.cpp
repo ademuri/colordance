@@ -1,9 +1,7 @@
 #include "SolidColorEffect.hpp"
 
-SolidColorEffect::SolidColorEffect() : Effect() {
-}
+SolidColorEffect::SolidColorEffect() : Effect() {}
 
 void SolidColorEffect::run() {
   // TODO
 }
-

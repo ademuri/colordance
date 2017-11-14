@@ -3,8 +3,8 @@
 
 #include <OgreApplicationContext.h>
 #include <OgreInput.h>
-#include <OgreRoot.h>
 #include <OgreLight.h>
+#include <OgreRoot.h>
 
 class Simulator : public OgreBites::ApplicationContext,
                   public OgreBites::InputListener {
