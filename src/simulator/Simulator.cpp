@@ -110,9 +110,12 @@ void Simulator::setup() {
   light2 = createLight(scnMgr, Ogre::Vector3(0, 100, 800), 0, 0, 1.0);
   light3 = createLight(scnMgr, Ogre::Vector3(100, 100, 800), 1.0, 0, 0);
 
-  SimulatorLightController *controller =
-      new SimulatorLightController(light1, light2, light3);
-  SolidColorEffect *solidColorEffect = new SolidColorEffect(controller);
+  this->controller = new SimulatorLightController(light1, light2, light3);
+  this->solidColorEffect = new SolidColorEffect(controller);
+  solidColorEffect->run();
+}
+
+bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
   solidColorEffect->run();
 }
 
