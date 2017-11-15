@@ -14,6 +14,9 @@ uint8_t Color::GetColorValue(Hue color, const HSV &hsv) {
   int16_t offset = hsv.h - color;
   if (offset < 0) {
     offset = -offset;
+  } else if (offset >= 300) {
+    // This handles the wrap-around case
+    offset = 360 - hsv.h;
   }
 
   const uint8_t invsat = 255 - hsv.s;

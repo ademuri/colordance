@@ -79,6 +79,20 @@ TEST(ColorTest, yellowDimDesaturated) {
   EXPECT_EQ(Color::toRGB(hsv), expected);
 }
 
+TEST(ColorTest, cyan) {
+  HSV hsv = {HUE_CYAN, 255, 255};
+  RGB expected = {0, 127, 127};
+
+  EXPECT_EQ(Color::toRGB(hsv), expected);
+}
+
+TEST(ColorTest, magenta) {
+  HSV hsv = {HUE_MAGENTA, 255, 255};
+  RGB expected = {127, 0, 127};
+
+  EXPECT_EQ(Color::toRGB(hsv), expected);
+}
+
 TEST(ColorTest, hueOverflow) {
   HSV hsv = {720, 255, 255};
   RGB expected = {255, 0, 0};
