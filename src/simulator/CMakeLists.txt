@@ -13,5 +13,5 @@ file(COPY ${OGRE_CONFIG_DIR}/plugins.cfg ${OGRE_CONFIG_DIR}/resources.cfg
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-add_executable(Simulator Simulator.cpp Simulator.hpp)
-target_link_libraries(Simulator ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${Boost_LIBRARIES} ${FREETYPE_LIBRARIES})
+add_executable(Simulator Simulator.cpp Simulator.hpp SimulatorLightController.cpp)
+target_link_libraries(Simulator ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${Boost_LIBRARIES} ${FREETYPE_LIBRARIES} controller color)

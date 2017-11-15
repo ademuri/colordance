@@ -1,5 +1,7 @@
 #include "Simulator.hpp"
 #include "../controller/LightController.hpp"
+#include "../controller/SolidColorEffect.hpp"
+#include "SimulatorLightController.hpp"
 #include <OgreCamera.h>
 #include <OgreEntity.h>
 #include <OgreMeshManager.h>
@@ -27,8 +29,8 @@ Ogre::Light *createLight(Ogre::SceneManager *scnMgr,
                          Ogre::Vector3 const position, double red, double green,
                          double blue) {
   Ogre::Light *spotLight = scnMgr->createLight();
-  spotLight->setDiffuseColour(red, green, blue);
-  spotLight->setSpecularColour(red, green, blue);
+  // spotLight->setDiffuseColour(red, green, blue);
+  // spotLight->setSpecularColour(red, green, blue);
   spotLight->setType(Ogre::Light::LT_SPOTLIGHT);
   spotLight->setDirection(Ogre::Vector3::NEGATIVE_UNIT_Z);
 
@@ -107,6 +109,11 @@ void Simulator::setup() {
   light1 = createLight(scnMgr, Ogre::Vector3(-100, 100, 800), 0, 1.0, 0);
   light2 = createLight(scnMgr, Ogre::Vector3(0, 100, 800), 0, 0, 1.0);
   light3 = createLight(scnMgr, Ogre::Vector3(100, 100, 800), 1.0, 0, 0);
+
+  SimulatorLightController *controller =
+      new SimulatorLightController(light1, light2, light3);
+  SolidColorEffect *solidColorEffect = new SolidColorEffect(controller);
+  solidColorEffect->run();
 }
 
 int main(int argc, char **argv) {
