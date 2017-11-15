@@ -93,6 +93,34 @@ TEST(ColorTest, magenta) {
   EXPECT_EQ(Color::toRGB(hsv), expected);
 }
 
+TEST(ColorTest, reddish) {
+  HSV hsv = {1, 255, 255};
+  RGB expected = {252, 2, 0};
+
+  EXPECT_EQ(Color::toRGB(hsv), expected);
+}
+
+TEST(ColorTest, moreReddish) {
+  HSV hsv = {2, 255, 255};
+  RGB expected = {250, 4, 0};
+
+  EXPECT_EQ(Color::toRGB(hsv), expected);
+}
+
+TEST(ColorTest, lowValue) {
+  HSV hsv = {0, 255, 1};
+  RGB expected = {1, 0, 0};
+
+  EXPECT_EQ(Color::toRGB(hsv), expected);
+}
+
+TEST(ColorTest, lowSaturation) {
+  HSV hsv = {0, 1, 255};
+  RGB expected = {255, 254, 254};
+
+  EXPECT_EQ(Color::toRGB(hsv), expected);
+}
+
 TEST(ColorTest, hueOverflow) {
   HSV hsv = {720, 255, 255};
   RGB expected = {255, 0, 0};
