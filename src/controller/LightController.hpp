@@ -10,6 +10,8 @@ enum class Lights {
   STAGE_LEFT,
   CENTER,
   STAGE_RIGHT,
+  TOP,
+  BOTTOM,
 };
 
 /*

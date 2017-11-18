@@ -17,22 +17,17 @@ bool Simulator::keyPressed(const OgreBites::KeyboardEvent &evt) {
   if (evt.keysym.sym == SDLK_ESCAPE) {
     getRoot()->queueEndRendering();
   }
-  if (evt.keysym.sym == SDLK_LEFT) {
-    light1->setDiffuseColour(0, 0, 0);
-  } else {
-    light1->setDiffuseColour(0, 1.0, 0);
-  }
   return true;
 }
 
 Ogre::Light *createLight(Ogre::SceneManager *scnMgr,
-                         Ogre::Vector3 const position, double red, double green,
-                         double blue) {
+                         Ogre::Vector3 const position) {
   Ogre::Light *spotLight = scnMgr->createLight();
-  // spotLight->setDiffuseColour(red, green, blue);
-  // spotLight->setSpecularColour(red, green, blue);
   spotLight->setType(Ogre::Light::LT_SPOTLIGHT);
   spotLight->setDirection(Ogre::Vector3::NEGATIVE_UNIT_Z);
+  // Default lights to off
+  spotLight->setDiffuseColour(0, 0, 0);
+  spotLight->setSpecularColour(0, 0, 0);
 
   Ogre::SceneNode *spotLightNode =
       scnMgr->getRootSceneNode()->createChildSceneNode();
@@ -106,11 +101,12 @@ void Simulator::setup() {
   scnMgr->setShadowTechnique(
       Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
-  light1 = createLight(scnMgr, Ogre::Vector3(-100, 100, 800), 0, 1.0, 0);
-  light2 = createLight(scnMgr, Ogre::Vector3(0, 100, 800), 0, 0, 1.0);
-  light3 = createLight(scnMgr, Ogre::Vector3(100, 100, 800), 1.0, 0, 0);
-
-  this->controller = new SimulatorLightController(light1, light2, light3);
+  this->controller = new SimulatorLightController(
+      /* left */ createLight(scnMgr, Ogre::Vector3(-100, 100, 800)),
+      /* center */ createLight(scnMgr, Ogre::Vector3(0, 100, 800)),
+      /* right */ createLight(scnMgr, Ogre::Vector3(100, 100, 800)),
+      /* top */ createLight(scnMgr, Ogre::Vector3(0, 100, 900)),
+      /* bottom */ createLight(scnMgr, Ogre::Vector3(0, 100, 700)));
   this->solidColorEffect = new SolidColorEffect(controller);
   solidColorEffect->run();
 }

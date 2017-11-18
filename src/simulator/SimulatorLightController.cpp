@@ -5,13 +5,18 @@
 
 SimulatorLightController::SimulatorLightController(Ogre::Light *left,
                                                    Ogre::Light *center,
-                                                   Ogre::Light *right) {
+                                                   Ogre::Light *right,
+                                                   Ogre::Light *top,
+                                                   Ogre::Light *bottom) {
   lightMap.insert(
       std::pair<const Lights, Ogre::Light *>(Lights::STAGE_LEFT, left));
   lightMap.insert(
       std::pair<const Lights, Ogre::Light *>(Lights::CENTER, center));
   lightMap.insert(
       std::pair<const Lights, Ogre::Light *>(Lights::STAGE_RIGHT, right));
+  lightMap.insert(std::pair<const Lights, Ogre::Light *>(Lights::TOP, top));
+  lightMap.insert(
+      std::pair<const Lights, Ogre::Light *>(Lights::BOTTOM, bottom));
 }
 
 void SimulatorLightController::Set(const Lights light, HSV hsv) {

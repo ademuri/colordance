@@ -13,7 +13,8 @@
 class SimulatorLightController : public LightController {
 public:
   SimulatorLightController(Ogre::Light *left, Ogre::Light *center,
-                           Ogre::Light *right);
+                           Ogre::Light *right, Ogre::Light *top,
+                           Ogre::Light *bottom);
 
   void Set(const Lights light, HSV hsv) override;
 

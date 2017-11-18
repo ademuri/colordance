@@ -18,10 +18,6 @@ public:
   bool frameEnded(const Ogre::FrameEvent &evt) override;
 
 private:
-  Ogre::Light *light1;
-  Ogre::Light *light2;
-  Ogre::Light *light3;
-
   SimulatorLightController *controller;
   SolidColorEffect *solidColorEffect;
 };
