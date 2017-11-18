@@ -16,6 +16,8 @@ SimulatorLightController::SimulatorLightController(Ogre::Light *left,
 
 void SimulatorLightController::Set(const Lights light, HSV hsv) {
   RGB rgb = Color::toRGB(hsv);
-  lightMap[light]->setDiffuseColour(rgb.r, rgb.g, rgb.b);
-  lightMap[light]->setSpecularColour(rgb.r, rgb.g, rgb.b);
+  lightMap[light]->setDiffuseColour(rgb.r / 255.0, rgb.g / 255.0,
+                                    rgb.b / 255.0);
+  lightMap[light]->setSpecularColour(rgb.r / 255.0, rgb.g / 255.0,
+                                     rgb.b / 255.0);
 }
