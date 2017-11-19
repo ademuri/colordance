@@ -1,6 +1,7 @@
 #include "Simulator.hpp"
 #include "../controller/LightController.hpp"
 #include "../controller/SolidColorEffect.hpp"
+#include "../controller/StrobeEffect.hpp"
 #include "SimulatorLightController.hpp"
 #include <OgreCamera.h>
 #include <OgreEntity.h>
@@ -101,18 +102,19 @@ void Simulator::setup() {
   scnMgr->setShadowTechnique(
       Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
-  this->controller = new SimulatorLightController(
+  controller = new SimulatorLightController(
       /* left */ createLight(scnMgr, Ogre::Vector3(-100, 100, 800)),
       /* center */ createLight(scnMgr, Ogre::Vector3(0, 100, 800)),
       /* right */ createLight(scnMgr, Ogre::Vector3(100, 100, 800)),
       /* top */ createLight(scnMgr, Ogre::Vector3(0, 100, 900)),
       /* bottom */ createLight(scnMgr, Ogre::Vector3(0, 100, 700)));
-  this->solidColorEffect = new SolidColorEffect(controller);
-  solidColorEffect->run();
+  effect = new StrobeEffect(controller);
+  effect->Run();
 }
 
 bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
-  solidColorEffect->run();
+  effect->Run();
+  return true;
 }
 
 int main(int argc, char **argv) {

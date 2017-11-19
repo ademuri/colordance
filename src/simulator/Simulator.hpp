@@ -1,7 +1,7 @@
 #ifndef __SIMULATOR_HPP__
 #define __SIMULATOR_HPP__
 
-#include "../controller/SolidColorEffect.hpp"
+#include "../controller/Effect.hpp"
 #include "SimulatorLightController.hpp"
 #include <OgreApplicationContext.h>
 #include <OgreInput.h>
@@ -19,7 +19,7 @@ public:
 
 private:
   SimulatorLightController *controller;
-  SolidColorEffect *solidColorEffect;
+  Effect *effect;
 };
 
 #endif

@@ -4,6 +4,7 @@
 #include "../color/Color.hpp"
 #include "../controller/LightController.hpp"
 #include <OgreLight.h>
+#include <chrono>
 #include <map>
 
 /*
@@ -18,8 +19,12 @@ public:
 
   void Set(const Lights light, HSV hsv) override;
 
+  uint16_t GetMs() override;
+
 private:
   std::map<const Lights, Ogre::Light *> lightMap;
+
+  const std::chrono::steady_clock::time_point startTime;
 };
 
 #endif

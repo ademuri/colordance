@@ -23,6 +23,8 @@ public:
   LightController() {}
 
   virtual void Set(const Lights light, HSV hsv) = 0;
+
+  virtual uint16_t GetMs() = 0;
 };
 
 #endif
