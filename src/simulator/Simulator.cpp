@@ -112,6 +112,7 @@ void Simulator::setup() {
       /* bottom */ createLight(scnMgr, Ogre::Vector3(0, 100, 700)));
   ParamController *paramController = new DummyParamController();
   paramController->Set(Params::kHue0, 120);
+  paramController->Set(Params::kTempo, 10);
   effect = new StrobeEffect(controller, paramController);
   effect->Run();
 }

@@ -8,3 +8,9 @@ add_library(controller ${SOURCES})
 target_include_directories(controller PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   $<INSTALL_INTERFACE:.>)
+
+add_executable(controllertest test/ParamControllerTest.cpp)
+
+target_link_libraries(controllertest controller GTest::GTest GTest::Main)
+
+add_test(controllertest controllertest)
