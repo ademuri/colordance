@@ -9,6 +9,7 @@
 #include <OgreLight.h>
 #include <OgreRoot.h>
 #include <map>
+#include <string>
 
 enum class ControlKeys {
   kUp,
@@ -37,6 +38,10 @@ private:
   // held down they don't change params too fast. This is a janky, but simple
   // way of doing it, because OgreBites doesn't appear to do this for you.
   uint16_t keyDownDebounce = 0;
+
+  // Used to allow manually typing in the number value of tempo. Accumulates
+  // numbers when they're pressed, and is cleared upon pressing ENTER.
+  std::string numberInputBuffer;
 };
 
 #endif

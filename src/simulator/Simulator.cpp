@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Simulator.hpp"
 #include "../controller/DummyParamController.hpp"
 #include "../controller/LightController.hpp"
@@ -13,6 +12,7 @@
 #include <OgreRenderWindow.h>
 #include <OgreSceneNode.h>
 #include <OgreViewport.h>
+#include <iostream>
 
 Simulator::Simulator()
     : OgreBites::ApplicationContext("ColorDance Simulator") {}
@@ -27,6 +27,11 @@ bool Simulator::keyPressed(const OgreBites::KeyboardEvent &evt) {
     keyDownMap[ControlKeys::kDown] = true;
   } else if (evt.keysym.sym == SDLK_UP) {
     keyDownMap[ControlKeys::kUp] = true;
+  } else if (evt.keysym.sym >= SDLK_0 && evt.keysym.sym <= SDLK_9) {
+    numberInputBuffer += '0' + (evt.keysym.sym - SDLK_0);
+  } else if (evt.keysym.sym == SDLK_RETURN) {
+    paramController->Set(Params::kTempo, std::stoi(numberInputBuffer));
+    numberInputBuffer.clear();
   }
   return true;
 }
@@ -153,7 +158,6 @@ bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
       tempo = 0;
     }
 
-
     paramController->Set(Params::kTempo, tempo);
 
     std::cout << "Tempo: " << paramController->Get(Params::kTempo) << std::endl;
@@ -161,7 +165,6 @@ bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
   }
 
   keyDownDebounce++;
-
 
   return true;
 }
