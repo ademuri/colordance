@@ -6,7 +6,8 @@
 
 class SolidColorEffect : public Effect {
 public:
-  SolidColorEffect(LightController *controller);
+  SolidColorEffect(LightController *lightController,
+                   ParamController *paramController);
 
 protected:
   /* Called periodically to perform the effect. */

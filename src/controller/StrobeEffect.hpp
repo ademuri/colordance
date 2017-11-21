@@ -6,7 +6,8 @@
 
 class StrobeEffect : public Effect {
 public:
-  StrobeEffect(LightController *controller);
+  StrobeEffect(LightController *lightController,
+               ParamController *paramController);
 
 protected:
   /* Called periodically to perform the effect. */

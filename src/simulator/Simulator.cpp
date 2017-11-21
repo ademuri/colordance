@@ -1,5 +1,7 @@
 #include "Simulator.hpp"
+#include "../controller/DummyParamController.hpp"
 #include "../controller/LightController.hpp"
+#include "../controller/ParamController.hpp"
 #include "../controller/SolidColorEffect.hpp"
 #include "../controller/StrobeEffect.hpp"
 #include "SimulatorLightController.hpp"
@@ -108,7 +110,9 @@ void Simulator::setup() {
       /* right */ createLight(scnMgr, Ogre::Vector3(100, 100, 800)),
       /* top */ createLight(scnMgr, Ogre::Vector3(0, 100, 900)),
       /* bottom */ createLight(scnMgr, Ogre::Vector3(0, 100, 700)));
-  effect = new StrobeEffect(controller);
+  ParamController *paramController = new DummyParamController();
+  paramController->Set(Params::kHue0, 120);
+  effect = new StrobeEffect(controller, paramController);
   effect->Run();
 }
 

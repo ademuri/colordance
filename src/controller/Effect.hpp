@@ -2,10 +2,11 @@
 #define __EFFECT_HPP__
 
 #include "LightController.hpp"
+#include "ParamController.hpp"
 
 class Effect {
 public:
-  Effect(LightController *controller);
+  Effect(LightController *lightController, ParamController *paramController);
 
   /*
    * Called periodically to perform the effect. This is called by the main
@@ -26,7 +27,11 @@ protected:
    */
   void SleepMs(uint16_t ms);
 
-  LightController *const controller;
+  /* Controls the output lights. */
+  LightController *const lightController;
+
+  /* Keeps track of effect parameters. */
+  ParamController *const paramController;
 
 private:
   /* When to call DoRun again. Used for SleepMs. */
