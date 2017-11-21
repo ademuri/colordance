@@ -21,5 +21,5 @@ void StrobeEffect::DoRun() {
   }
 
   on = !on;
-  SleepMs(paramController->GetScaled(Params::kTempo, 75, 1000));
+  SleepMs(paramController->GetScaled(Params::kTempo, 1000, 75));
 }

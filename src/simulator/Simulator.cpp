@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Simulator.hpp"
 #include "../controller/DummyParamController.hpp"
 #include "../controller/LightController.hpp"
@@ -16,9 +17,25 @@
 Simulator::Simulator()
     : OgreBites::ApplicationContext("ColorDance Simulator") {}
 
+// This is pretty jank - we manually maintain of map of whether the up and down
+// arrow keys are pressed down, and handle repeating when keys are held down
+// that way.
 bool Simulator::keyPressed(const OgreBites::KeyboardEvent &evt) {
   if (evt.keysym.sym == SDLK_ESCAPE) {
     getRoot()->queueEndRendering();
+  } else if (evt.keysym.sym == SDLK_DOWN) {
+    keyDownMap[ControlKeys::kDown] = true;
+  } else if (evt.keysym.sym == SDLK_UP) {
+    keyDownMap[ControlKeys::kUp] = true;
+  }
+  return true;
+}
+
+bool Simulator::keyReleased(const OgreBites::KeyboardEvent &evt) {
+  if (evt.keysym.sym == SDLK_DOWN) {
+    keyDownMap[ControlKeys::kDown] = false;
+  } else if (evt.keysym.sym == SDLK_UP) {
+    keyDownMap[ControlKeys::kUp] = false;
   }
   return true;
 }
@@ -110,7 +127,7 @@ void Simulator::setup() {
       /* right */ createLight(scnMgr, Ogre::Vector3(100, 100, 800)),
       /* top */ createLight(scnMgr, Ogre::Vector3(0, 100, 900)),
       /* bottom */ createLight(scnMgr, Ogre::Vector3(0, 100, 700)));
-  ParamController *paramController = new DummyParamController();
+  paramController = new DummyParamController();
   paramController->Set(Params::kHue0, 120);
   paramController->Set(Params::kTempo, 10);
   effect = new StrobeEffect(controller, paramController);
@@ -119,6 +136,33 @@ void Simulator::setup() {
 
 bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
   effect->Run();
+
+  if (keyDownDebounce % 3 == 0) {
+    uint16_t tempo = paramController->Get(Params::kTempo);
+
+    if (keyDownMap[ControlKeys::kDown]) {
+      tempo--;
+    } else if (keyDownMap[ControlKeys::kUp]) {
+      tempo++;
+    }
+
+    if (tempo > 1000) {
+      // Wrap around from going "below zero"
+      tempo = 255;
+    } else if (tempo > 255) {
+      tempo = 0;
+    }
+
+
+    paramController->Set(Params::kTempo, tempo);
+
+    std::cout << "Tempo: " << paramController->Get(Params::kTempo) << std::endl;
+    keyDownDebounce = 0;
+  }
+
+  keyDownDebounce++;
+
+
   return true;
 }
 
