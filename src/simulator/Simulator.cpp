@@ -32,6 +32,8 @@ bool Simulator::keyPressed(const OgreBites::KeyboardEvent &evt) {
   } else if (evt.keysym.sym == SDLK_RETURN) {
     paramController->Set(Params::kTempo, std::stoi(numberInputBuffer));
     numberInputBuffer.clear();
+  } else if (evt.keysym.sym == SDLK_SPACE) {
+    effect->BeatDetected();
   }
   return true;
 }

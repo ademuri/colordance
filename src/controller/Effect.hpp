@@ -17,6 +17,11 @@ public:
    */
   void Run();
 
+  /*
+   * Called when a music beat is detected (or is manually triggered by the control surface).
+   */
+  virtual void BeatDetected() = 0;
+
 protected:
   /* Effect-specific code. Must be overriden by subclasses. */
   virtual void DoRun() = 0;

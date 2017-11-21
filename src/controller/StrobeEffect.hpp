@@ -9,6 +9,8 @@ public:
   StrobeEffect(LightController *lightController,
                ParamController *paramController);
 
+  void BeatDetected() override;
+
 protected:
   /* Called periodically to perform the effect. */
   void DoRun() override;

@@ -16,3 +16,9 @@ void SolidColorEffect::DoRun() {
   hsv2.h++;
   hsv3.h++;
 }
+
+void SolidColorEffect::BeatDetected() {
+  hsv1.h += 60;
+  hsv2.h += 60;
+  hsv3.h += 60;
+}

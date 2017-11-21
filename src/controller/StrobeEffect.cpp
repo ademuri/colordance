@@ -23,3 +23,9 @@ void StrobeEffect::DoRun() {
   on = !on;
   SleepMs(paramController->GetScaled(Params::kTempo, 1000, 75));
 }
+
+void StrobeEffect::BeatDetected() {
+  hsv1.h += 30;
+  hsv2.h = hsv1.h + 60;
+  DoRun();
+}
