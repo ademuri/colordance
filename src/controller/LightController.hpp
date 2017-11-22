@@ -29,9 +29,14 @@ public:
    */
   virtual void Set(const Lights light, HSV hsv) = 0;
 
-  virtual std::vector<std::vector<uint8_t>>
-  GetLights(ParamController *paramController, const int16_t rows,
-            const int16_t cols);
+  /*
+   * Gets a block of lights with the specified dimensions. Lights aren't
+   * guaranteed to be populated in each cell - nonexistent lights are indicated
+   * by id 0.
+   * TODO: make this respect parameters (e.g. width, panning).
+   */
+  virtual std::vector<std::vector<uint16_t>>
+  GetLights(ParamController *paramController, int16_t rows, int16_t cols);
 
   /*
    * Gets the number of milliseconds the system has been running for. Used for
@@ -41,8 +46,18 @@ public:
   virtual uint16_t GetMs() = 0;
 
 protected:
-  std::vector<std::vector<uint8_t>> lightIds;
+  /*
+   * Two-dimensional array of light ids. The structure of this array reflects
+   * the structure of the lights (spacing may not be even). The light ids are
+   * used by implementations of this class to identify lights. For DMX, this
+   * will probaby be the starting DMX id of the light.
+   */
+  std::vector<std::vector<uint16_t>> lightIds;
+
+  /* The physical center row of lightIds. */
   int16_t centerLightRow;
+
+  /* The physical center col of lightIds. */
   int16_t centerLightCol;
 };
 

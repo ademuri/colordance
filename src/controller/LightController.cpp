@@ -3,23 +3,23 @@
 #include <cstdio>
 #include <vector>
 
-std::vector<std::vector<uint8_t>>
-LightController::GetLights(ParamController *paramController, const int16_t rows,
-                           const int16_t cols) {
-  printf("rows: %d, cols: %d\n", rows, cols);
-  std::vector<std::vector<uint8_t>> selectedLights;
+std::vector<std::vector<uint16_t>>
+LightController::GetLights(ParamController *paramController, int16_t rows,
+                           int16_t cols) {
+  std::vector<std::vector<uint16_t>> selectedLights;
 
   const int16_t numRows = lightIds.size();
   const int16_t numCols = lightIds[0].size();
 
   // Check that rows and cols aren't too big. Note that all cols should be the
   // same size.
-  // TODO: do something different in production (return the largest number of
-  // lights possible?)
+  // TODO: do something different in production?
   if (rows > numRows || cols > numCols) {
     printf("Rows or cols too big in GetLights: requested (%u, %u), present "
-           "(%lu, %lu).\n",
-           rows, cols, lightIds.size(), lightIds[0].size());
+           "(%d, %d).\n",
+           rows, cols, numRows, numCols);
+    rows = numRows;
+    cols = numCols;
   }
 
   int16_t lowerRow;
@@ -32,6 +32,11 @@ LightController::GetLights(ParamController *paramController, const int16_t rows,
     upperRow = numRows - 1;
   } else {
     upperRow = rows / 2 + centerLightRow;
+
+    // Even numbers aren't symmetrical around the center.
+    if (rows % 2 == 0) {
+      upperRow--;
+    }
   }
 
   int16_t excessLowRows = centerLightRow - rows / 2;
@@ -50,6 +55,11 @@ LightController::GetLights(ParamController *paramController, const int16_t rows,
     upperCol = numCols - 1;
   } else {
     upperCol = cols / 2 + centerLightCol;
+
+    // Even numbers aren't symmetrical around the center.
+    if (cols % 2 == 0) {
+      upperCol--;
+    }
   }
 
   int16_t excessLowCols = centerLightCol - cols / 2;
@@ -63,13 +73,9 @@ LightController::GetLights(ParamController *paramController, const int16_t rows,
     }
   }
 
-  printf("lowerRow: %d, upperRow: %d, lowerCol: %d, upperCol: %d\n", lowerRow,
-         upperRow, lowerCol, upperCol);
-  printf("highRows: %d, lowRows: %d, highCols: %d, lowCols: %d\n",
-         excessHighRows, excessLowRows, excessHighCols, excessLowCols);
-  for (int16_t i = lowerRow; i <= upperRow; i++) {
-    std::vector<uint8_t> row;
-    for (int16_t j = lowerCol; j <= upperCol; j++) {
+  for (uint16_t i = lowerRow; i <= upperRow; i++) {
+    std::vector<uint16_t> row;
+    for (uint16_t j = lowerCol; j <= upperCol; j++) {
       row.push_back(lightIds[i][j]);
     }
     selectedLights.push_back(row);

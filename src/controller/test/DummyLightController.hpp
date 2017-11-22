@@ -10,7 +10,7 @@
  */
 class DummyLightController : public LightController {
 public:
-  DummyLightController();
+  DummyLightController(const uint8_t rows, const uint8_t cols);
 
   void Set(const Lights light, HSV hsv) override;
 
