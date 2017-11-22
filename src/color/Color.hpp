@@ -35,10 +35,10 @@ enum Hue {
 };
 
 class Color {
-public:
+ public:
   static RGB toRGB(HSV &hsv);
 
-private:
+ private:
   static uint8_t GetColorValue(Hue color, const HSV &hsv);
 
   // Multiply two numbers, clamping at 255.

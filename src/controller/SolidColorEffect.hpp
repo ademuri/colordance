@@ -5,17 +5,17 @@
 #include "LightController.hpp"
 
 class SolidColorEffect : public Effect {
-public:
+ public:
   SolidColorEffect(LightController *lightController,
                    ParamController *paramController);
 
   void BeatDetected() override;
 
-protected:
+ protected:
   /* Called periodically to perform the effect. */
   void DoRun() override;
 
-private:
+ private:
   HSV hsv1 = {HUE_RED, 255, 255};
   HSV hsv2 = {HUE_GREEN, 255, 255};
   HSV hsv3 = {HUE_BLUE, 255, 255};

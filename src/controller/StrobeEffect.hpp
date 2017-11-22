@@ -5,17 +5,17 @@
 #include "LightController.hpp"
 
 class StrobeEffect : public Effect {
-public:
+ public:
   StrobeEffect(LightController *lightController,
                ParamController *paramController);
 
   void BeatDetected() override;
 
-protected:
+ protected:
   /* Called periodically to perform the effect. */
   void DoRun() override;
 
-private:
+ private:
   bool on = false;
 
   HSV hsv1 = {HUE_RED, 255, 255};

@@ -1,11 +1,10 @@
 #include "LightController.hpp"
-#include "ParamController.hpp"
 #include <cstdio>
 #include <vector>
+#include "ParamController.hpp"
 
-std::vector<std::vector<uint16_t>>
-LightController::GetLights(ParamController *paramController, int16_t rows,
-                           int16_t cols) {
+std::vector<std::vector<uint16_t>> LightController::GetLights(
+    ParamController *paramController, int16_t rows, int16_t cols) {
   std::vector<std::vector<uint16_t>> selectedLights;
 
   const int16_t numRows = lightIds.size();
@@ -15,9 +14,10 @@ LightController::GetLights(ParamController *paramController, int16_t rows,
   // same size.
   // TODO: do something different in production?
   if (rows > numRows || cols > numCols) {
-    printf("Rows or cols too big in GetLights: requested (%u, %u), present "
-           "(%d, %d).\n",
-           rows, cols, numRows, numCols);
+    printf(
+        "Rows or cols too big in GetLights: requested (%u, %u), present "
+        "(%d, %d).\n",
+        rows, cols, numRows, numCols);
     rows = numRows;
     cols = numCols;
   }

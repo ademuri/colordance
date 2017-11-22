@@ -19,7 +19,7 @@ enum class Params {
  * will be a physical control surface for modifying these param.
  */
 class ParamController {
-public:
+ public:
   ParamController();
 
   /*
@@ -41,7 +41,7 @@ public:
    */
   virtual void Set(Params param, uint16_t val) = 0;
 
-private:
+ private:
   std::map<const Params, uint16_t> paramRangeMap;
 };
 

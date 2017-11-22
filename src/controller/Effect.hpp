@@ -5,7 +5,7 @@
 #include "ParamController.hpp"
 
 class Effect {
-public:
+ public:
   Effect(LightController *lightController, ParamController *paramController);
 
   /*
@@ -23,7 +23,7 @@ public:
    */
   virtual void BeatDetected() = 0;
 
-protected:
+ protected:
   /* Effect-specific code. Must be overriden by subclasses. */
   virtual void DoRun() = 0;
 
@@ -39,7 +39,7 @@ protected:
   /* Keeps track of effect parameters. */
   ParamController *const paramController;
 
-private:
+ private:
   /* When to call DoRun again. Used for SleepMs. */
   uint16_t runAtMs = 0;
 };

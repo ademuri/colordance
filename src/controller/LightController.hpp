@@ -1,9 +1,9 @@
 #ifndef __LIGHT_CONTROLLER_HPP__
 #define __LIGHT_CONTROLLER_HPP__
 
+#include <vector>
 #include "../color/Color.hpp"
 #include "ParamController.hpp"
-#include <vector>
 
 /**
  * References to the individual, physical lights.
@@ -21,7 +21,7 @@ enum class Lights {
  * a subclass of this that uses DMX to control real lights.
  */
 class LightController {
-public:
+ public:
   LightController() {}
 
   /*
@@ -35,8 +35,8 @@ public:
    * by id 0.
    * TODO: make this respect parameters (e.g. width, panning).
    */
-  virtual std::vector<std::vector<uint16_t>>
-  GetLights(ParamController *paramController, int16_t rows, int16_t cols);
+  virtual std::vector<std::vector<uint16_t>> GetLights(
+      ParamController *paramController, int16_t rows, int16_t cols);
 
   /*
    * Gets the number of milliseconds the system has been running for. Used for
@@ -45,7 +45,7 @@ public:
    */
   virtual uint16_t GetMs() = 0;
 
-protected:
+ protected:
   /*
    * Two-dimensional array of light ids. The structure of this array reflects
    * the structure of the lights (spacing may not be even). The light ids are

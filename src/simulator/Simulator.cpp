@@ -1,10 +1,4 @@
 #include "Simulator.hpp"
-#include "../controller/DummyParamController.hpp"
-#include "../controller/LightController.hpp"
-#include "../controller/ParamController.hpp"
-#include "../controller/SolidColorEffect.hpp"
-#include "../controller/StrobeEffect.hpp"
-#include "SimulatorLightController.hpp"
 #include <OgreCamera.h>
 #include <OgreEntity.h>
 #include <OgreMeshManager.h>
@@ -13,6 +7,12 @@
 #include <OgreSceneNode.h>
 #include <OgreViewport.h>
 #include <iostream>
+#include "../controller/DummyParamController.hpp"
+#include "../controller/LightController.hpp"
+#include "../controller/ParamController.hpp"
+#include "../controller/SolidColorEffect.hpp"
+#include "../controller/StrobeEffect.hpp"
+#include "SimulatorLightController.hpp"
 
 Simulator::Simulator()
     : OgreBites::ApplicationContext("ColorDance Simulator") {}

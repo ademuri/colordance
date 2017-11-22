@@ -1,9 +1,9 @@
 #include "gtest/gtest.h"
 
+#include <vector>
 #include "../DummyParamController.hpp"
 #include "../LightController.hpp"
 #include "DummyLightController.hpp"
-#include <vector>
 
 TEST(LightControllerTest, GetLights_3x3_one) {
   DummyLightController c = DummyLightController(3, 3);

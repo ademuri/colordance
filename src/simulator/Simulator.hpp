@@ -1,15 +1,15 @@
 #ifndef __SIMULATOR_HPP__
 #define __SIMULATOR_HPP__
 
-#include "../controller/Effect.hpp"
-#include "../controller/ParamController.hpp"
-#include "SimulatorLightController.hpp"
 #include <OgreApplicationContext.h>
 #include <OgreInput.h>
 #include <OgreLight.h>
 #include <OgreRoot.h>
 #include <map>
 #include <string>
+#include "../controller/Effect.hpp"
+#include "../controller/ParamController.hpp"
+#include "SimulatorLightController.hpp"
 
 enum class ControlKeys {
   kUp,
@@ -18,7 +18,7 @@ enum class ControlKeys {
 
 class Simulator : public OgreBites::ApplicationContext,
                   public OgreBites::InputListener {
-public:
+ public:
   Simulator();
 
   bool keyPressed(const OgreBites::KeyboardEvent &evt) override;
@@ -26,7 +26,7 @@ public:
   void setup() override;
   bool frameEnded(const Ogre::FrameEvent &evt) override;
 
-private:
+ private:
   SimulatorLightController *controller;
   ParamController *paramController;
   Effect *effect;
