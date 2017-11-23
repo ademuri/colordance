@@ -4,6 +4,7 @@
 StrobeEffect::StrobeEffect(LightController *lightController,
                            ParamController *paramController)
     : Effect(lightController, paramController) {
+  LightParamChanged();
   hsv1.h = paramController->Get(Params::kHue0);
   hsv2.h = hsv1.h + 60;
   hsv2.s = 127;
@@ -11,17 +12,21 @@ StrobeEffect::StrobeEffect(LightController *lightController,
 
 void StrobeEffect::DoRun() {
   if (on) {
-    lightController->Set(Lights::STAGE_LEFT, hsv1);
-    lightController->Set(Lights::STAGE_RIGHT, {0, 0, 0});
+    lightController->Set(lightIds[0], hsv1);
+    lightController->Set(lightIds[1], {0, 0, 0});
     // hsv1.h += 3;
   } else {
-    lightController->Set(Lights::STAGE_LEFT, {0, 0, 0});
-    lightController->Set(Lights::STAGE_RIGHT, hsv2);
+    lightController->Set(lightIds[0], {0, 0, 0});
+    lightController->Set(lightIds[1], hsv2);
     hsv2.h += 10;
   }
 
   on = !on;
   SleepMs(paramController->GetScaled(Params::kTempo, 1000, 75));
+}
+
+void StrobeEffect::LightParamChanged() {
+  lightIds = lightController->GetLights(paramController, 1, 2)[0];
 }
 
 void StrobeEffect::BeatDetected() {

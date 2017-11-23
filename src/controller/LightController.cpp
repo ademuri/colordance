@@ -3,6 +3,8 @@
 #include <vector>
 #include "ParamController.hpp"
 
+#define DEBUG_LIGHT_CHOICE
+
 std::vector<std::vector<uint16_t>> LightController::GetLights(
     ParamController *paramController, int16_t rows, int16_t cols) {
   std::vector<std::vector<uint16_t>> selectedLights;
@@ -80,6 +82,18 @@ std::vector<std::vector<uint16_t>> LightController::GetLights(
     }
     selectedLights.push_back(row);
   }
+
+#ifdef DEBUG_LIGHT_CHOICE
+  printf("Selected lights: {");
+  for (uint16_t i = 0; i < selectedLights.size(); i++) {
+    printf(" {");
+    for (uint16_t j = 0; j < selectedLights[i].size() - 1; j++) {
+      printf("%d, ", selectedLights[i][j]);
+    }
+    printf("%d}, ", selectedLights[i][selectedLights[i].size() - 1]);
+  }
+  printf("}\n");
+#endif
 
   return selectedLights;
 }

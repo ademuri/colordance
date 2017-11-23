@@ -11,11 +11,15 @@ class StrobeEffect : public Effect {
 
   void BeatDetected() override;
 
+  void LightParamChanged() override;
+
  protected:
   /* Called periodically to perform the effect. */
   void DoRun() override;
 
  private:
+  std::vector<uint16_t> lightIds;
+
   bool on = false;
 
   HSV hsv1 = {HUE_RED, 255, 255};
