@@ -40,6 +40,8 @@ class ParamController {
    */
   uint16_t GetScaled(Params param, uint16_t min, uint16_t max);
 
+  uint16_t WrapParam(Params param, uint16_t val);
+
   /**
    * Sets the value of a param. I'm not sure yet if this will be useful
    * outside of the simulator. Possible usages are for automatically changing

@@ -7,6 +7,7 @@
 #include <OgreRoot.h>
 #include <map>
 #include <string>
+#include <vector>
 #include "../controller/Effect.hpp"
 #include "../controller/ParamController.hpp"
 #include "SimulatorLightController.hpp"
@@ -42,6 +43,14 @@ class Simulator : public OgreBites::ApplicationContext,
   // Used to allow manually typing in the number value of tempo. Accumulates
   // numbers when they're pressed, and is cleared upon pressing ENTER.
   std::string numberInputBuffer;
+
+  // The list of params that are adjustable with the arrow keys
+  std::vector<Params> adjustableParams = {
+      Params::kTempo, Params::kWidth,
+  };
+
+  // Which param in the above vector is currently being adjusted
+  int16_t currentParamIndex = 0;
 };
 
 #endif

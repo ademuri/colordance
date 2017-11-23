@@ -15,3 +15,7 @@ uint16_t ParamController::GetScaled(Params param, uint16_t min, uint16_t max) {
   const uint16_t actualRange = paramRangeMap[param];
   return min + (Get(param) * expectedRange) / actualRange;
 }
+
+uint16_t ParamController::WrapParam(Params param, uint16_t val) {
+  return val % (paramRangeMap[param] + 1);
+}

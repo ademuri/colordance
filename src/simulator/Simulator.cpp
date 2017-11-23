@@ -27,14 +27,27 @@ bool Simulator::keyPressed(const OgreBites::KeyboardEvent &evt) {
     keyDownMap[ControlKeys::kDown] = true;
   } else if (evt.keysym.sym == SDLK_UP) {
     keyDownMap[ControlKeys::kUp] = true;
+  } else if (evt.keysym.sym == SDLK_LEFT) {
+    currentParamIndex--;
+  } else if (evt.keysym.sym == SDLK_RIGHT) {
+    currentParamIndex++;
   } else if (evt.keysym.sym >= SDLK_0 && evt.keysym.sym <= SDLK_9) {
     numberInputBuffer += '0' + (evt.keysym.sym - SDLK_0);
   } else if (evt.keysym.sym == SDLK_RETURN) {
-    paramController->Set(Params::kTempo, std::stoi(numberInputBuffer));
+    paramController->Set(adjustableParams[currentParamIndex],
+                         std::stoi(numberInputBuffer));
     numberInputBuffer.clear();
+    effect->ChooseLights();
   } else if (evt.keysym.sym == SDLK_SPACE) {
     effect->BeatDetected();
   }
+
+  if (currentParamIndex < 0) {
+    currentParamIndex = adjustableParams.size() - 1;
+  } else if (currentParamIndex >= adjustableParams.size()) {
+    currentParamIndex = 0;
+  }
+
   return true;
 }
 
@@ -121,26 +134,27 @@ void Simulator::setup() {
 bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
   effect->Run();
 
-  if (keyDownDebounce % 3 == 0) {
-    uint16_t tempo = paramController->Get(Params::kTempo);
+  if (keyDownDebounce % 3 == 0 && keyDownMap[ControlKeys::kDown] ||
+      keyDownMap[ControlKeys::kUp]) {
+    const Params currentParam = adjustableParams[currentParamIndex];
+    uint16_t val = paramController->Get(currentParam);
 
     if (keyDownMap[ControlKeys::kDown]) {
-      tempo--;
+      val--;
     } else if (keyDownMap[ControlKeys::kUp]) {
-      tempo++;
+      val++;
     }
 
-    if (tempo > 1000) {
-      // Wrap around from going "below zero"
-      tempo = 255;
-    } else if (tempo > 255) {
-      tempo = 0;
-    }
+    val = paramController->WrapParam(currentParam, val);
 
-    paramController->Set(Params::kTempo, tempo);
+    paramController->Set(currentParam, val);
 
-    std::cout << "Tempo: " << paramController->Get(Params::kTempo) << std::endl;
+    printf("Param %d: %u\n", currentParamIndex,
+           paramController->Get(currentParam));
     keyDownDebounce = 0;
+
+    // TODO: only run this once the key is released?
+    effect->ChooseLights();
   }
 
   keyDownDebounce++;
