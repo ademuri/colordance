@@ -7,16 +7,69 @@
 
 SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
     : startTime(std::chrono::steady_clock::now()), scnMgr(scnMgr) {
-  lightIds = {{0, 1, 0}, {2, 3, 4}, {0, 5, 0}};
+  lightIds = {{0, 1, 0, 2, 3, 4, 0, 5, 0},
+              {6, 7, 8, 9, 10, 11, 12, 13, 14},
+              {0, 15, 0, 16, 17, 18, 0, 19, 0}};
 
-  lightIdMap[1] = createLight(Ogre::Vector3(0, 100, 900));
-  lightIdMap[2] = createLight(Ogre::Vector3(-100, 100, 800));
-  lightIdMap[3] = createLight(Ogre::Vector3(0, 100, 800));
-  lightIdMap[4] = createLight(Ogre::Vector3(100, 100, 800));
-  lightIdMap[5] = createLight(Ogre::Vector3(0, 100, 700));
+  const int16_t xOffset = 100;
+  const int16_t yOffset = 100;
+  const int16_t zOffset = 100;
+
+  const int16_t leftBlockX = -500;
+  const int16_t leftBlockY = 100;
+  const int16_t leftBlockZ = 800;
+
+  const int16_t centerBlockX = 0;
+  const int16_t centerBlockY = 100;
+  const int16_t centerBlockZ = 800;
+
+  const int16_t rightBlockX = 500;
+  const int16_t rightBlockY = 100;
+  const int16_t rightBlockZ = 800;
+
+  lightIdMap[1] =
+      createLight(Ogre::Vector3(leftBlockX, leftBlockY + yOffset, leftBlockZ));
+  lightIdMap[6] =
+      createLight(Ogre::Vector3(leftBlockX - xOffset, leftBlockY, leftBlockZ));
+  lightIdMap[7] =
+      createLight(Ogre::Vector3(leftBlockX, leftBlockY, leftBlockZ));
+  lightIdMap[8] =
+      createLight(Ogre::Vector3(leftBlockX + xOffset, leftBlockY, leftBlockZ));
+  lightIdMap[15] =
+      createLight(Ogre::Vector3(leftBlockX, leftBlockY - yOffset, leftBlockZ));
+
+  lightIdMap[2] = createLight(Ogre::Vector3(
+      centerBlockX - xOffset, centerBlockY + yOffset, centerBlockZ));
+  lightIdMap[3] = createLight(
+      Ogre::Vector3(centerBlockX, centerBlockY + yOffset, centerBlockZ));
+  lightIdMap[4] = createLight(Ogre::Vector3(
+      centerBlockX + xOffset, centerBlockY + yOffset, centerBlockZ));
+  lightIdMap[9] = createLight(
+      Ogre::Vector3(centerBlockX - xOffset, centerBlockY, centerBlockZ));
+  lightIdMap[10] =
+      createLight(Ogre::Vector3(centerBlockX, centerBlockY, centerBlockZ));
+  lightIdMap[11] = createLight(
+      Ogre::Vector3(centerBlockX + xOffset, centerBlockY, centerBlockZ));
+  lightIdMap[16] = createLight(Ogre::Vector3(
+      centerBlockX - xOffset, centerBlockY - yOffset, centerBlockZ));
+  lightIdMap[17] = createLight(
+      Ogre::Vector3(centerBlockX, centerBlockY - yOffset, centerBlockZ));
+  lightIdMap[18] = createLight(Ogre::Vector3(
+      centerBlockX + xOffset, centerBlockY - yOffset, centerBlockZ));
+
+  lightIdMap[5] = createLight(
+      Ogre::Vector3(rightBlockX, rightBlockY + yOffset, rightBlockZ));
+  lightIdMap[12] = createLight(
+      Ogre::Vector3(rightBlockX - xOffset, rightBlockY, rightBlockZ));
+  lightIdMap[13] =
+      createLight(Ogre::Vector3(rightBlockX, rightBlockY, rightBlockZ));
+  lightIdMap[14] = createLight(
+      Ogre::Vector3(rightBlockX + xOffset, rightBlockY, rightBlockZ));
+  lightIdMap[19] = createLight(
+      Ogre::Vector3(rightBlockX, rightBlockY - yOffset, rightBlockZ));
 
   centerLightRow = 1;
-  centerLightCol = 1;
+  centerLightCol = 4;
 }
 
 void SimulatorLightController::Set(const Lights light, HSV hsv) {
@@ -62,6 +115,8 @@ Ogre::Light *SimulatorLightController::createLight(
   spotLightNode->attachObject(spotLight);
   spotLightNode->setDirection(0, 0, -1);
   spotLightNode->setPosition(position);
+  spotLightNode->lookAt(Ogre::Vector3(0, 200, 0),
+                        Ogre::Node::TransformSpace::TS_WORLD);
 
   // These angles are calculated from measurements on the light that I'll
   // probably use.
