@@ -112,7 +112,8 @@ void Simulator::setup() {
   controller = new SimulatorLightController(scnMgr);
   paramController = new DummyParamController();
   paramController->Set(Params::kHue0, 120);
-  paramController->Set(Params::kTempo, 10);
+  paramController->Set(Params::kTempo, 200);
+  paramController->Set(Params::kWidth, 10);
   effect = new StrobeEffect(controller, paramController);
   effect->Run();
 }

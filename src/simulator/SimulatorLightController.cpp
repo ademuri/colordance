@@ -124,5 +124,14 @@ Ogre::Light *SimulatorLightController::createLight(
   // cone of bright light (with color fringing) was 12".
   spotLight->setSpotlightRange(Ogre::Degree(36), Ogre::Degree(53));
 
+  // Not actually measured, just a wild guess
+  // TODO: tune this?
+  spotLight->setSpotlightFalloff(10);
+
+  // Make light get less bright farther away from the light sources.
+  // TODO: tune this?
+  spotLight->setAttenuation(2000, /* constant */ 1.0, /* linear */ 0.0005,
+                            /* quadratic */ 0.0);
+
   return spotLight;
 }

@@ -12,6 +12,12 @@ enum class Params {
   // Relative speed. Interpreted differently by different effects. Smaller
   // values are slower.
   kTempo,
+
+  // The width of effects - how many lights they'll use. Higher values mean use
+  // more lights.
+  // TODO: this isn't a good name, because we need parameters for how spread
+  // out to be, and how many lights to use.
+  kWidth,
 };
 
 /**

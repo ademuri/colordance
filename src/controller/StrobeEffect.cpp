@@ -5,32 +5,37 @@ StrobeEffect::StrobeEffect(LightController *lightController,
                            ParamController *paramController)
     : Effect(lightController, paramController) {
   ChooseLights();
-  hsv1.h = paramController->Get(Params::kHue0);
-  hsv2.h = hsv1.h + 60;
-  hsv2.s = 127;
+  hsv.h = paramController->Get(Params::kHue0);
 }
 
 void StrobeEffect::DoRun() {
-  if (on) {
-    lightController->Set(lightIds[0], hsv1);
-    lightController->Set(lightIds[1], {0, 0, 0});
-    // hsv1.h += 3;
-  } else {
-    lightController->Set(lightIds[0], {0, 0, 0});
-    lightController->Set(lightIds[1], hsv2);
-    hsv2.h += 10;
+  if (currentLight >= lightIds.size()) {
+    currentLight = 0;
   }
 
-  on = !on;
+  HSV adjustedHsv = hsv;
+  adjustedHsv.h += hueAdjust * currentLight;
+  lightController->Set(lightIds[currentLight], adjustedHsv);
+
+  if (currentLight == 0) {
+    lightController->Set(lightIds[lightIds.size() - 1], {0, 0, 0});
+  } else {
+    lightController->Set(lightIds[currentLight - 1], {0, 0, 0});
+  }
+
+  currentLight++;
+  hsv.h += 10;
   SleepMs(paramController->GetScaled(Params::kTempo, 1000, 75));
 }
 
 void StrobeEffect::ChooseLights() {
-  lightIds = lightController->GetLights(paramController, 1, 2)[0];
+  // TODO: extract this logic into the LightController
+  const uint16_t numLights = paramController->GetScaled(Params::kWidth, 2, 9);
+  lightIds = lightController->GetLights(paramController, 1, numLights)[0];
+  hueAdjust = 320 / numLights;
 }
 
 void StrobeEffect::BeatDetected() {
-  hsv1.h += 30;
-  hsv2.h = hsv1.h + 60;
+  hsv.h += 30;
   DoRun();
 }

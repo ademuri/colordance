@@ -20,10 +20,10 @@ class StrobeEffect : public Effect {
  private:
   std::vector<uint16_t> lightIds;
 
-  bool on = false;
+  uint16_t currentLight = 0;
+  uint16_t hueAdjust = 0;
 
-  HSV hsv1 = {HUE_RED, 255, 255};
-  HSV hsv2 = {HUE_GREEN, 255, 255};
+  HSV hsv = {HUE_RED, 255, 255};
 };
 
 #endif
