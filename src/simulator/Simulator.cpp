@@ -47,25 +47,6 @@ bool Simulator::keyReleased(const OgreBites::KeyboardEvent &evt) {
   return true;
 }
 
-Ogre::Light *createLight(Ogre::SceneManager *scnMgr,
-                         Ogre::Vector3 const position) {
-  Ogre::Light *spotLight = scnMgr->createLight();
-  spotLight->setType(Ogre::Light::LT_SPOTLIGHT);
-  spotLight->setDirection(Ogre::Vector3::NEGATIVE_UNIT_Z);
-  // Default lights to off
-  spotLight->setDiffuseColour(0, 0, 0);
-  spotLight->setSpecularColour(0, 0, 0);
-
-  Ogre::SceneNode *spotLightNode =
-      scnMgr->getRootSceneNode()->createChildSceneNode();
-  spotLightNode->attachObject(spotLight);
-  spotLightNode->setDirection(0, 0, -1);
-  spotLightNode->setPosition(position);
-  spotLight->setSpotlightRange(Ogre::Degree(35), Ogre::Degree(50));
-
-  return spotLight;
-}
-
 void Simulator::setup() {
   OgreBites::ApplicationContext::setup();
 
@@ -128,12 +109,7 @@ void Simulator::setup() {
   scnMgr->setShadowTechnique(
       Ogre::ShadowTechnique::SHADOWTYPE_STENCIL_ADDITIVE);
 
-  controller = new SimulatorLightController(
-      /* left */ createLight(scnMgr, Ogre::Vector3(-100, 100, 800)),
-      /* center */ createLight(scnMgr, Ogre::Vector3(0, 100, 800)),
-      /* right */ createLight(scnMgr, Ogre::Vector3(100, 100, 800)),
-      /* top */ createLight(scnMgr, Ogre::Vector3(0, 100, 900)),
-      /* bottom */ createLight(scnMgr, Ogre::Vector3(0, 100, 700)));
+  controller = new SimulatorLightController(scnMgr);
   paramController = new DummyParamController();
   paramController->Set(Params::kHue0, 120);
   paramController->Set(Params::kTempo, 10);

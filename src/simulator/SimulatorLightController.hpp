@@ -2,6 +2,7 @@
 #define __SIMULATOR_LIGHT_CONTROLLER_HPP__
 
 #include <OgreLight.h>
+#include <OgreSceneManager.h>
 #include <chrono>
 #include <map>
 #include "../color/Color.hpp"
@@ -13,9 +14,7 @@
  */
 class SimulatorLightController : public LightController {
  public:
-  SimulatorLightController(Ogre::Light *left, Ogre::Light *center,
-                           Ogre::Light *right, Ogre::Light *top,
-                           Ogre::Light *bottom);
+  SimulatorLightController(Ogre::SceneManager *scnMgr);
 
   void Set(const Lights light, HSV hsv) override;
 
@@ -24,10 +23,13 @@ class SimulatorLightController : public LightController {
   uint16_t GetMs() override;
 
  private:
+  Ogre::Light *createLight(Ogre::Vector3 const position);
+
   std::map<const Lights, Ogre::Light *> lightMap;
   std::map<const uint16_t, Ogre::Light *> lightIdMap;
 
   const std::chrono::steady_clock::time_point startTime;
+  Ogre::SceneManager *const scnMgr;
 };
 
 #endif

@@ -1,32 +1,19 @@
 #include "SimulatorLightController.hpp"
 #include <OgreLight.h>
+#include <OgreSceneNode.h>
 #include <chrono>
 #include <map>
 #include <utility>
 
-SimulatorLightController::SimulatorLightController(Ogre::Light *left,
-                                                   Ogre::Light *center,
-                                                   Ogre::Light *right,
-                                                   Ogre::Light *top,
-                                                   Ogre::Light *bottom)
-    : startTime(std::chrono::steady_clock::now()) {
-  lightMap.insert(
-      std::pair<const Lights, Ogre::Light *>(Lights::STAGE_LEFT, left));
-  lightMap.insert(
-      std::pair<const Lights, Ogre::Light *>(Lights::CENTER, center));
-  lightMap.insert(
-      std::pair<const Lights, Ogre::Light *>(Lights::STAGE_RIGHT, right));
-  lightMap.insert(std::pair<const Lights, Ogre::Light *>(Lights::TOP, top));
-  lightMap.insert(
-      std::pair<const Lights, Ogre::Light *>(Lights::BOTTOM, bottom));
-
+SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
+    : startTime(std::chrono::steady_clock::now()), scnMgr(scnMgr) {
   lightIds = {{0, 1, 0}, {2, 3, 4}, {0, 5, 0}};
 
-  lightIdMap[1] = top;
-  lightIdMap[2] = left;
-  lightIdMap[3] = center;
-  lightIdMap[4] = right;
-  lightIdMap[5] = bottom;
+  lightIdMap[1] = createLight(Ogre::Vector3(0, 100, 900));
+  lightIdMap[2] = createLight(Ogre::Vector3(-100, 100, 800));
+  lightIdMap[3] = createLight(Ogre::Vector3(0, 100, 800));
+  lightIdMap[4] = createLight(Ogre::Vector3(100, 100, 800));
+  lightIdMap[5] = createLight(Ogre::Vector3(0, 100, 700));
 
   centerLightRow = 1;
   centerLightCol = 1;
@@ -59,4 +46,28 @@ uint16_t SimulatorLightController::GetMs() {
   return std::chrono::duration_cast<std::chrono::milliseconds>(endTime -
                                                                startTime)
       .count();
+}
+
+Ogre::Light *SimulatorLightController::createLight(
+    Ogre::Vector3 const position) {
+  Ogre::Light *spotLight = scnMgr->createLight();
+  spotLight->setType(Ogre::Light::LT_SPOTLIGHT);
+  spotLight->setDirection(Ogre::Vector3::NEGATIVE_UNIT_Z);
+  // Default lights to off
+  spotLight->setDiffuseColour(0, 0, 0);
+  spotLight->setSpecularColour(0, 0, 0);
+
+  Ogre::SceneNode *spotLightNode =
+      scnMgr->getRootSceneNode()->createChildSceneNode();
+  spotLightNode->attachObject(spotLight);
+  spotLightNode->setDirection(0, 0, -1);
+  spotLightNode->setPosition(position);
+
+  // These angles are calculated from measurements on the light that I'll
+  // probably use.
+  // At 12" from a wall, the cone of well-mixed, bright white was 8", and the
+  // cone of bright light (with color fringing) was 12".
+  spotLight->setSpotlightRange(Ogre::Degree(36), Ogre::Degree(53));
+
+  return spotLight;
 }
