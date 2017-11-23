@@ -19,3 +19,5 @@ DummyLightController::DummyLightController(const uint8_t rows,
 void DummyLightController::Set(const Lights light, HSV hsv) {}
 
 uint16_t DummyLightController::GetMs() { return 0; }
+
+void DummyLightController::Set(const uint16_t lightId, HSV hsv) {}

@@ -30,6 +30,11 @@ class LightController {
   virtual void Set(const Lights light, HSV hsv) = 0;
 
   /*
+   * Sets the specified light to an RGB value corresponding to the given HSV.
+   */
+  virtual void Set(const uint16_t lightId, HSV hsv) = 0;
+
+  /*
    * Gets a block of lights with the specified dimensions. Lights aren't
    * guaranteed to be populated in each cell - nonexistent lights are indicated
    * by id 0.

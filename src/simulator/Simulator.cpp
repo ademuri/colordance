@@ -137,7 +137,7 @@ void Simulator::setup() {
   paramController = new DummyParamController();
   paramController->Set(Params::kHue0, 120);
   paramController->Set(Params::kTempo, 10);
-  effect = new StrobeEffect(controller, paramController);
+  effect = new SolidColorEffect(controller, paramController);
   effect->Run();
 }
 

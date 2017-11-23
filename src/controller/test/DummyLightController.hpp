@@ -16,6 +16,8 @@ class DummyLightController : public LightController {
 
   uint16_t GetMs() override;
 
+  void Set(const uint16_t lightId, HSV hsv) override;
+
  protected:
 };
 

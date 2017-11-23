@@ -19,10 +19,13 @@ class SimulatorLightController : public LightController {
 
   void Set(const Lights light, HSV hsv) override;
 
+  void Set(const uint16_t lightId, HSV hsv) override;
+
   uint16_t GetMs() override;
 
  private:
   std::map<const Lights, Ogre::Light *> lightMap;
+  std::map<const uint16_t, Ogre::Light *> lightIdMap;
 
   const std::chrono::steady_clock::time_point startTime;
 };

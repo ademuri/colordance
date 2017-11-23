@@ -19,6 +19,17 @@ SimulatorLightController::SimulatorLightController(Ogre::Light *left,
   lightMap.insert(std::pair<const Lights, Ogre::Light *>(Lights::TOP, top));
   lightMap.insert(
       std::pair<const Lights, Ogre::Light *>(Lights::BOTTOM, bottom));
+
+  lightIds = {{0, 1, 0}, {2, 3, 4}, {0, 5, 0}};
+
+  lightIdMap[1] = top;
+  lightIdMap[2] = left;
+  lightIdMap[3] = center;
+  lightIdMap[4] = right;
+  lightIdMap[5] = bottom;
+
+  centerLightRow = 1;
+  centerLightCol = 1;
 }
 
 void SimulatorLightController::Set(const Lights light, HSV hsv) {
@@ -27,6 +38,19 @@ void SimulatorLightController::Set(const Lights light, HSV hsv) {
                                     rgb.b / 255.0);
   lightMap[light]->setSpecularColour(rgb.r / 255.0, rgb.g / 255.0,
                                      rgb.b / 255.0);
+}
+
+void SimulatorLightController::Set(const uint16_t lightId, HSV hsv) {
+  if (lightId == 0) {
+    printf("Error: got 0 light id, hsv: {%d, %d, %d}\n", hsv.h, hsv.s, hsv.v);
+    return;
+  }
+
+  RGB rgb = Color::toRGB(hsv);
+  lightIdMap[lightId]->setDiffuseColour(rgb.r / 255.0, rgb.g / 255.0,
+                                        rgb.b / 255.0);
+  lightIdMap[lightId]->setSpecularColour(rgb.r / 255.0, rgb.g / 255.0,
+                                         rgb.b / 255.0);
 }
 
 uint16_t SimulatorLightController::GetMs() {
