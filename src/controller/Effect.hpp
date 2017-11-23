@@ -27,7 +27,7 @@ class Effect {
    * Called by the main controller when a param that affects which lights are
    * chosen is changed. This tells the effect that it should re-select lights.
    */
-  virtual void LightParamChanged(){};
+  virtual void ChooseLights(){};
 
  protected:
   /* Effect-specific code. Must be overriden by subclasses. */

@@ -4,7 +4,7 @@
 StrobeEffect::StrobeEffect(LightController *lightController,
                            ParamController *paramController)
     : Effect(lightController, paramController) {
-  LightParamChanged();
+  ChooseLights();
   hsv1.h = paramController->Get(Params::kHue0);
   hsv2.h = hsv1.h + 60;
   hsv2.s = 127;
@@ -25,7 +25,7 @@ void StrobeEffect::DoRun() {
   SleepMs(paramController->GetScaled(Params::kTempo, 1000, 75));
 }
 
-void StrobeEffect::LightParamChanged() {
+void StrobeEffect::ChooseLights() {
   lightIds = lightController->GetLights(paramController, 1, 2)[0];
 }
 

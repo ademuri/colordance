@@ -5,7 +5,7 @@ SolidColorEffect::SolidColorEffect(LightController *lightController,
                                    ParamController *paramController)
     : Effect(lightController, paramController) {
   // Choose lights
-  LightParamChanged();
+  ChooseLights();
 }
 
 void SolidColorEffect::DoRun() {
@@ -27,6 +27,6 @@ void SolidColorEffect::BeatDetected() {
   hsv3.h += 60;
 }
 
-void SolidColorEffect::LightParamChanged() {
+void SolidColorEffect::ChooseLights() {
   lightIds = lightController->GetLights(paramController, 1, 3)[0];
 }

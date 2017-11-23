@@ -11,7 +11,7 @@ class StrobeEffect : public Effect {
 
   void BeatDetected() override;
 
-  void LightParamChanged() override;
+  void ChooseLights() override;
 
  protected:
   /* Called periodically to perform the effect. */
