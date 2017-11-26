@@ -35,7 +35,8 @@ void StrobeEffect::ChooseLights() {
   }
 
   // TODO: extract this logic into the LightController
-  const uint16_t numLights = paramController->GetScaled(Params::kWidth, 2, 9);
+  const uint16_t numLights =
+      paramController->GetScaled(Params::kWidth, 2, lightController->numCols);
   lightIds = lightController->GetLights(paramController, 1, numLights)[0];
   hueAdjust = 320 / numLights;
 

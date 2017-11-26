@@ -70,6 +70,9 @@ SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
 
   centerLightRow = 1;
   centerLightCol = 4;
+
+  numRows = 3;
+  numCols = 9;
 }
 
 void SimulatorLightController::Set(const Lights light, HSV hsv) {

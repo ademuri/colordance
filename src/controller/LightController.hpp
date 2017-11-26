@@ -50,6 +50,9 @@ class LightController {
    */
   virtual uint16_t GetMs() = 0;
 
+  int16_t numRows = 0;
+  int16_t numCols = 0;
+
  protected:
   /*
    * Two-dimensional array of light ids. The structure of this array reflects

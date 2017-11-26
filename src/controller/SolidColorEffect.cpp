@@ -12,27 +12,23 @@ void SolidColorEffect::DoRun() {
   // TODO: make this effect actually be a solid color, instead of a testing
   // ground
 
-  lightController->Set(lightIds[0], hsv1);
-  lightController->Set(lightIds[1], hsv2);
-  lightController->Set(lightIds[2], hsv3);
-
-  hsv1.h++;
-  hsv2.h++;
-  hsv3.h++;
-}
-
-void SolidColorEffect::BeatDetected() {
-  hsv1.h += 60;
-  hsv2.h += 60;
-  hsv3.h += 60;
-}
-
-void SolidColorEffect::ChooseLights() {
-  if (!lightIds.empty()) {
-    lightController->Set(lightIds[0], {0, 0, 0});
-    lightController->Set(lightIds[1], {0, 0, 0});
-    lightController->Set(lightIds[2], {0, 0, 0});
+  for (uint16_t i = 0; i < lightIds.size(); i++) {
+    lightController->Set(lightIds[i], {hsv.h + i * hsvShift, hsv.s, hsv.v});
   }
 
-  lightIds = lightController->GetLights(paramController, 1, 3)[0];
+  hsv.h++;
+}
+
+void SolidColorEffect::BeatDetected() { hsv.h += 60; }
+
+void SolidColorEffect::ChooseLights() {
+  for (uint16_t i = 0; i < lightIds.size(); i++) {
+    lightController->Set(lightIds[i], {0, 0, 0});
+  }
+
+  const uint16_t numLights =
+      paramController->GetScaled(Params::kWidth, 2, lightController->numCols);
+  lightIds = lightController->GetLights(paramController, 1, numLights)[0];
+  hsvShift = 360 / numLights;
+  hsv.v = 100 + (310 / numLights);
 }

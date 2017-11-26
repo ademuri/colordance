@@ -21,9 +21,8 @@ class SolidColorEffect : public Effect {
  private:
   std::vector<uint16_t> lightIds;
 
-  HSV hsv1 = {HUE_RED, 255, 255};
-  HSV hsv2 = {HUE_GREEN, 255, 255};
-  HSV hsv3 = {HUE_BLUE, 255, 255};
+  HSV hsv = {HUE_RED, 255, 255};
+  uint16_t hsvShift = 0;
 };
 
 #endif
