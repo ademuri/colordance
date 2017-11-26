@@ -46,7 +46,7 @@ class Simulator : public OgreBites::ApplicationContext,
 
   // The list of params that are adjustable with the arrow keys
   std::vector<Params> adjustableParams = {
-      Params::kTempo, Params::kWidth, Params::kPan,
+      Params::kTempo, Params::kWidth, Params::kPan, Params::kTilt,
   };
 
   // Which param in the above vector is currently being adjusted

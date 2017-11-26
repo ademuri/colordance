@@ -127,6 +127,8 @@ void Simulator::setup() {
   paramController->Set(Params::kHue0, 120);
   paramController->Set(Params::kTempo, 200);
   paramController->Set(Params::kWidth, 10);
+  paramController->Set(Params::kPan, ParamController::kPanNeutral);
+  paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
   effect = new SolidColorEffect(controller, paramController);
   effect->Run();
 }

@@ -21,6 +21,9 @@ enum class Params {
 
   // The left-right shift.
   kPan,
+
+  // The up-down shift.
+  kTilt,
 };
 
 /**
@@ -52,7 +55,9 @@ class ParamController {
    */
   virtual void Set(Params param, uint16_t val) = 0;
 
+  // The "neutral" (center) values for kPan and kTilt.
   static const uint16_t kPanNeutral = 5;
+  static const uint16_t kTiltNeutral = 4;
 
  private:
   std::map<const Params, uint16_t> paramRangeMap;
