@@ -46,3 +46,11 @@ repo](https://github.com/google/googletest), and CMake will pick it up.
 
 Build and install Ogre3D from [the repo](https://github.com/OGRECave/ogre), and
 CMake will pick it up. ColorDance uses Ogre 1.10.
+
+### Boost
+
+Boost is an optional depency. It's used for serial port I/O for reading from a control surface. CMake will automatically detect whether you have Boost installed and enable the relevant code if so. You can install the required libraries on Ubuntu using aptitude:
+
+```
+sudo apt install libboost-dev libboost-system-dev libboost-iostreams-dev libboost-iostreams-dev libboost-thread-dev
+```

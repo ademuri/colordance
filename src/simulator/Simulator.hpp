@@ -12,6 +12,16 @@
 #include "../controller/ParamController.hpp"
 #include "SimulatorLightController.hpp"
 
+#ifdef USE_BOOST
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/classification.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/asio.hpp>
+#include <boost/asio/serial_port.hpp>
+#include <boost/bind.hpp>
+#include <boost/thread.hpp>
+#endif
+
 enum class ControlKeys {
   kUp,
   kDown,
@@ -51,6 +61,19 @@ class Simulator : public OgreBites::ApplicationContext,
 
   // Which param in the above vector is currently being adjusted
   int16_t currentParamIndex = 0;
+
+// Functionality for reading param values from the serial port. This is for
+// reading params from a Teensy-based control surface, which sends the param
+// values over the serial port. This is optional, and requires Boost.
+#ifdef USE_BOOST
+  void read_handler(const boost::system::error_code &error,
+                    std::size_t bytes_transferred);
+
+  boost::asio::io_service io_service_;
+  boost::asio::serial_port *serialPort;
+  static const int kSerialBufSize = 10;
+  char serialBuf[kSerialBufSize];
+#endif
 };
 
 #endif

@@ -14,6 +14,40 @@
 #include "../controller/StrobeEffect.hpp"
 #include "SimulatorLightController.hpp"
 
+#ifdef USE_BOOST
+
+void Simulator::read_handler(const boost::system::error_code &error,
+                             std::size_t bytes_transferred) {
+  if (error) {
+    std::cout << "Error reading serial input: " << error << std::endl;
+  } else {
+    std::string inputString;
+    inputString.append(serialBuf, bytes_transferred);
+
+    // Find the last full number (i.e. the one that ends with a newline).
+    std::vector<std::string> inputLines;
+    boost::algorithm::split(inputLines, inputString, boost::is_any_of("\n"));
+
+    int lastFullString = inputLines.size() - 1;
+    if (serialBuf[bytes_transferred - 1] != '\n') {
+      lastFullString--;
+    }
+
+    uint16_t val;
+    for (int i = lastFullString; i >= 0; i--) {
+      std::string str = inputLines[i];
+      boost::trim(str);
+      if (!str.empty()) {
+        val = stoul(str);
+        break;
+      }
+    }
+
+    paramController->Set(Params::kTempo, val);
+  }
+}
+#endif
+
 Simulator::Simulator()
     : OgreBites::ApplicationContext("ColorDance Simulator") {}
 
@@ -129,8 +163,17 @@ void Simulator::setup() {
   paramController->Set(Params::kWidth, 10);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
-  effect = new SolidColorEffect(controller, paramController);
+  effect = new StrobeEffect(controller, paramController);
   effect->Run();
+
+#ifdef USE_BOOST
+  try {
+    // TODO: make this a flag
+    serialPort = new boost::asio::serial_port(io_service_, "/dev/ttyACM0");
+  } catch (const boost::system::system_error &ex) {
+    std::cerr << "Unable to open serial port: " << ex.what() << std::endl;
+  }
+#endif
 }
 
 bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
@@ -160,6 +203,17 @@ bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
   }
 
   keyDownDebounce++;
+
+#ifdef USE_BOOST
+  if (serialPort) {
+    serialPort->async_read_some(
+        boost::asio::buffer(serialBuf, kSerialBufSize),
+        boost::bind(&Simulator::read_handler, this,
+                    boost::asio::placeholders::error,
+                    boost::asio::placeholders::bytes_transferred));
+    io_service_.poll_one();
+  }
+#endif
 
   return true;
 }

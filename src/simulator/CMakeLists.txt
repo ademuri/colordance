@@ -13,5 +13,14 @@ file(COPY ${OGRE_CONFIG_DIR}/plugins.cfg ${OGRE_CONFIG_DIR}/resources.cfg
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
+find_package(Boost COMPONENTS system thread REQUIRED)
+include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
+link_directories(${Boost_LIBRARY_DIRS})
+
+if(${Boost_FOUND})
+  add_definitions(-DUSE_BOOST=1)
+  message(STATUS "Using Boost")
+endif()
+
 add_executable(Simulator Simulator.cpp Simulator.hpp SimulatorLightController.cpp)
 target_link_libraries(Simulator ${OGRE_LIBRARIES} ${OIS_LIBRARIES} ${Boost_LIBRARIES} ${FREETYPE_LIBRARIES} controller color)
