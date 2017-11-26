@@ -18,6 +18,9 @@ enum class Params {
   // TODO: this isn't a good name, because we need parameters for how spread
   // out to be, and how many lights to use.
   kWidth,
+
+  // The left-right shift.
+  kPan,
 };
 
 /**
@@ -48,6 +51,8 @@ class ParamController {
    * params (e.g. if no one is interacting with the control surface).
    */
   virtual void Set(Params param, uint16_t val) = 0;
+
+  static const uint16_t kPanNeutral = 5;
 
  private:
   std::map<const Params, uint16_t> paramRangeMap;

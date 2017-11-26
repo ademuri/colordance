@@ -75,6 +75,20 @@ std::vector<std::vector<uint16_t>> LightController::GetLights(
     }
   }
 
+  // Pan the lights to the left or right, based on the kPan param.
+  // This is the amount that we can shift left or right
+  const int16_t possiblePan = lowerCol + (numCols - upperCol);
+  const int16_t totalPan =
+      paramController->GetScaled(Params::kPan, 0, possiblePan);
+
+  if (totalPan < lowerCol) {
+    upperCol = upperCol - lowerCol + totalPan;
+    lowerCol = totalPan;
+  } else if (totalPan > lowerCol) {
+    upperCol += (totalPan - lowerCol);
+    lowerCol += (totalPan - lowerCol);
+  }
+
   for (uint16_t i = lowerRow; i <= upperRow; i++) {
     std::vector<uint16_t> row;
     for (uint16_t j = lowerCol; j <= upperCol; j++) {

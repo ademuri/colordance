@@ -28,5 +28,11 @@ void SolidColorEffect::BeatDetected() {
 }
 
 void SolidColorEffect::ChooseLights() {
+  if (!lightIds.empty()) {
+    lightController->Set(lightIds[0], {0, 0, 0});
+    lightController->Set(lightIds[1], {0, 0, 0});
+    lightController->Set(lightIds[2], {0, 0, 0});
+  }
+
   lightIds = lightController->GetLights(paramController, 1, 3)[0];
 }
