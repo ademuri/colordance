@@ -16,7 +16,6 @@
 #include "SimulatorLightController.hpp"
 
 #ifdef USE_BOOST
-
 void Simulator::read_handler(const boost::system::error_code &error,
                              std::size_t bytes_transferred) {
   if (error) {
@@ -51,6 +50,13 @@ void Simulator::read_handler(const boost::system::error_code &error,
       effect->ParamChanged(Params::kHue0);
     }
   }
+
+  // Re-register this handler
+  serialPort->async_read_some(
+      boost::asio::buffer(serialBuf, kSerialBufSize),
+      boost::bind(&Simulator::read_handler, this,
+                  boost::asio::placeholders::error,
+                  boost::asio::placeholders::bytes_transferred));
 }
 #endif
 
@@ -179,6 +185,12 @@ void Simulator::setup() {
   } catch (const boost::system::system_error &ex) {
     std::cerr << "Unable to open serial port: " << ex.what() << std::endl;
   }
+
+      serialPort->async_read_some(
+          boost::asio::buffer(serialBuf, kSerialBufSize),
+          boost::bind(&Simulator::read_handler, this,
+                      boost::asio::placeholders::error,
+                      boost::asio::placeholders::bytes_transferred));
 #endif
 }
 
@@ -213,11 +225,6 @@ bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
 
 #ifdef USE_BOOST
   if (serialPort != nullptr && serialPort->is_open()) {
-    serialPort->async_read_some(
-        boost::asio::buffer(serialBuf, kSerialBufSize),
-        boost::bind(&Simulator::read_handler, this,
-                    boost::asio::placeholders::error,
-                    boost::asio::placeholders::bytes_transferred));
     io_service_.poll_one();
   }
 #endif
