@@ -84,6 +84,7 @@ bool Simulator::keyPressed(const OgreBites::KeyboardEvent &evt) {
                          std::stoi(numberInputBuffer));
     numberInputBuffer.clear();
     effect->ChooseLights();
+    effect->ParamChanged(adjustableParams[currentParamIndex]);
   } else if (evt.keysym.sym == SDLK_SPACE) {
     effect->BeatDetected();
   }
@@ -175,7 +176,7 @@ void Simulator::setup() {
   paramController->Set(Params::kWidth, 5);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
-  effect = new SolidColorEffect(controller, paramController);
+  effect = new ColorShiftEffect(controller, paramController);
   effect->Run();
 
 #ifdef USE_BOOST
@@ -186,11 +187,11 @@ void Simulator::setup() {
     std::cerr << "Unable to open serial port: " << ex.what() << std::endl;
   }
 
-      serialPort->async_read_some(
-          boost::asio::buffer(serialBuf, kSerialBufSize),
-          boost::bind(&Simulator::read_handler, this,
-                      boost::asio::placeholders::error,
-                      boost::asio::placeholders::bytes_transferred));
+  serialPort->async_read_some(
+      boost::asio::buffer(serialBuf, kSerialBufSize),
+      boost::bind(&Simulator::read_handler, this,
+                  boost::asio::placeholders::error,
+                  boost::asio::placeholders::bytes_transferred));
 #endif
 }
 

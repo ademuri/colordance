@@ -13,10 +13,25 @@ void ColorShiftEffect::DoRun() {
     lightController->Set(lightIds[i], {hsv.h + i * hsvShift, hsv.s, hsv.v});
   }
 
-  hsv.h++;
+  hsv.h += hsvAdvance;
 }
 
 void ColorShiftEffect::BeatDetected() { hsv.h += 60; }
+
+void ColorShiftEffect::ParamChanged(Params param) {
+  switch (param) {
+    case Params::kTempo:
+      hsvAdvance = paramController->GetScaled(Params::kTempo, 0, 10);
+      break;
+
+    // TODO: handle other cases
+    case Params::kHue0:
+    case Params::kWidth:
+    case Params::kPan:
+    case Params::kTilt:
+      break;
+  }
+}
 
 void ColorShiftEffect::ChooseLights() {
   for (uint16_t i = 0; i < lightIds.size(); i++) {

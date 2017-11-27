@@ -14,6 +14,8 @@ class ColorShiftEffect : public Effect {
 
   void ChooseLights() override;
 
+  void ParamChanged(Params param) override;
+
  protected:
   /* Called periodically to perform the effect. */
   void DoRun() override;
@@ -23,6 +25,7 @@ class ColorShiftEffect : public Effect {
 
   HSV hsv = {HUE_RED, 255, 255};
   uint16_t hsvShift = 0;
+  uint16_t hsvAdvance = 1;
 };
 
 #endif
