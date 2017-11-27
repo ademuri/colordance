@@ -44,7 +44,12 @@ void Simulator::read_handler(const boost::system::error_code &error,
       }
     }
 
-    paramController->Set(Params::kTempo, val);
+    val = val * 360 / 255;
+
+    if (paramController->Get(Params::kHue0) != val) {
+      paramController->Set(Params::kHue0, val);
+      effect->ParamChanged(Params::kHue0);
+    }
   }
 }
 #endif
@@ -164,7 +169,7 @@ void Simulator::setup() {
   paramController->Set(Params::kWidth, 5);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
-  effect = new ColorShiftEffect(controller, paramController);
+  effect = new SolidColorEffect(controller, paramController);
   effect->Run();
 
 #ifdef USE_BOOST
@@ -201,6 +206,7 @@ bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
 
     // TODO: only run this once the key is released?
     effect->ChooseLights();
+    effect->ParamChanged(currentParam);
   }
 
   keyDownDebounce++;

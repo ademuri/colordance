@@ -23,11 +23,19 @@ class Effect {
    */
   virtual void BeatDetected() = 0;
 
+  // TODO: decide whether both ChooseLights and ParamChanged should exist -
+  // they seem redundant.
+
   /*
    * Called by the main controller when a param that affects which lights are
    * chosen is changed. This tells the effect that it should re-select lights.
    */
   virtual void ChooseLights(){};
+
+  /*
+   * Called by the main controller when any param is changed.
+   */
+  virtual void ParamChanged(Params param){};
 
  protected:
   /* Effect-specific code. Must be overriden by subclasses. */

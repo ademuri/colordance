@@ -14,6 +14,8 @@ class SolidColorEffect : public Effect {
 
   void ChooseLights() override;
 
+  void ParamChanged(Params param) override;
+
  protected:
   /* Called periodically to perform the effect. */
   void DoRun() override;
