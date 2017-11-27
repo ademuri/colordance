@@ -11,6 +11,7 @@
 #include "../controller/LightController.hpp"
 #include "../controller/ParamController.hpp"
 #include "../controller/SolidColorEffect.hpp"
+#include "../controller/ColorShiftEffect.hpp"
 #include "../controller/StrobeEffect.hpp"
 #include "SimulatorLightController.hpp"
 
@@ -160,10 +161,10 @@ void Simulator::setup() {
   paramController = new DummyParamController();
   paramController->Set(Params::kHue0, 120);
   paramController->Set(Params::kTempo, 200);
-  paramController->Set(Params::kWidth, 10);
+  paramController->Set(Params::kWidth, 5);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
-  effect = new StrobeEffect(controller, paramController);
+  effect = new ColorShiftEffect(controller, paramController);
   effect->Run();
 
 #ifdef USE_BOOST
@@ -179,8 +180,8 @@ void Simulator::setup() {
 bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
   effect->Run();
 
-  if (keyDownDebounce % 3 == 0 && keyDownMap[ControlKeys::kDown] ||
-      keyDownMap[ControlKeys::kUp]) {
+  if ((keyDownDebounce % 3 == 0) && (keyDownMap[ControlKeys::kDown] ||
+      keyDownMap[ControlKeys::kUp])) {
     const Params currentParam = adjustableParams[currentParamIndex];
     uint16_t val = paramController->Get(currentParam);
 
@@ -205,7 +206,7 @@ bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
   keyDownDebounce++;
 
 #ifdef USE_BOOST
-  if (serialPort) {
+  if (serialPort != nullptr && serialPort->is_open()) {
     serialPort->async_read_some(
         boost::asio::buffer(serialBuf, kSerialBufSize),
         boost::bind(&Simulator::read_handler, this,

@@ -70,7 +70,7 @@ class Simulator : public OgreBites::ApplicationContext,
                     std::size_t bytes_transferred);
 
   boost::asio::io_service io_service_;
-  boost::asio::serial_port *serialPort;
+  boost::asio::serial_port *serialPort = nullptr;
   static const int kSerialBufSize = 10;
   char serialBuf[kSerialBufSize];
 #endif
