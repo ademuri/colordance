@@ -1,21 +1,24 @@
-#include "SolidColorEffect.hpp"
+#include "ColorShiftEffect.hpp"
 #include "LightController.hpp"
 
-SolidColorEffect::SolidColorEffect(LightController *lightController,
+ColorShiftEffect::ColorShiftEffect(LightController *lightController,
                                    ParamController *paramController)
     : Effect(lightController, paramController) {
+  // Choose lights
   ChooseLights();
 }
 
-void SolidColorEffect::BeatDetected() {}
-
-void SolidColorEffect::DoRun() {
+void ColorShiftEffect::DoRun() {
   for (uint16_t i = 0; i < lightIds.size(); i++) {
     lightController->Set(lightIds[i], {hsv.h + i * hsvShift, hsv.s, hsv.v});
   }
+
+  hsv.h++;
 }
 
-void SolidColorEffect::ChooseLights() {
+void ColorShiftEffect::BeatDetected() { hsv.h += 60; }
+
+void ColorShiftEffect::ChooseLights() {
   for (uint16_t i = 0; i < lightIds.size(); i++) {
     lightController->Set(lightIds[i], {0, 0, 0});
   }
@@ -24,6 +27,5 @@ void SolidColorEffect::ChooseLights() {
       paramController->GetScaled(Params::kWidth, 2, lightController->numCols);
   lightIds = lightController->GetLights(paramController, 1, numLights)[0];
   hsvShift = 360 / numLights;
-  hsv.h = paramController->Get(Params::kHue0);
   hsv.v = 100 + (310 / numLights);
 }
