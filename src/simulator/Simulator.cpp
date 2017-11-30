@@ -33,8 +33,12 @@ void Simulator::read_handler(const boost::system::error_code &error,
       lastFullString--;
     }
 
+    // One serial line might contain multiple params, and multiple lines for a
+    // single param. We want to set the latest value for each param.
+    std::map<Params, bool> paramSet;
+
     uint16_t val = 0;
-    uint16_t paramIndex = 0;
+    Params param;
     for (int i = lastFullString; i >= 0; i--) {
       std::string str = inputLines[i];
       boost::trim(str);
@@ -43,25 +47,28 @@ void Simulator::read_handler(const boost::system::error_code &error,
         std::vector<std::string> numbers;
         boost::algorithm::split(numbers, str, boost::is_any_of(" "));
         if (numbers.size() != 2) {
-          std::cout << "Invalid serial line: " << str << std::endl;
+          // std::cout << "Invalid serial line: " << str << std::endl;
+          // TODO: frequently get invalid lines here - do we need monitoring at
+          // all?
           continue;
         }
-        paramIndex = stoi(numbers[0]);
-        val = stoul(numbers[1]);
-        break;
+        uint16_t paramIndex = stoi(numbers[0]);
+
+        // paramIndex is 1-index. 0 is reserved for... something in the future.
+        if (paramIndex < 1 || paramIndex > serialParams.size()) {
+          // TODO
+          std::cout << "Invalid param index: " << paramIndex << std::endl;
+          continue;
+        }
+        param = serialParams[paramIndex - 1];
+
+        if (paramSet.count(param) == 0) {
+          val = stoul(numbers[1]);
+          paramSet[param] = true;
+        }
       }
     }
 
-    // paramIndex is 1-index. 0 is reserved for... something in the future.
-    if (paramIndex < 1) {
-      // TODO
-      std::cout << "Invalid param index: " << paramIndex << std::endl;
-      return;
-    }
-
-    val = val * 360 / 255;
-
-    Params param = serialParams[paramIndex - 1];
     if (paramController->Get(param) != val) {
       paramController->Set(param, val);
       effect->ParamChanged(param);
