@@ -33,21 +33,38 @@ void Simulator::read_handler(const boost::system::error_code &error,
       lastFullString--;
     }
 
-    uint16_t val;
+    uint16_t val = 0;
+    uint16_t paramIndex = 0;
     for (int i = lastFullString; i >= 0; i--) {
       std::string str = inputLines[i];
       boost::trim(str);
       if (!str.empty()) {
-        val = stoul(str);
+        // One line consists of the sensor number, and then the value
+        std::vector<std::string> numbers;
+        boost::algorithm::split(numbers, str, boost::is_any_of(" "));
+        if (numbers.size() != 2) {
+          std::cout << "Invalid serial line: " << str << std::endl;
+          continue;
+        }
+        paramIndex = stoi(numbers[0]);
+        val = stoul(numbers[1]);
         break;
       }
     }
 
+    // paramIndex is 1-index. 0 is reserved for... something in the future.
+    if (paramIndex < 1) {
+      // TODO
+      std::cout << "Invalid param index: " << paramIndex << std::endl;
+      return;
+    }
+
     val = val * 360 / 255;
 
-    if (paramController->Get(Params::kHue0) != val) {
-      paramController->Set(Params::kHue0, val);
-      effect->ParamChanged(Params::kHue0);
+    Params param = serialParams[paramIndex - 1];
+    if (paramController->Get(param) != val) {
+      paramController->Set(param, val);
+      effect->ParamChanged(param);
     }
   }
 
