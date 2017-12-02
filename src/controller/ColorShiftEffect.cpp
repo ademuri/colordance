@@ -34,13 +34,15 @@ void ColorShiftEffect::ParamChanged(Params param) {
 }
 
 void ColorShiftEffect::ChooseLights() {
-  for (uint16_t i = 0; i < lightIds.size(); i++) {
-    lightController->Set(lightIds[i], {0, 0, 0});
-  }
+  // Keep track of the lights that were on before, and turn them off if they're
+  // no longer selected.
+  std::vector<uint16_t> oldLightIds = lightIds;
 
   const uint16_t numLights =
       paramController->GetScaled(Params::kWidth, 2, lightController->numCols);
   lightIds = lightController->GetLights(paramController, 1, numLights)[0];
   hsvShift = 360 / numLights;
   hsv.v = 100 + (310 / numLights);
+
+  TurnOffUnusedLights(oldLightIds, lightIds);
 }

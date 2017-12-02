@@ -62,7 +62,7 @@ class Simulator : public OgreBites::ApplicationContext,
 
   // The list of params that are adjustable with the serial port.
   std::vector<Params> serialParams = {
-      Params::kHue0,  // TODO: val
+      Params::kTempo,  // TODO: val
       Params::kWidth, Params::kPan,
       Params::kHue0,  // TODO: height
       Params::kHue0,  // TODO: sat
