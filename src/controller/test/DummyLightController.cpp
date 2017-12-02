@@ -2,6 +2,9 @@
 
 DummyLightController::DummyLightController(const uint8_t rows,
                                            const uint8_t cols) {
+  numRows = rows;
+  numCols = cols;
+
   uint16_t counter = 1;
 
   for (uint8_t i = 0; i < rows; i++) {
@@ -18,6 +21,12 @@ DummyLightController::DummyLightController(const uint8_t rows,
 
 void DummyLightController::Set(const Lights light, HSV hsv) {}
 
-uint16_t DummyLightController::GetMs() { return 0; }
+uint16_t DummyLightController::GetMs() { return 1; }
 
-void DummyLightController::Set(const uint16_t lightId, HSV hsv) {}
+void DummyLightController::Set(const uint16_t lightId, HSV hsv) {
+  lights[lightId] = hsv;
+}
+
+HSV DummyLightController::Get(const uint16_t lightId) {
+  return lights[lightId];
+}

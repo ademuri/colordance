@@ -4,9 +4,7 @@
 
 Effect::Effect(LightController *lightController,
                ParamController *paramController)
-    : lightController(lightController), paramController(paramController) {
-  runAtMs = 0;
-}
+    : lightController(lightController), paramController(paramController) {}
 
 void Effect::Run() {
   if (this->runAtMs < lightController->GetMs()) {

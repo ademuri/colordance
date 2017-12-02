@@ -25,6 +25,10 @@ struct HSV {
   uint8_t v;
 };
 
+inline bool operator==(const HSV &x, const HSV &y) {
+  return x.h == y.h && x.s == y.s && x.v == y.v;
+}
+
 enum Hue {
   HUE_RED = 0,
   HUE_YELLOW = 60,

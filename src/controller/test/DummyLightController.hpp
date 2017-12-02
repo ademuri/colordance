@@ -18,7 +18,10 @@ class DummyLightController : public LightController {
 
   void Set(const uint16_t lightId, HSV hsv) override;
 
- protected:
+  HSV Get(const uint16_t lightId);
+
+ private:
+  std::map<const uint16_t, HSV> lights;
 };
 
 #endif
