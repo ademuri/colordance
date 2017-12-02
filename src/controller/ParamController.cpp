@@ -3,9 +3,9 @@
 ParamController::ParamController() {
   paramRangeMap[Params::kHue0] = 359;
   paramRangeMap[Params::kTempo] = 255;
-  paramRangeMap[Params::kWidth] = 10;
-  paramRangeMap[Params::kPan] = 10;
-  paramRangeMap[Params::kTilt] = 10;
+  paramRangeMap[Params::kWidth] = 255;
+  paramRangeMap[Params::kPan] = 255;
+  paramRangeMap[Params::kTilt] = 255;
 }
 
 uint16_t ParamController::GetScaled(Params param, uint16_t min, uint16_t max) {

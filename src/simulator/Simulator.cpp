@@ -65,13 +65,17 @@ void Simulator::read_handler(const boost::system::error_code &error,
         if (paramSet.count(param) == 0) {
           val = stoul(numbers[1]);
           paramSet[param] = true;
+
+          if (paramController->Get(param) != val) {
+            paramController->Set(param, val);
+            effect->ParamChanged(param);
+            if (std::find(chooseLightParams.begin(), chooseLightParams.end(),
+                          param) != chooseLightParams.end()) {
+              effect->ChooseLights();
+            }
+          }
         }
       }
-    }
-
-    if (paramController->Get(param) != val) {
-      paramController->Set(param, val);
-      effect->ParamChanged(param);
     }
   }
 
@@ -200,7 +204,7 @@ void Simulator::setup() {
   paramController->Set(Params::kWidth, 5);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
-  effect = new ColorShiftEffect(controller, paramController);
+  effect = new SolidColorEffect(controller, paramController);
   effect->Run();
 
 #ifdef USE_BOOST

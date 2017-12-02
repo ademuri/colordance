@@ -5,6 +5,7 @@
 #include <OgreInput.h>
 #include <OgreLight.h>
 #include <OgreRoot.h>
+#include <algorithm>
 #include <map>
 #include <string>
 #include <vector>
@@ -61,7 +62,15 @@ class Simulator : public OgreBites::ApplicationContext,
 
   // The list of params that are adjustable with the serial port.
   std::vector<Params> serialParams = {
-      Params::kTempo,
+      Params::kHue0,  // TODO: val
+      Params::kWidth, Params::kPan,
+      Params::kHue0,  // TODO: height
+      Params::kHue0,  // TODO: sat
+      Params::kTilt,
+  };
+
+  std::vector<Params> chooseLightParams = {
+      Params::kWidth, Params::kPan, Params::kTilt,
   };
 
   // Which param in the above vector is currently being adjusted

@@ -1,5 +1,6 @@
 #include "LightController.hpp"
 #include <cstdio>
+#include <iostream>
 #include <vector>
 #include "ParamController.hpp"
 
@@ -89,8 +90,8 @@ std::vector<std::vector<uint16_t>> LightController::GetLights(
     lowerCol += (totalPan - lowerCol);
   }
 
-  // Tilt the lights to the left or right, based on the kTilt param.
-  // This is the amount that we can shift left or right
+  // Tilt the lights up or down, based on the kTilt param. This is the amount
+  // that we can shift up or down.
   const int16_t possibleTilt = lowerRow + (numRows - upperRow);
   const int16_t totalTilt =
       paramController->GetScaled(Params::kTilt, 0, possibleTilt);
