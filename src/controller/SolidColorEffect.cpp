@@ -1,4 +1,5 @@
 #include "SolidColorEffect.hpp"
+#include <iostream>
 #include "LightController.hpp"
 
 SolidColorEffect::SolidColorEffect(LightController *lightController,
@@ -31,9 +32,9 @@ void SolidColorEffect::ParamChanged(Params param) {
 }
 
 void SolidColorEffect::ChooseLights() {
-  for (uint16_t i = 0; i < lightIds.size(); i++) {
-    lightController->Set(lightIds[i], {0, 0, 0});
-  }
+  // Keep track of the lights that were on before, and turn them off if they're
+  // no longer selected.
+  std::vector<uint16_t> oldLightIds = lightIds;
 
   const uint16_t numLights =
       paramController->GetScaled(Params::kWidth, 1, lightController->numCols);
@@ -41,4 +42,12 @@ void SolidColorEffect::ChooseLights() {
   hsvShift = 360 / numLights;
   hsv.h = paramController->Get(Params::kHue0);
   hsv.v = 100 + (155 / numLights);
+
+  std::vector<uint16_t>::iterator it;
+  for (it = oldLightIds.begin(); it != oldLightIds.end(); it++) {
+    if (std::find(lightIds.begin(), lightIds.end(), *it) == lightIds.end()) {
+      // Light was picked before, and now it's not
+      lightController->Set(*it, {0, 0, 0});
+    }
+  }
 }

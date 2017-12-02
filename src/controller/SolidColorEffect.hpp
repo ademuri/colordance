@@ -1,6 +1,7 @@
 #ifndef __SOLID_COLOR_EFFECT_HPP__
 #define __SOLID_COLOR_EFFECT_HPP__
 
+#include <algorithm>
 #include <vector>
 #include "Effect.hpp"
 #include "LightController.hpp"
