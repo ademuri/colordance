@@ -43,11 +43,5 @@ void SolidColorEffect::ChooseLights() {
   hsv.h = paramController->Get(Params::kHue0);
   hsv.v = 100 + (155 / numLights);
 
-  std::vector<uint16_t>::iterator it;
-  for (it = oldLightIds.begin(); it != oldLightIds.end(); it++) {
-    if (std::find(lightIds.begin(), lightIds.end(), *it) == lightIds.end()) {
-      // Light was picked before, and now it's not
-      lightController->Set(*it, {0, 0, 0});
-    }
-  }
+  TurnOffUnusedLights(oldLightIds, lightIds);
 }
