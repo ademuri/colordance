@@ -2,7 +2,7 @@
 
 #include "../DummyParamController.hpp"
 
-TEST(ParamControllerTest, scaleNoOp) {
+TEST(ParamControllerTest, GetScaled_scaleNoOp) {
   DummyParamController controller;
   controller.Set(Params::kTempo, 0);
   EXPECT_EQ(controller.GetScaled(Params::kTempo, 0, 255), 0);
@@ -14,7 +14,7 @@ TEST(ParamControllerTest, scaleNoOp) {
   EXPECT_EQ(controller.GetScaled(Params::kTempo, 0, 255), 127);
 }
 
-TEST(ParamControllerTest, scalePositive) {
+TEST(ParamControllerTest, GetScaled_scalePositive) {
   DummyParamController controller;
   controller.Set(Params::kTempo, 0);
   EXPECT_EQ(controller.GetScaled(Params::kTempo, 0, 128), 0);
@@ -26,7 +26,7 @@ TEST(ParamControllerTest, scalePositive) {
   EXPECT_EQ(controller.GetScaled(Params::kTempo, 0, 128), 63);
 }
 
-TEST(ParamControllerTest, negativeNoScale) {
+TEST(ParamControllerTest, GetScaled_negativeNoScale) {
   DummyParamController controller;
   controller.Set(Params::kTempo, 0);
   EXPECT_EQ(controller.GetScaled(Params::kTempo, 255, 0), 255);
@@ -38,7 +38,7 @@ TEST(ParamControllerTest, negativeNoScale) {
   EXPECT_EQ(controller.GetScaled(Params::kTempo, 255, 0), 128);
 }
 
-TEST(ParamControllerTest, scaleNegative) {
+TEST(ParamControllerTest, GetScaled_scaleNegative) {
   DummyParamController controller;
   controller.Set(Params::kTempo, 0);
   EXPECT_EQ(controller.GetScaled(Params::kTempo, 128, 0), 128);
@@ -53,11 +53,71 @@ TEST(ParamControllerTest, scaleNegative) {
   EXPECT_EQ(controller.GetScaled(Params::kTempo, 128, 0), 127);
 }
 
-TEST(ParamControllerTest, kHue0) {
+TEST(ParamControllerTest, GetScaled_kHue0) {
   DummyParamController controller;
   controller.Set(Params::kHue0, 0);
   EXPECT_EQ(controller.GetScaled(Params::kHue0, 0, 255), 0);
 
   controller.Set(Params::kHue0, 359);
   EXPECT_EQ(controller.GetScaled(Params::kHue0, 0, 255), 255);
+}
+
+TEST(ParamControllerTest, SetScaled_sameRange) {
+  DummyParamController controller;
+  controller.SetScaled(Params::kTempo, 0, 0, 255);
+  EXPECT_EQ(controller.Get(Params::kTempo), 0);
+
+  controller.SetScaled(Params::kTempo, 255, 0, 255);
+  EXPECT_EQ(controller.Get(Params::kTempo), 255);
+
+  controller.SetScaled(Params::kTempo, 127, 0, 255);
+  EXPECT_EQ(controller.Get(Params::kTempo), 127);
+}
+
+TEST(ParamControllerTest, SetScaled_smallerRange) {
+  DummyParamController controller;
+  controller.SetScaled(Params::kTempo, 0, 0, 10);
+  EXPECT_EQ(controller.Get(Params::kTempo), 0);
+
+  controller.SetScaled(Params::kTempo, 10, 0, 10);
+  EXPECT_EQ(controller.Get(Params::kTempo), 255);
+
+  controller.SetScaled(Params::kTempo, 5, 0, 10);
+  EXPECT_EQ(controller.Get(Params::kTempo), 127);
+}
+
+TEST(ParamControllerTest, SetScaled_largerRange) {
+  DummyParamController controller;
+  controller.SetScaled(Params::kTempo, 0, 0, 1000);
+  EXPECT_EQ(controller.Get(Params::kTempo), 0);
+
+  controller.SetScaled(Params::kTempo, 1000, 0, 1000);
+  EXPECT_EQ(controller.Get(Params::kTempo), 255);
+
+  controller.SetScaled(Params::kTempo, 500, 0, 1000);
+  EXPECT_EQ(controller.Get(Params::kTempo), 127);
+}
+
+TEST(ParamControllerTest, SetScaled_backwards) {
+  DummyParamController controller;
+  controller.SetScaled(Params::kTempo, 255, 255, 0);
+  EXPECT_EQ(controller.Get(Params::kTempo), 0);
+
+  controller.SetScaled(Params::kTempo, 0, 255, 0);
+  EXPECT_EQ(controller.Get(Params::kTempo), 255);
+
+  controller.SetScaled(Params::kTempo, 127, 255, 0);
+  EXPECT_EQ(controller.Get(Params::kTempo), 128);
+}
+
+TEST(ParamControllerTest, SetScaled_backwardsNegative) {
+  DummyParamController controller;
+  controller.SetScaled(Params::kTempo, 127, 127, -128);
+  EXPECT_EQ(controller.Get(Params::kTempo), 0);
+
+  controller.SetScaled(Params::kTempo, -128, 127, -128);
+  EXPECT_EQ(controller.Get(Params::kTempo), 255);
+
+  controller.SetScaled(Params::kTempo, 0, 127, -128);
+  EXPECT_EQ(controller.Get(Params::kTempo), 127);
 }

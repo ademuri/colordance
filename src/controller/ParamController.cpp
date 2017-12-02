@@ -21,3 +21,9 @@ uint16_t ParamController::GetScaled(Params param, uint16_t min, uint16_t max) {
 uint16_t ParamController::WrapParam(Params param, uint16_t val) {
   return val % (paramRangeMap[param] + 1);
 }
+
+void ParamController::SetScaled(Params param, int16_t val, int16_t min,
+                                int16_t max) {
+  uint16_t scaledVal = (val - min) * paramRangeMap[param] / (max - min);
+  Set(param, scaledVal);
+}

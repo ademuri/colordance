@@ -46,6 +46,10 @@ class ParamController {
    */
   uint16_t GetScaled(Params param, uint16_t min, uint16_t max);
 
+  /*
+   * Returns the param, wrapped around to be in the appropriate range for the
+   * given param.
+   */
   uint16_t WrapParam(Params param, uint16_t val);
 
   /**
@@ -55,9 +59,15 @@ class ParamController {
    */
   virtual void Set(Params param, uint16_t val) = 0;
 
+  /*
+   * Sets the value of a param, scaled from 0 to the given max to the internal
+   * param's range.
+   */
+  void SetScaled(Params param, int16_t val, int16_t min, int16_t max);
+
   // The "neutral" (center) values for kPan and kTilt.
-  static const uint16_t kPanNeutral = 5;
-  static const uint16_t kTiltNeutral = 4;
+  static const uint16_t kPanNeutral = 127;
+  static const uint16_t kTiltNeutral = 127;
 
  private:
   std::map<const Params, uint16_t> paramRangeMap;
