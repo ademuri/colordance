@@ -86,8 +86,8 @@ std::vector<std::vector<uint16_t>> LightController::GetLights(
     upperCol = upperCol - lowerCol + totalPan;
     lowerCol = totalPan;
   } else if (totalPan > lowerCol) {
-    upperCol += (totalPan - lowerCol);
-    lowerCol += (totalPan - lowerCol);
+    upperCol += (totalPan - lowerCol) - 1;
+    lowerCol += (totalPan - lowerCol) - 1;
   }
 
   // Tilt the lights up or down, based on the kTilt param. This is the amount
@@ -100,8 +100,8 @@ std::vector<std::vector<uint16_t>> LightController::GetLights(
     upperRow = upperRow - lowerRow + totalTilt;
     lowerRow = totalTilt;
   } else if (totalTilt > lowerRow) {
-    upperRow += (totalTilt - lowerRow);
-    lowerRow += (totalTilt - lowerRow);
+    upperRow += (totalTilt - lowerRow) - 1;
+    lowerRow += (totalTilt - lowerRow) - 1;
   }
 
   for (uint16_t i = lowerRow; i <= upperRow; i++) {

@@ -52,7 +52,7 @@ TEST(LightControllerTest, GetLights_3x5_even) {
   DummyParamController *p = new DummyParamController();
   setDefaultParams(p);
 
-  std::vector<std::vector<uint16_t>> expected = {{3, 4}, {8, 9}};
+  std::vector<std::vector<uint16_t>> expected = {{2, 3}, {7, 8}};
   EXPECT_EQ(c.GetLights(p, 2, 2), expected);
 }
 
@@ -98,7 +98,7 @@ TEST(LightControllerTest, GetLights_3x3_pan) {
   EXPECT_EQ(c.GetLights(p, 1, 1), expected);
 
   expected = {{6}};
-  p->SetScaled(Params::kPan, 9, 0, 10);
+  p->SetScaled(Params::kPan, 10, 0, 10);
   EXPECT_EQ(c.GetLights(p, 1, 1), expected);
 }
 
@@ -116,7 +116,7 @@ TEST(LightControllerTest, GetLights_3x3_pan_multipleRows) {
   EXPECT_EQ(c.GetLights(p, 3, 1), expected);
 
   expected = {{3}, {6}, {9}};
-  p->SetScaled(Params::kPan, 9, 0, 10);
+  p->SetScaled(Params::kPan, 10, 0, 10);
   EXPECT_EQ(c.GetLights(p, 3, 1), expected);
 }
 
@@ -150,7 +150,7 @@ TEST(LightControllerTest, GetLights_3x3_tilt) {
   EXPECT_EQ(c.GetLights(p, 1, 1), expected);
 
   expected = {{8}};
-  p->SetScaled(Params::kTilt, 9, 0, 10);
+  p->SetScaled(Params::kTilt, 10, 0, 10);
   EXPECT_EQ(c.GetLights(p, 1, 1), expected);
 }
 
@@ -170,7 +170,7 @@ TEST(LightControllerTest, GetLights_3x3_tilt_noRoomToTilt) {
   EXPECT_EQ(c.GetLights(p, 3, 1), expected);
 }
 
-TEST(LightControllerTest, GetLights_3x3_tilt_multipleCOls) {
+TEST(LightControllerTest, GetLights_3x3_tilt_multipleCols) {
   DummyLightController c = DummyLightController(3, 3);
   DummyParamController *p = new DummyParamController();
   setDefaultParams(p);
@@ -184,6 +184,6 @@ TEST(LightControllerTest, GetLights_3x3_tilt_multipleCOls) {
   EXPECT_EQ(c.GetLights(p, 1, 3), expected);
 
   expected = {{7, 8, 9}};
-  p->SetScaled(Params::kTilt, 9, 0, 10);
+  p->SetScaled(Params::kTilt, 10, 0, 10);
   EXPECT_EQ(c.GetLights(p, 1, 3), expected);
 }

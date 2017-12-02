@@ -85,7 +85,8 @@ void SimulatorLightController::Set(const Lights light, HSV hsv) {
 
 void SimulatorLightController::Set(const uint16_t lightId, HSV hsv) {
   if (lightId == 0) {
-    printf("Error: got 0 light id, hsv: {%d, %d, %d}\n", hsv.h, hsv.s, hsv.v);
+    // printf("Error: got 0 light id, hsv: {%d, %d, %d}\n", hsv.h, hsv.s,
+    // hsv.v);
     return;
   }
 

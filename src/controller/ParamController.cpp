@@ -15,7 +15,15 @@ uint16_t ParamController::GetScaled(Params param, uint16_t min, uint16_t max) {
   // Use a signed int so that we can have max < min
   const int16_t expectedRange = max - min;
   const uint16_t actualRange = paramRangeMap[param];
-  return min + (Get(param) * expectedRange) / actualRange;
+
+  // The result for this function uses integer division, so the remainder is
+  // truncated. That means that the threshold for a value changing is at the
+  // 'end' of the range - e.g. scaling from 0 to 10, 255->10 and 254->10. This
+  // isn't a natural mapping. This offset simulates rounding up for the decimal
+  // place being ~>.5
+  const uint16_t offset = actualRange / expectedRange / 2;
+
+  return min + ((Get(param) + offset) * expectedRange) / actualRange;
 }
 
 uint16_t ParamController::WrapParam(Params param, uint16_t val) {

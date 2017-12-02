@@ -50,7 +50,7 @@ TEST(SolidColorEffectTest, turnsOffOldLights) {
   expectValue(lightController, {5}, on);
 
   // Change which light is selected and verify that the old light turns off
-  paramController->SetScaled(Params::kPan, 9, 0, 10);
+  paramController->SetScaled(Params::kPan, 10, 0, 10);
   effect->ChooseLights();
   effect->Run();
   expectOff(lightController, {1, 2, 3, 4, 5, 7, 8, 9});
