@@ -29,18 +29,16 @@ void StrobeEffect::DoRun() {
 }
 
 void StrobeEffect::ChooseLights() {
-  // First, turn off the currently on light
-  if (lightIds.size() > 0) {
-    lightController->Set(lightIds[currentLight], {0, 0, 0});
-  }
+  // Keep track of the lights that were on before, and turn them off if they're
+  // no longer selected.
+  std::vector<uint16_t> oldLightIds = lightIds;
 
   // TODO: extract this logic into the LightController
   const uint16_t numLights =
       paramController->GetScaled(Params::kWidth, 2, lightController->numCols);
   lightIds = lightController->GetLights(paramController, 1, numLights)[0];
   hueAdjust = 320 / numLights;
-
-  DoRun();
+  TurnOffUnusedLights(oldLightIds, lightIds);
 }
 
 void StrobeEffect::BeatDetected() {
