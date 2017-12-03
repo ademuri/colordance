@@ -23,6 +23,8 @@ void SolidColorEffect::ParamChanged(Params param) {
       break;
 
     // TODO: handle other cases
+    case Params::kHue1:
+    case Params::kHue2:
     case Params::kWidth:
     case Params::kPan:
     case Params::kTilt:

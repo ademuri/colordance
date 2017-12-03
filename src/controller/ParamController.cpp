@@ -2,6 +2,8 @@
 
 ParamController::ParamController() {
   paramRangeMap[Params::kHue0] = 359;
+  paramRangeMap[Params::kHue1] = 359;
+  paramRangeMap[Params::kHue2] = 359;
   paramRangeMap[Params::kTempo] = 255;
   paramRangeMap[Params::kWidth] = 255;
   paramRangeMap[Params::kPan] = 255;

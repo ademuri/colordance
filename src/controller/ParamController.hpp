@@ -7,6 +7,10 @@ enum class Params {
   // Primary/first color hue.
   kHue0,
 
+  // Other hues. These may or may not be used by a given effect.
+  kHue1,
+  kHue2,
+
   // TODO: add more hues and saturations/values
 
   // Relative speed. Interpreted differently by different effects. Smaller

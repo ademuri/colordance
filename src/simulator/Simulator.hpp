@@ -7,6 +7,7 @@
 #include <OgreRoot.h>
 #include <algorithm>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 #include "../controller/Effect.hpp"
@@ -66,10 +67,19 @@ class Simulator : public OgreBites::ApplicationContext,
       Params::kWidth, Params::kPan,
       Params::kHue0,  // TODO: height
       Params::kHue0,  // TODO: sat
-      Params::kTilt,
+      Params::kTilt,  // 6
+      Params::kHue0,  // 7
+      Params::kHue1,  // 8
+      Params::kHue2,  // 9
   };
 
-  std::vector<Params> chooseLightParams = {
+  // These params have a large range (i.e. int16_t), and so we use modulus when
+  // we read them in from serial.
+  std::set<Params> infiniteParams = {
+      Params::kHue0, Params::kHue1, Params::kHue2,
+  };
+
+  std::set<Params> chooseLightParams = {
       Params::kWidth, Params::kPan, Params::kTilt,
   };
 

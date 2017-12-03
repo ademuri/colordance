@@ -13,6 +13,7 @@
 #include "../controller/ParamController.hpp"
 #include "../controller/SolidColorEffect.hpp"
 #include "../controller/StrobeEffect.hpp"
+#include "../controller/ThreeColorEffect.hpp"
 #include "SimulatorLightController.hpp"
 
 #ifdef USE_BOOST
@@ -66,11 +67,14 @@ void Simulator::read_handler(const boost::system::error_code &error,
           val = stoul(numbers[1]);
           paramSet[param] = true;
 
+          if (infiniteParams.find(param) != infiniteParams.end()) {
+            val = paramController->WrapParam(param, val);
+          }
+
           if (paramController->Get(param) != val) {
             paramController->Set(param, val);
             effect->ParamChanged(param);
-            if (std::find(chooseLightParams.begin(), chooseLightParams.end(),
-                          param) != chooseLightParams.end()) {
+            if (chooseLightParams.find(param) != chooseLightParams.end()) {
               effect->ChooseLights();
             }
           }
@@ -204,7 +208,7 @@ void Simulator::setup() {
   paramController->Set(Params::kWidth, 5);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
-  effect = new ColorShiftEffect(controller, paramController);
+  effect = new ThreeColorEffect(controller, paramController);
   effect->Run();
 
 #ifdef USE_BOOST

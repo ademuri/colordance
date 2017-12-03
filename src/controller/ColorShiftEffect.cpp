@@ -26,6 +26,8 @@ void ColorShiftEffect::ParamChanged(Params param) {
 
     // TODO: handle other cases
     case Params::kHue0:
+    case Params::kHue1:
+    case Params::kHue2:
     case Params::kWidth:
     case Params::kPan:
     case Params::kTilt:
