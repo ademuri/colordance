@@ -22,6 +22,7 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
 endif()
 
 file(COPY textures DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY config/resources.cfg DESTINATION ${CMAKE_BINARY_DIR})
 
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
