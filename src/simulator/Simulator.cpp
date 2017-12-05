@@ -154,8 +154,8 @@ void Simulator::setup() {
   shadergen->addSceneManager(scnMgr);
 
   Ogre::SceneNode *camNode = scnMgr->getRootSceneNode()->createChildSceneNode();
-  camNode->setPosition(1000, 250, 1000);
-  camNode->lookAt(Ogre::Vector3(0, 250, 0),
+  camNode->setPosition(300, SimulatorLightController::inchesToCoords(70), 800);
+  camNode->lookAt(Ogre::Vector3(0, 200, 0),
                   Ogre::Node::TransformSpace::TS_WORLD);
 
   Ogre::Camera *cam = scnMgr->createCamera("cam1");
@@ -211,7 +211,7 @@ void Simulator::setup() {
   paramController->Set(Params::kWidth, 5);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
-  effect = new ThreeColorEffect(controller, paramController);
+  effect = new ColorShiftEffect(controller, paramController);
   effect->Run();
 
 #ifdef USE_BOOST
