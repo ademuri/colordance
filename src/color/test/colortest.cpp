@@ -63,6 +63,14 @@ TEST(ColorTest, yellow) {
   RGB expected = {127, 127, 0};
 
   EXPECT_EQ(Color::toRGB(hsv), expected);
+
+  hsv.h = 59;
+  expected = {129, 125, 0};
+  EXPECT_EQ(Color::toRGB(hsv), expected);
+
+  hsv.h = 61;
+  expected = {125, 129, 0};
+  EXPECT_EQ(Color::toRGB(hsv), expected);
 }
 
 TEST(ColorTest, yellowDesaturated) {
@@ -84,12 +92,28 @@ TEST(ColorTest, cyan) {
   RGB expected = {0, 127, 127};
 
   EXPECT_EQ(Color::toRGB(hsv), expected);
+
+  hsv.h = 179;
+  expected = {0, 129, 125};
+  EXPECT_EQ(Color::toRGB(hsv), expected);
+
+  hsv.h = 181;
+  expected = {0, 125, 129};
+  EXPECT_EQ(Color::toRGB(hsv), expected);
 }
 
 TEST(ColorTest, magenta) {
   HSV hsv = {HUE_MAGENTA, 255, 255};
   RGB expected = {127, 0, 127};
 
+  EXPECT_EQ(Color::toRGB(hsv), expected);
+
+  hsv.h = 299;
+  expected = {125, 0, 129};
+  EXPECT_EQ(Color::toRGB(hsv), expected);
+
+  hsv.h = 301;
+  expected = {129, 0, 125};
   EXPECT_EQ(Color::toRGB(hsv), expected);
 }
 
