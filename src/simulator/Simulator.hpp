@@ -83,7 +83,8 @@ class Simulator : public OgreBites::ApplicationContext,
       Params::kWidth, Params::kPan, Params::kTilt,
   };
 
-  // Which param in the above vector is currently being adjusted
+  // Which param in the above vector is currently being adjusted by the
+  // keyboard.
   int16_t currentParamIndex = 0;
 
 // Functionality for reading param values from the serial port. This is for
