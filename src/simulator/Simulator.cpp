@@ -180,13 +180,15 @@ void Simulator::setup() {
   Ogre::Plane wall(Ogre::Vector3::UNIT_Z, 0);
   Ogre::MeshManager::getSingleton().createPlane(
       "wall", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, wall,
-      1000, 500, 20, 20, true, 1, 5, 5, Ogre::Vector3::UNIT_Y);
+      /* width */ SimulatorLightController::feetToCoords(12),
+      /* height */ SimulatorLightController::feetToCoords(10), 20, 20, true, 1,
+      5, 5, Ogre::Vector3::UNIT_Y);
   Ogre::Entity *wallEntity = scnMgr->createEntity("wall");
   wallEntity->setCastShadows(false);
   wallEntity->setMaterialName("Template/White");
   Ogre::SceneNode *wallNode =
       scnMgr->getRootSceneNode()->createChildSceneNode();
-  wallNode->setPosition(0, 250, 0);
+  wallNode->setPosition(0, SimulatorLightController::feetToCoords(10) / 2, 0);
   wallNode->attachObject(wallEntity);
 
   Ogre::Entity *obstacleEntity = scnMgr->createEntity("ninja.mesh");
@@ -194,7 +196,8 @@ void Simulator::setup() {
   obstacleEntity->setMaterialName("Template/OffBlack");
   Ogre::SceneNode *obstacleNode =
       scnMgr->getRootSceneNode()->createChildSceneNode();
-  obstacleNode->setPosition(100, 0, 300);
+  obstacleNode->setPosition(SimulatorLightController::feetToCoords(2), 0,
+                            SimulatorLightController::feetToCoords(5));
   obstacleNode->attachObject(obstacleEntity);
 
   scnMgr->setAmbientLight(Ogre::ColourValue(0, 0, 0));

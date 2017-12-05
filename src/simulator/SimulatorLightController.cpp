@@ -11,21 +11,21 @@ SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
               {6, 7, 8, 9, 10, 11, 12, 13, 14},
               {0, 15, 0, 16, 17, 18, 0, 19, 0}};
 
-  const int16_t xOffset = 100;
-  const int16_t yOffset = 100;
-  const int16_t zOffset = 100;
+  // These are the distances between the lights in a single block.
+  const int16_t xOffset = inchesToCoords(12);
+  const int16_t yOffset = inchesToCoords(24);
 
-  const int16_t leftBlockX = -500;
-  const int16_t leftBlockY = 100;
-  const int16_t leftBlockZ = 800;
+  const int16_t leftBlockX = feetToCoords(-5);
+  const int16_t leftBlockY = inchesToCoords(24);
+  const int16_t leftBlockZ = feetToCoords(20);
 
-  const int16_t centerBlockX = 0;
-  const int16_t centerBlockY = 100;
-  const int16_t centerBlockZ = 800;
+  const int16_t centerBlockX = feetToCoords(0);
+  const int16_t centerBlockY = inchesToCoords(24);
+  const int16_t centerBlockZ = feetToCoords(20);
 
-  const int16_t rightBlockX = 500;
-  const int16_t rightBlockY = 100;
-  const int16_t rightBlockZ = 800;
+  const int16_t rightBlockX = feetToCoords(5);
+  const int16_t rightBlockY = inchesToCoords(24);
+  const int16_t rightBlockZ = feetToCoords(20);
 
   lightIdMap[1] =
       createLight(Ogre::Vector3(leftBlockX, leftBlockY + yOffset, leftBlockZ));
@@ -138,4 +138,13 @@ Ogre::Light *SimulatorLightController::createLight(
                             /* quadratic */ 0.0);
 
   return spotLight;
+}
+
+int SimulatorLightController::inchesToCoords(int inches) {
+  // 64" == 5'4". Model is 192 units tall.
+  return (inches * 192) / 64;
+}
+
+int SimulatorLightController::feetToCoords(int feet) {
+  return inchesToCoords(12 * feet);
 }

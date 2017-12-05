@@ -22,6 +22,14 @@ class SimulatorLightController : public LightController {
 
   uint16_t GetMs() override;
 
+  /*
+   * Converts inches to the x-y-z coordinates used by Ogre. This is all
+   * relative to the height of the ninja mesh used, which is 192 coordinate
+   * units tall. This assumes that the ninja is 5'4" (average human height).
+   */
+  static int inchesToCoords(int inches);
+  static int feetToCoords(int inches);
+
  private:
   Ogre::Light *createLight(Ogre::Vector3 const position);
 
