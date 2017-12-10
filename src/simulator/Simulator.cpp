@@ -218,15 +218,15 @@ void Simulator::setup() {
   try {
     // TODO: make this a flag
     serialPort = new boost::asio::serial_port(io_service_, "/dev/ttyACM0");
+
+    serialPort->async_read_some(
+        boost::asio::buffer(serialBuf, kSerialBufSize),
+        boost::bind(&Simulator::read_handler, this,
+                    boost::asio::placeholders::error,
+                    boost::asio::placeholders::bytes_transferred));
   } catch (const boost::system::system_error &ex) {
     std::cerr << "Unable to open serial port: " << ex.what() << std::endl;
   }
-
-  serialPort->async_read_some(
-      boost::asio::buffer(serialBuf, kSerialBufSize),
-      boost::bind(&Simulator::read_handler, this,
-                  boost::asio::placeholders::error,
-                  boost::asio::placeholders::bytes_transferred));
 #endif
 }
 
