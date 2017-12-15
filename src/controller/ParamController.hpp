@@ -28,6 +28,9 @@ enum class Params {
 
   // The up-down shift.
   kTilt,
+
+  // The orientation of chosen lights. Probably either horizontal or vertical.
+  kOrientation,
 };
 
 /**

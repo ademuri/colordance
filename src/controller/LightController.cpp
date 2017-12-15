@@ -129,16 +129,39 @@ std::vector<std::vector<uint16_t>> LightController::GetLights(
 
 std::vector<uint16_t> LightController::GetLightsFromParams(
     ParamController *paramController) {
-  // There are a different number of lights based on which row we choose, so
-  // process tilt first.
-  const int16_t tilt =
-      paramController->GetScaled(Params::kTilt, 0, numRows - 1);
   std::vector<uint16_t> availableLights;
+  const int16_t orientation =
+      paramController->GetScaled(Params::kOrientation, 0, 1);
+  int16_t tilt;
 
-  for (int i = 0; i < lightIds[tilt].size(); i++) {
-    if (lightIds[tilt][i] != 0) {
-      availableLights.push_back(lightIds[tilt][i]);
-    }
+  // Depending on the orientation, choose lights in a vertical stack instead of
+  // horizontally. If vertical, pan and tilt are flipped.
+  switch (orientation) {
+    case 0:
+      // Horizontal (i.e. "normal")
+      tilt = paramController->GetScaled(Params::kTilt, 0, numRows - 1);
+
+      for (int i = 0; i < lightIds[tilt].size(); i++) {
+        if (lightIds[tilt][i] != 0) {
+          availableLights.push_back(lightIds[tilt][i]);
+        }
+      }
+      break;
+
+    case 1:
+      // Vertical (tilt and pan are flipped from normal)
+      tilt = paramController->GetScaled(Params::kTilt, 0, numCols - 1);
+
+      for (int i = 0; i < lightIds.size(); i++) {
+        if (lightIds[i][tilt] != 0) {
+          availableLights.push_back(lightIds[i][tilt]);
+        }
+      }
+      break;
+
+    default:
+      printf("Warning: hit unexpected default case in GetLightsFromParams\n");
+      break;
   }
 
   const int16_t numLights =

@@ -64,23 +64,24 @@ class Simulator : public OgreBites::ApplicationContext,
   // The list of params that are adjustable with the serial port.
   std::vector<Params> serialParams = {
       Params::kTempo,  // TODO: val
-      Params::kWidth, Params::kPan,
+      Params::kWidth,       Params::kPan,
       Params::kHue0,  // TODO: height
       Params::kHue0,  // TODO: sat
       Params::kTilt,  // 6
       Params::kHue0,  // 7
       Params::kHue1,  // 8
       Params::kHue2,  // 9
+      Params::kOrientation,
   };
 
   // These params have a large range (i.e. int16_t), and so we use modulus when
   // we read them in from serial.
   std::set<Params> infiniteParams = {
-      Params::kHue0, Params::kHue1, Params::kHue2,
+      Params::kHue0, Params::kHue1, Params::kHue2, Params::kOrientation,
   };
 
   std::set<Params> chooseLightParams = {
-      Params::kWidth, Params::kPan, Params::kTilt,
+      Params::kWidth, Params::kPan, Params::kTilt, Params::kOrientation,
   };
 
   // Which param in the above vector is currently being adjusted by the

@@ -8,6 +8,7 @@ ParamController::ParamController() {
   paramRangeMap[Params::kWidth] = 255;
   paramRangeMap[Params::kPan] = 255;
   paramRangeMap[Params::kTilt] = 255;
+  paramRangeMap[Params::kOrientation] = 255;
 }
 
 uint16_t ParamController::GetScaled(Params param, uint16_t min, uint16_t max) {
