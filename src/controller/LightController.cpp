@@ -126,3 +126,29 @@ std::vector<std::vector<uint16_t>> LightController::GetLights(
 
   return selectedLights;
 }
+
+std::vector<uint16_t> LightController::GetLightsFromParams(
+    ParamController *paramController) {
+  // There are a different number of lights based on which row we choose, so
+  // process tilt first.
+  const int16_t tilt =
+      paramController->GetScaled(Params::kTilt, 0, numRows - 1);
+  std::vector<uint16_t> availableLights;
+
+  for (int i = 0; i < lightIds[tilt].size(); i++) {
+    if (lightIds[tilt][i] != 0) {
+      availableLights.push_back(lightIds[tilt][i]);
+    }
+  }
+
+  const int16_t numLights =
+      paramController->GetScaled(Params::kWidth, 1, availableLights.size());
+  const int16_t pan = paramController->GetScaled(
+      Params::kPan, 0, availableLights.size() - numLights);
+  std::vector<uint16_t> chosenLights;
+  for (int i = 0; i < numLights; i++) {
+    chosenLights.push_back(availableLights[i + pan]);
+  }
+
+  return chosenLights;
+}

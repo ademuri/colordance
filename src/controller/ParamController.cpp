@@ -18,6 +18,10 @@ uint16_t ParamController::GetScaled(Params param, uint16_t min, uint16_t max) {
   const int16_t expectedRange = max - min;
   const uint16_t actualRange = paramRangeMap[param];
 
+  if (expectedRange == 0) {
+    return min;
+  }
+
   // The result for this function uses integer division, so the remainder is
   // truncated. That means that the threshold for a value changing is at the
   // 'end' of the range - e.g. scaling from 0 to 10, 255->10 and 254->10. This

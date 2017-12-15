@@ -38,12 +38,10 @@ void SolidColorEffect::ChooseLights() {
   // no longer selected.
   std::vector<uint16_t> oldLightIds = lightIds;
 
-  const uint16_t numLights =
-      paramController->GetScaled(Params::kWidth, 1, lightController->numCols);
-  lightIds = lightController->GetLights(paramController, 1, numLights)[0];
-  hsvShift = 360 / numLights;
+  lightIds = lightController->GetLightsFromParams(paramController);
+  hsvShift = 360 / lightIds.size();
   hsv.h = paramController->Get(Params::kHue0);
-  hsv.v = 100 + (155 / numLights);
+  hsv.v = 100 + (155 / lightIds.size());
 
   TurnOffUnusedLights(oldLightIds, lightIds);
 }

@@ -40,8 +40,14 @@ class LightController {
    * by id 0.
    * TODO: make this respect parameters (e.g. width, panning).
    */
-  virtual std::vector<std::vector<uint16_t>> GetLights(
-      ParamController *paramController, int16_t rows, int16_t cols);
+  std::vector<std::vector<uint16_t>> GetLights(ParamController *paramController,
+                                               int16_t rows, int16_t cols);
+
+  /*
+   * Gets a block of lights. The size and location will be based on the params.
+   * Unlike GetLights, no null IDs will be present.
+   */
+  std::vector<uint16_t> GetLightsFromParams(ParamController *paramController);
 
   /*
    * Gets the number of milliseconds the system has been running for. Used for
