@@ -19,7 +19,9 @@ void StrobeEffect::DoRun() {
   lightController->Set(lightIds[currentLight], adjustedHsv);
 
   if (currentLight == 0) {
-    lightController->Set(lightIds[lightIds.size() - 1], {0, 0, 0});
+    if (lightIds.size() > 1) {
+      lightController->Set(lightIds[lightIds.size() - 1], {0, 0, 0});
+    }
   } else {
     lightController->Set(lightIds[currentLight - 1], {0, 0, 0});
   }
@@ -33,11 +35,8 @@ void StrobeEffect::ChooseLights() {
   // no longer selected.
   std::vector<uint16_t> oldLightIds = lightIds;
 
-  // TODO: extract this logic into the LightController
-  const uint16_t numLights =
-      paramController->GetScaled(Params::kWidth, 2, lightController->numCols);
-  lightIds = lightController->GetLights(paramController, 1, numLights)[0];
-  hueAdjust = 320 / numLights;
+  lightIds = lightController->GetLightsFromParams(paramController);
+  hueAdjust = 320 / lightIds.size();
   TurnOffUnusedLights(oldLightIds, lightIds);
 }
 

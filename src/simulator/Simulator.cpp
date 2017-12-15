@@ -211,7 +211,7 @@ void Simulator::setup() {
   paramController->Set(Params::kWidth, 5);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
-  effect = new ColorShiftEffect(controller, paramController);
+  effect = new StrobeEffect(controller, paramController);
   effect->Run();
 
 #ifdef USE_BOOST
