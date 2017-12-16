@@ -6,6 +6,7 @@
 #include <OgreRenderWindow.h>
 #include <OgreSceneNode.h>
 #include <OgreViewport.h>
+#include <cmath>
 #include <iostream>
 #include "../controller/ColorShiftEffect.hpp"
 #include "../controller/DummyParamController.hpp"
@@ -194,11 +195,10 @@ void Simulator::setup() {
   Ogre::Entity *obstacleEntity = scnMgr->createEntity("ninja.mesh");
   obstacleEntity->setCastShadows(true);
   obstacleEntity->setMaterialName("Template/OffBlack");
-  Ogre::SceneNode *obstacleNode =
-      scnMgr->getRootSceneNode()->createChildSceneNode();
-  obstacleNode->setPosition(SimulatorLightController::feetToCoords(2), 0,
-                            SimulatorLightController::feetToCoords(5));
-  obstacleNode->attachObject(obstacleEntity);
+  ninjaNode = scnMgr->getRootSceneNode()->createChildSceneNode();
+  ninjaNode->setPosition(SimulatorLightController::feetToCoords(2), 0,
+                         SimulatorLightController::feetToCoords(5));
+  ninjaNode->attachObject(obstacleEntity);
 
   scnMgr->setAmbientLight(Ogre::ColourValue(0, 0, 0));
   scnMgr->setShadowTechnique(
@@ -232,6 +232,11 @@ void Simulator::setup() {
 
 bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
   effect->Run();
+
+  ninjaNode->setPosition(
+      SimulatorLightController::feetToCoords(2) * sin(ninjaClock / 60.0), 0,
+      SimulatorLightController::feetToCoords(5));
+  ninjaClock++;
 
   if ((keyDownDebounce % 3 == 0) &&
       (keyDownMap[ControlKeys::kDown] || keyDownMap[ControlKeys::kUp])) {

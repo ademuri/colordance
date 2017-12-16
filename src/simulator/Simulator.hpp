@@ -88,6 +88,9 @@ class Simulator : public OgreBites::ApplicationContext,
   // keyboard.
   int16_t currentParamIndex = 0;
 
+  Ogre::SceneNode *ninjaNode;
+  int ninjaClock = 0;
+
 // Functionality for reading param values from the serial port. This is for
 // reading params from a Teensy-based control surface, which sends the param
 // values over the serial port. This is optional, and requires Boost.
