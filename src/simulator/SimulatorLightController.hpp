@@ -16,8 +16,6 @@ class SimulatorLightController : public LightController {
  public:
   SimulatorLightController(Ogre::SceneManager *scnMgr);
 
-  void Set(const Lights light, HSV hsv) override;
-
   void Set(const uint16_t lightId, HSV hsv) override;
 
   uint16_t GetMs() override;

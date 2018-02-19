@@ -27,11 +27,6 @@ class LightController {
   /*
    * Sets the specified light to an RGB value corresponding to the given HSV.
    */
-  virtual void Set(const Lights light, HSV hsv) = 0;
-
-  /*
-   * Sets the specified light to an RGB value corresponding to the given HSV.
-   */
   virtual void Set(const uint16_t lightId, HSV hsv) = 0;
 
   /*

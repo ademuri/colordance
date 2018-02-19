@@ -75,14 +75,6 @@ SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
   numCols = 9;
 }
 
-void SimulatorLightController::Set(const Lights light, HSV hsv) {
-  RGB rgb = Color::toRGB(hsv);
-  lightMap[light]->setDiffuseColour(rgb.r / 255.0, rgb.g / 255.0,
-                                    rgb.b / 255.0);
-  lightMap[light]->setSpecularColour(rgb.r / 255.0, rgb.g / 255.0,
-                                     rgb.b / 255.0);
-}
-
 void SimulatorLightController::Set(const uint16_t lightId, HSV hsv) {
   if (lightId == 0) {
     // printf("Error: got 0 light id, hsv: {%d, %d, %d}\n", hsv.h, hsv.s,
