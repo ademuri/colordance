@@ -181,7 +181,7 @@ void Simulator::setup() {
   Ogre::Plane wall(Ogre::Vector3::UNIT_Z, 0);
   Ogre::MeshManager::getSingleton().createPlane(
       "wall", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, wall,
-      /* width */ SimulatorLightController::feetToCoords(12),
+      /* width */ SimulatorLightController::feetToCoords(13),
       /* height */ SimulatorLightController::feetToCoords(10), 20, 20, true, 1,
       5, 5, Ogre::Vector3::UNIT_Y);
   Ogre::Entity *wallEntity = scnMgr->createEntity("wall");
@@ -211,7 +211,7 @@ void Simulator::setup() {
   paramController->Set(Params::kWidth, 5);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
-  effect = new StrobeEffect(controller, paramController);
+  effect = new ThreeColorEffect(controller, paramController);
   effect->Run();
 
 #ifdef USE_BOOST
