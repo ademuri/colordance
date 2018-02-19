@@ -4,7 +4,10 @@
 #include <map>
 #include "../controller/ParamController.hpp"
 
-/** Reads params from a serial port, if present. Allows direct reading and setting params. */
+/**
+ * Reads params from a serial port, if present. Allows direct reading and
+ * setting params.
+ */
 class LocalParamController : public ParamController {
  public:
   LocalParamController();
@@ -18,4 +21,3 @@ class LocalParamController : public ParamController {
 };
 
 #endif
-
