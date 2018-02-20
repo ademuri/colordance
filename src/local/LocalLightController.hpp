@@ -5,13 +5,8 @@
 #include "../color/Color.hpp"
 #include "../controller/LightController.hpp"
 
-#include <boost/asio.hpp>
-#include <boost/asio/serial_port.hpp>
-
 /**
- * Used to control DMX lights by talking to an Arduino over its serial port.
- * The Arduino should use
- * https://github.com/PaulStoffregen/DmxSimple/blob/master/examples/SerialToDmx/SerialToDmx.pde
+ * Used to control DMX lights over an FTDI USB to RS485 adapter.
  */
 class LocalLightController : public LightController {
  public:
@@ -20,13 +15,13 @@ class LocalLightController : public LightController {
   void Set(const uint16_t lightId, HSV hsv) override;
   uint16_t GetMs() override;
 
+  /**
+   * Writes out all DMX data. Should be called once per loop. Moderately
+   * expensive (takes ~25ms to write 512 channels).
+   */
+  void WriteDmx();
+
  private:
-  boost::asio::io_service io_service_;
-  boost::asio::serial_port *serialPort = nullptr;
-
-  /** Maps from public light id to DMX starting channel. */
-  std::map<const uint16_t, const uint16_t> lightIdMap;
-
   const std::chrono::steady_clock::time_point startTime;
 
   /**
@@ -39,5 +34,22 @@ class LocalLightController : public LightController {
   const uint16_t kRedOffset = 4;
   const uint16_t kGreenOffset = 5;
   const uint16_t kBlueOffset = 6;
+
+  // TODO: size this once we know the actual number of physical lights.
+  // Should be <num lights> * 8 + 1.
+  static const int kSerialBufSize = 153;
+  unsigned char serialBuf[kSerialBufSize];
+
+  /**
+   * Map from light id (i.e. DMX starting channel) to the current color. When we
+   * send the DMX data, we have to send data to all of the lights, so we need to
+   * keep track of the state.
+   */
+  std::map<const uint16_t, RGB> idToColorMap;
+
+  /**
+   * FTDI context used for sending DMX signals.
+   */
+  struct ftdi_context *ftdi;
 };
 #endif
