@@ -211,7 +211,7 @@ void Simulator::setup() {
   paramController->Set(Params::kWidth, 5);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
-  effect = new ThreeColorEffect(controller, paramController);
+  effect = new ColorShiftEffect(controller, paramController);
   effect->Run();
 
 #ifdef USE_BOOST
@@ -224,6 +224,7 @@ void Simulator::setup() {
         boost::bind(&Simulator::read_handler, this,
                     boost::asio::placeholders::error,
                     boost::asio::placeholders::bytes_transferred));
+    std::cout << "Opened serial port successfully!\n";
   } catch (const boost::system::system_error &ex) {
     std::cerr << "Unable to open serial port: " << ex.what() << std::endl;
   }
@@ -236,7 +237,7 @@ bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
   ninjaNode->setPosition(
       SimulatorLightController::feetToCoords(2) * sin(ninjaClock / 60.0), 0,
       SimulatorLightController::feetToCoords(5));
-  ninjaClock++;
+  //ninjaClock++;
 
   if ((keyDownDebounce % 3 == 0) &&
       (keyDownMap[ControlKeys::kDown] || keyDownMap[ControlKeys::kUp])) {

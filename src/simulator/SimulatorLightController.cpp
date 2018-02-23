@@ -5,8 +5,34 @@
 #include <map>
 #include <utility>
 
-SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
-    : startTime(std::chrono::steady_clock::now()), scnMgr(scnMgr) {
+void SimulatorLightController::addGridLights(Ogre::SceneManager *scnMgr) {
+  const int16_t xCenter = 0;
+  const int16_t yCenter = inchesToCoords(24);
+  const int16_t zCenter = feetToCoords(20);
+
+  const int16_t xSpacing = inchesToCoords(5);
+  const int16_t ySpacing = inchesToCoords(5);
+
+  // Adds a 5x5 grid of lights
+  int lightId = 1;
+  for (int i = -2; i < 3; i++) {
+    std::vector<uint16_t> rowIds = {};
+    for (int j = -2; j < 3; j++) {
+      rowIds.push_back(lightId);
+      lightIdMap[lightId] = createLight(Ogre::Vector3(xCenter + xSpacing * j, yCenter + ySpacing * i, zCenter));
+
+      lightId++;
+    }
+    lightIds.push_back(rowIds);
+  }
+
+  numRows = 5;
+  numCols = 5;
+  centerLightCol = 3;
+  centerLightRow = 3;
+}
+
+void SimulatorLightController::addIndividualLights(Ogre::SceneManager *scnMgr) {
   lightIds = {{0, 1, 0, 2, 3, 4, 0, 5, 0},
               {6, 7, 8, 9, 10, 11, 12, 13, 14},
               {0, 15, 0, 16, 17, 18, 0, 19, 0}};
@@ -73,6 +99,11 @@ SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
 
   numRows = 3;
   numCols = 9;
+}
+
+SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
+    : startTime(std::chrono::steady_clock::now()), scnMgr(scnMgr) {
+  addGridLights(scnMgr);
 }
 
 void SimulatorLightController::Set(const uint16_t lightId, HSV hsv) {

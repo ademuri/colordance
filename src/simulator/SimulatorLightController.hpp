@@ -30,6 +30,8 @@ class SimulatorLightController : public LightController {
 
  private:
   Ogre::Light *createLight(Ogre::Vector3 const position);
+  void addIndividualLights(Ogre::SceneManager *scnMgr);
+  void addGridLights(Ogre::SceneManager *scnMgr);
 
   std::map<const Lights, Ogre::Light *> lightMap;
   std::map<const uint16_t, Ogre::Light *> lightIdMap;
