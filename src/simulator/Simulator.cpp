@@ -9,6 +9,7 @@
 #include <cmath>
 #include <iostream>
 #include "../controller/BounceEffect.hpp"
+#include "../controller/ColorShiftAndStrobeEffect.hpp"
 #include "../controller/ColorShiftEffect.hpp"
 #include "../controller/DummyParamController.hpp"
 #include "../controller/LightController.hpp"
@@ -209,10 +210,11 @@ void Simulator::setup() {
   paramController = new DummyParamController();
   paramController->Set(Params::kHue0, 120);
   paramController->Set(Params::kTempo, 200);
-  paramController->Set(Params::kWidth, 5);
+  paramController->Set(Params::kWidth, 200);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
-  effect = new BounceEffect(controller, paramController);
+  paramController->Set(Params::kOrientation, 255);
+  effect = new ColorShiftAndStrobeEffect(controller, paramController);
   effect->Run();
 
 #ifdef USE_BOOST
@@ -237,8 +239,8 @@ bool Simulator::frameEnded(const Ogre::FrameEvent &evt) {
 
   ninjaNode->setPosition(
       SimulatorLightController::feetToCoords(2) * sin(ninjaClock / 60.0), 0,
-      SimulatorLightController::feetToCoords(5));
-  //ninjaClock++;
+      SimulatorLightController::feetToCoords(10));
+  ninjaClock++;
 
   if ((keyDownDebounce % 3 == 0) &&
       (keyDownMap[ControlKeys::kDown] || keyDownMap[ControlKeys::kUp])) {

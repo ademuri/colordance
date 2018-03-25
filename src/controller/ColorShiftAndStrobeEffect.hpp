@@ -1,14 +1,14 @@
-#ifndef __BOUNCE_EFFECT_HPP__
-#define __BOUNCE_EFFECT_HPP__
+#ifndef __COLOR_SHIFT_AND_STROBE_EFFECT_HPP__
+#define __COLOR_SHIFT_AND_STROBE_EFFECT_HPP__
 
 #include <vector>
 #include "Effect.hpp"
 #include "LightController.hpp"
 
-class BounceEffect : public Effect {
+class ColorShiftAndStrobeEffect : public Effect {
  public:
-  BounceEffect(LightController *lightController,
-               ParamController *paramController);
+  ColorShiftAndStrobeEffect(LightController *lightController,
+                            ParamController *paramController);
 
   void BeatDetected() override;
 
@@ -23,13 +23,10 @@ class BounceEffect : public Effect {
  private:
   std::vector<uint16_t> lightIds;
 
-  int16_t numLights = 2;
-  int16_t leftLight = 0;
-  int16_t step = 1;
-
   HSV hsv = {HUE_RED, 255, 255};
   uint16_t hsvShift = 0;
   uint16_t hsvAdvance = 1;
+  bool lightsOn = true;
 };
 
 #endif

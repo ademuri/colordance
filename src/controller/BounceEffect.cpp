@@ -2,7 +2,7 @@
 #include "LightController.hpp"
 
 BounceEffect::BounceEffect(LightController *lightController,
-                                   ParamController *paramController)
+                           ParamController *paramController)
     : Effect(lightController, paramController) {
   // Choose lights
   ChooseLights();
@@ -42,7 +42,8 @@ void BounceEffect::ParamChanged(Params param) {
       break;
 
     case Params::kWidth:
-      numLights = paramController->GetScaled(Params::kWidth, 1, lightIds.size() - 1);
+      numLights =
+          paramController->GetScaled(Params::kWidth, 1, lightIds.size() - 1);
       if (leftLight + numLights > lightIds.size()) {
         leftLight = lightIds.size() - numLights;
       }
@@ -63,15 +64,18 @@ void BounceEffect::ChooseLights() {
   // no longer selected.
   std::vector<uint16_t> oldLightIds = lightIds;
 
-  //lightIds = lightController->GetLights(paramController, 1, paramController->GetScaled(Params::kWidth, 3, numCols));
-  lightIds = lightController->GetLights(paramController, 1, lightController->numCols)[0];
+  // lightIds = lightController->GetLights(paramController, 1,
+  // paramController->GetScaled(Params::kWidth, 3, numCols));
+  lightIds = lightController->GetLights(paramController, 1,
+                                        lightController->numCols)[0];
   hsvShift = 360 / lightIds.size() + 20;
   hsv.v = 100 + (310 / lightIds.size());
 
   TurnOffUnusedLights(oldLightIds, lightIds);
 
   if (lightIds.size() > 1) {
-    numLights = paramController->GetScaled(Params::kWidth, 1, lightIds.size() - 1);
+    numLights =
+        paramController->GetScaled(Params::kWidth, 1, lightIds.size() - 1);
     if (leftLight + numLights > lightIds.size()) {
       leftLight = lightIds.size() - numLights;
     }

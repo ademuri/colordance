@@ -19,7 +19,8 @@ void SimulatorLightController::addGridLights(Ogre::SceneManager *scnMgr) {
     std::vector<uint16_t> rowIds = {};
     for (int j = -2; j < 3; j++) {
       rowIds.push_back(lightId);
-      lightIdMap[lightId] = createLight(Ogre::Vector3(xCenter + xSpacing * j, yCenter + ySpacing * i, zCenter));
+      lightIdMap[lightId] = createLight(Ogre::Vector3(
+          xCenter + xSpacing * j, yCenter + ySpacing * i, zCenter));
 
       lightId++;
     }
