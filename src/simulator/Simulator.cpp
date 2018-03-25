@@ -17,6 +17,7 @@
 #include "../controller/SolidColorEffect.hpp"
 #include "../controller/StrobeEffect.hpp"
 #include "../controller/ThreeColorEffect.hpp"
+#include "../controller/UnevenSwitchStrobeEffect.hpp"
 #include "SimulatorLightController.hpp"
 
 #ifdef USE_BOOST
@@ -214,7 +215,7 @@ void Simulator::setup() {
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
   paramController->Set(Params::kOrientation, 255);
-  effect = new ColorShiftAndStrobeEffect(controller, paramController);
+  effect = new UnevenSwitchStrobeEffect(controller, paramController);
   effect->Run();
 
 #ifdef USE_BOOST
