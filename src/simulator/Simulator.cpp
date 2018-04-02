@@ -215,7 +215,7 @@ void Simulator::setup() {
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
   paramController->Set(Params::kOrientation, 255);
-  effect = new UnevenSwitchStrobeEffect(controller, paramController);
+  effect = new SolidColorEffect(controller, paramController);
   effect->Run();
 
 #ifdef USE_BOOST
