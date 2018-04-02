@@ -25,6 +25,8 @@ void DummyLightController::Set(const uint16_t lightId, HSV hsv) {
   lights[lightId] = hsv;
 }
 
+void DummyLightController::Set(const uint16_t lightId, RGB rgb) {}
+
 HSV DummyLightController::Get(const uint16_t lightId) {
   return lights[lightId];
 }

@@ -20,10 +20,12 @@ void StrobeEffect::DoRun() {
 
   if (currentLight == 0) {
     if (lightIds.size() > 1) {
-      lightController->Set(lightIds[lightIds.size() - 1], {0, 0, 0});
+      HSV hsv = {0, 0, 0};
+      lightController->Set(lightIds[lightIds.size() - 1], hsv);
     }
   } else {
-    lightController->Set(lightIds[currentLight - 1], {0, 0, 0});
+    HSV hsv = {0, 0, 0};
+    lightController->Set(lightIds[currentLight - 1], hsv);
   }
 
   hsv.h += 10;

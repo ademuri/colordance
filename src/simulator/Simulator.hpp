@@ -58,14 +58,14 @@ class Simulator : public OgreBites::ApplicationContext,
 
   // The list of params that are adjustable with the arrow keys
   std::vector<Params> adjustableParams = {
-      Params::kTempo, Params::kWidth, Params::kPan, Params::kTilt, Params::kOrientation,
+      Params::kTempo, Params::kWidth,       Params::kPan,
+      Params::kTilt,  Params::kOrientation,
   };
 
   // The list of params that are adjustable with the serial port.
   std::vector<Params> serialParams = {
       Params::kTempo,  // TODO: val
-      Params::kWidth,       Params::kPan,
-      Params::kHue0,  // TODO: height
+      Params::kWidth,       Params::kPan, Params::kParam,
       Params::kHue0,  // TODO: sat
       Params::kTilt,  // 6
       Params::kHue0,  // 7

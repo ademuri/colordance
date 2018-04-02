@@ -107,14 +107,13 @@ SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
   addGridLights(scnMgr);
 }
 
-void SimulatorLightController::Set(const uint16_t lightId, HSV hsv) {
+void SimulatorLightController::Set(const uint16_t lightId, RGB rgb) {
   if (lightId == 0) {
     // printf("Error: got 0 light id, hsv: {%d, %d, %d}\n", hsv.h, hsv.s,
     // hsv.v);
     return;
   }
 
-  RGB rgb = Color::toRGB(hsv);
   lightIdMap[lightId]->setDiffuseColour(rgb.r / 255.0, rgb.g / 255.0,
                                         rgb.b / 255.0);
   lightIdMap[lightId]->setSpecularColour(rgb.r / 255.0, rgb.g / 255.0,

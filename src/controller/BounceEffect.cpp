@@ -10,13 +10,16 @@ BounceEffect::BounceEffect(LightController *lightController,
 
 void BounceEffect::DoRun() {
   for (uint16_t i = 0; i < leftLight; i++) {
-    lightController->Set(lightIds[i], {0, 0, 0});
+    HSV hsv = {0, 0, 0};
+    lightController->Set(lightIds[i], hsv);
   }
   for (uint16_t i = leftLight; i < leftLight + numLights; i++) {
-    lightController->Set(lightIds[i], {hsv.h + i * hsvShift, hsv.s, hsv.v});
+    HSV hsv = {hsv.h + i * hsvShift, hsv.s, hsv.v};
+    lightController->Set(lightIds[i], hsv);
   }
   for (uint16_t i = leftLight + numLights; i < lightIds.size(); i++) {
-    lightController->Set(lightIds[i], {0, 0, 0});
+    HSV hsv = {0, 0, 0};
+    lightController->Set(lightIds[i], hsv);
   }
 
   leftLight += step;

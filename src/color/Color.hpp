@@ -16,7 +16,7 @@ inline bool operator==(const RGB &x, const RGB &y) {
 
 struct HSV {
   /* Hue. Ranges from 0 to 359. */
-  uint16_t h;
+  int16_t h;
 
   /* Saturation. Ranges from 0 to 255. */
   uint8_t s;

@@ -12,9 +12,11 @@ ColorShiftAndStrobeEffect::ColorShiftAndStrobeEffect(
 void ColorShiftAndStrobeEffect::DoRun() {
   for (uint16_t i = 0; i < lightIds.size(); i++) {
     if (lightsOn) {
-      lightController->Set(lightIds[i], {hsv.h + i * hsvShift, hsv.s, hsv.v});
+      HSV hsv = {hsv.h + i * hsvShift, hsv.s, hsv.v};
+      lightController->Set(lightIds[i], hsv);
     } else {
-      lightController->Set(lightIds[i], {0, 0, 0});
+      HSV hsv = {0, 0, 0};
+      lightController->Set(lightIds[i], hsv);
     }
   }
 

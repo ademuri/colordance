@@ -31,6 +31,8 @@ enum class Params {
 
   // The orientation of chosen lights. Probably either horizontal or vertical.
   kOrientation,
+
+  kParam,
 };
 
 /**

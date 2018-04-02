@@ -27,7 +27,12 @@ class LightController {
   /*
    * Sets the specified light to an RGB value corresponding to the given HSV.
    */
-  virtual void Set(const uint16_t lightId, HSV hsv) = 0;
+  virtual void Set(const uint16_t lightId, HSV hsv);
+
+  /*
+   * Sets the specified light to an RGB value corresponding to the given RGB.
+   */
+  virtual void Set(const uint16_t lightId, RGB rgb) = 0;
 
   /*
    * Gets a block of lights with the specified dimensions. Lights aren't

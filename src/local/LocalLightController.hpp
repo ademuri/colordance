@@ -12,7 +12,7 @@ class LocalLightController : public LightController {
  public:
   LocalLightController();
 
-  void Set(const uint16_t lightId, HSV hsv) override;
+  void Set(const uint16_t lightId, RGB rgb) override;
   uint16_t GetMs() override;
 
   /**

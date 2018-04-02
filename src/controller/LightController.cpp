@@ -6,6 +6,10 @@
 
 #define DEBUG_LIGHT_CHOICE
 
+void LightController::Set(const uint16_t lightId, HSV hsv) {
+  Set(lightId, Color::toRGB(hsv));
+}
+
 std::vector<std::vector<uint16_t>> LightController::GetLights(
     ParamController *paramController, int16_t rows, int16_t cols) {
   std::vector<std::vector<uint16_t>> selectedLights;

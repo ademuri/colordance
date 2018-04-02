@@ -23,7 +23,8 @@ void Effect::TurnOffUnusedLights(const std::vector<uint16_t> &oldLightIds,
     if (std::find(currentLightIds.begin(), currentLightIds.end(), *it) ==
         currentLightIds.end()) {
       // Light was picked before, and now it's not
-      lightController->Set(*it, {0, 0, 0});
+      HSV hsv = {0, 0, 0};
+      lightController->Set(*it, hsv);
     }
   }
 }

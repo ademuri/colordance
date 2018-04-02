@@ -10,6 +10,8 @@ UnevenSwitchStrobeEffect::UnevenSwitchStrobeEffect(
 }
 
 void UnevenSwitchStrobeEffect::DoRun() {
+  HSV off = {0, 0, 0};
+
   switch (strobeCounter) {
     case 0:
       lightController->Set(lightIds[0], hsv1);
@@ -18,8 +20,8 @@ void UnevenSwitchStrobeEffect::DoRun() {
       break;
 
     case 1:
-      lightController->Set(lightIds[0], {0, 0, 0});
-      lightController->Set(lightIds[1], {0, 0, 0});
+      lightController->Set(lightIds[0], off);
+      lightController->Set(lightIds[1], off);
       SleepMs(100);
       break;
 
@@ -30,8 +32,8 @@ void UnevenSwitchStrobeEffect::DoRun() {
       break;
 
     case 3:
-      lightController->Set(lightIds[0], {0, 0, 0});
-      lightController->Set(lightIds[1], {0, 0, 0});
+      lightController->Set(lightIds[0], off);
+      lightController->Set(lightIds[1], off);
       SleepMs(paramController->GetScaled(Params::kTempo, 1000, 200));
       break;
 

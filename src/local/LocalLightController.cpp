@@ -49,8 +49,7 @@ LocalLightController::LocalLightController()
   }
 }
 
-void LocalLightController::Set(const uint16_t lightId, HSV hsv) {
-  RGB rgb = Color::toRGB(hsv);
+void LocalLightController::Set(const uint16_t lightId, RGB rgb) {
   idToColorMap[lightId] = rgb;
 }
 
