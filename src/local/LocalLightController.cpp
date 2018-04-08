@@ -7,7 +7,20 @@
 
 LocalLightController::LocalLightController()
     : startTime(std::chrono::steady_clock::now()) {
-  lightIds = {{1, 9, 17}};
+  numRows = 5;
+  numCols = 5;
+
+  // The 5x5 matrix lights have RGB channels for each pixel, starting at channel
+  // 1
+  uint16_t id = 1;
+  for (int row = 0; row < numRows; row++) {
+    std::vector<uint16_t> rowIds = {};
+    for (int col = 0; col < numCols; col++) {
+      rowIds.push_back(id);
+      id += 3;
+    }
+    lightIds.push_back(rowIds);
+  }
 
   std::vector<std::vector<uint16_t>>::iterator rowIt;
   std::vector<uint16_t>::iterator colIt;
@@ -16,9 +29,6 @@ LocalLightController::LocalLightController()
       idToColorMap[*colIt] = {0, 0, 0};
     }
   }
-
-  numRows = 1;
-  numCols = 3;
 
   // Initialize the FTDI device.
   if ((ftdi = ftdi_new()) == 0) {
@@ -67,7 +77,6 @@ void LocalLightController::WriteDmx() {
   std::vector<uint16_t>::iterator colIt;
   for (rowIt = lightIds.begin(); rowIt != lightIds.end(); rowIt++) {
     for (colIt = (*rowIt).begin(); colIt != (*rowIt).end(); colIt++) {
-      serialBuf[*colIt + kMasterOffset] = 255;
       serialBuf[*colIt + kRedOffset] = idToColorMap[*colIt].r;
       serialBuf[*colIt + kGreenOffset] = idToColorMap[*colIt].g;
       serialBuf[*colIt + kBlueOffset] = idToColorMap[*colIt].b;

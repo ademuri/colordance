@@ -30,10 +30,10 @@ class LocalLightController : public LightController {
    * 1-8. Channel 4 is the master brightness, and following three channels are
    * red, green, and blue.
    */
-  const uint16_t kMasterOffset = 3;
-  const uint16_t kRedOffset = 4;
-  const uint16_t kGreenOffset = 5;
-  const uint16_t kBlueOffset = 6;
+  const uint16_t kMasterOffset = 0;
+  const uint16_t kRedOffset = 0;
+  const uint16_t kGreenOffset = 1;
+  const uint16_t kBlueOffset = 2;
 
   // TODO: size this once we know the actual number of physical lights.
   // Should be <num lights> * 8 + 1.
