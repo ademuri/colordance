@@ -18,6 +18,9 @@ class CircleStrobeEffect : public Effect {
   void DoRun() override;
 
  private:
+  /** Utility to set the given light (and maybe adjacent lights) */
+  void setIndex(uint16_t index, const HSV &hsv);
+
   std::vector<uint16_t> lightIds;
 
   uint16_t currentLight = 0;

@@ -8,31 +8,38 @@ CircleStrobeEffect::CircleStrobeEffect(LightController *lightController,
   ChooseLights();
 }
 
+void CircleStrobeEffect::setIndex(uint16_t index, const HSV &hsv) {
+  HSV adjustedHsv = hsv;
+  adjustedHsv.h += hueAdjust;
+  lightController->Set(lightIds[index], adjustedHsv);
+
+  HSV secondHsv = adjustedHsv;
+  secondHsv.h = adjustedHsv.h + 20;
+  lightController->Set(lightIds[(index + 1) % lightIds.size()], secondHsv);
+
+  if (index == 0) {
+    if (lightIds.size() > 1) {
+      lightController->Set(lightIds[lightIds.size() - 1], {0, 0, 0});
+    }
+  } else {
+    lightController->Set(lightIds[index - 1], {0, 0, 0});
+  }
+}
+
 void CircleStrobeEffect::DoRun() {
   currentLight++;
   if (currentLight >= lightIds.size()) {
     currentLight = 0;
   }
 
-  HSV adjustedHsv = hsv;
-  adjustedHsv.h += hueAdjust;
-  lightController->Set(lightIds[currentLight], adjustedHsv);
+  setIndex(currentLight, hsv);
 
-  HSV secondHsv = adjustedHsv;
-  secondHsv.h = adjustedHsv.h + 120;
-  lightController->Set(lightIds[(currentLight + 1) % lightIds.size()],
-                       secondHsv);
-
-  if (currentLight == 0) {
-    if (lightIds.size() > 1) {
-      lightController->Set(lightIds[lightIds.size() - 1], {0, 0, 0});
-    }
-  } else {
-    lightController->Set(lightIds[currentLight - 1], {0, 0, 0});
-  }
+  HSV second = hsv;
+  second.h = hsv.h + 180;
+  setIndex((currentLight + lightIds.size() / 2) % lightIds.size(), second);
 
   hsv.h += 2;
-  SleepMs(paramController->GetScaled(Params::kTempo, 1000, 75));
+  SleepMs(paramController->GetScaled(Params::kTempo, 200, 10));
 }
 
 void CircleStrobeEffect::ChooseLights() {
