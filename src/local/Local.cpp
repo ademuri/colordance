@@ -1,5 +1,6 @@
 #include <cstdio>
 #include "../controller/BounceEffect.hpp"
+#include "../controller/CircleStrobeEffect.hpp"
 #include "../controller/ColorShiftAndStrobeEffect.hpp"
 #include "../controller/ColorShiftEffect.hpp"
 #include "../controller/Effect.hpp"
@@ -14,11 +15,11 @@ int main(int argc, char **argv) {
   LocalLightController *controller = new LocalLightController();
   ParamController *paramController = new LocalParamController();
   paramController->Set(Params::kHue0, 120);
-  paramController->Set(Params::kTempo, 100);
+  paramController->Set(Params::kTempo, 254);
   paramController->Set(Params::kWidth, 255);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
-  Effect *effect = new ColorShiftEffect(controller, paramController);
+  Effect *effect = new CircleStrobeEffect(controller, paramController);
 
   uint16_t runAtMs = 0;
   while (1) {

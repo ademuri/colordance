@@ -6,7 +6,7 @@ ColorShiftAndStrobeEffect::ColorShiftAndStrobeEffect(
     : Effect(lightController, paramController) {
   // Choose lights
   ChooseLights();
-  hsvAdvance = 0;
+  hsvAdvance = paramController->GetScaled(Params::kTempo, 0, 10);
 }
 
 void ColorShiftAndStrobeEffect::DoRun() {
@@ -29,8 +29,8 @@ void ColorShiftAndStrobeEffect::BeatDetected() { hsv.h += 60; }
 void ColorShiftAndStrobeEffect::ParamChanged(Params param) {
   switch (param) {
     case Params::kTempo:
-      // hsvAdvance = paramController->GetScaled(Params::kTempo, 0, 10);
-      hsvAdvance = 0;
+      hsvAdvance = paramController->GetScaled(Params::kTempo, 0, 10);
+      // hsvAdvance = 0;
       break;
 
     // TODO: handle other cases
@@ -50,8 +50,8 @@ void ColorShiftAndStrobeEffect::ChooseLights() {
   std::vector<uint16_t> oldLightIds = lightIds;
 
   lightIds = lightController->GetLightsFromParams(paramController);
-  // hsvShift = 180 / lightIds.size();
-  hsvShift = 2;
+  hsvShift = 180 / lightIds.size();
+  // hsvShift = 2;
   hsv.v = 100 + (310 / lightIds.size());
 
   TurnOffUnusedLights(oldLightIds, lightIds);
