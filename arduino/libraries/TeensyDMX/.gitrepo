@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/ssilverman/TeensyDMX
+	branch = master
+	commit = 746020871f92f1ff98d5794ccadf20122d58078a
+	parent = 98eefe75781b8bf17e034efd1e864f095b78abdd
+	cmdver = 0.3.1
