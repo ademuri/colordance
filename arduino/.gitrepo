@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:ademuri/teensy-template.git
+	branch = master
+	commit = 864345a6d36b94750a65e0e09c1e513bacbac2a5
+	parent = 474db5e9247beac53a41c18d77b9e8fff5be5812
+	cmdver = 0.3.1
