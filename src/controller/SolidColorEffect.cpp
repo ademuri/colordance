@@ -1,5 +1,4 @@
 #include "SolidColorEffect.hpp"
-#include <iostream>
 #include "LightController.hpp"
 
 SolidColorEffect::SolidColorEffect(LightController *lightController,

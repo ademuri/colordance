@@ -1,6 +1,5 @@
 #include "LightController.hpp"
 #include <cstdio>
-#include <iostream>
 #include <vector>
 #include "ParamController.hpp"
 

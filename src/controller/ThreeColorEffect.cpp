@@ -1,5 +1,4 @@
 #include "ThreeColorEffect.hpp"
-#include <iostream>
 #include "LightController.hpp"
 
 ThreeColorEffect::ThreeColorEffect(LightController *lightController,

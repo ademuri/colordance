@@ -2,7 +2,7 @@
 TARGET = $(notdir $(CURDIR))
 
 # The teensy version to use, 30, 31, 35, 36, or LC
-TEENSY = 36
+TEENSY = 35
 
 # Set to 24000000, 48000000, or 96000000 to set CPU core speed
 TEENSY_CORE_SPEED = 48000000
@@ -110,7 +110,7 @@ LCPP_FILES := $(wildcard $(LIBRARYPATH)/*/*.cpp)
 TC_FILES := $(wildcard $(COREPATH)/*.c)
 TCPP_FILES := $(wildcard $(COREPATH)/*.cpp)
 C_FILES := $(wildcard src/*.c)
-CPP_FILES := $(wildcard src/*.cpp)
+CPP_FILES := $(wildcard src/*.cpp) $(wildcard $(CURDIR)/../src/color/*.cpp) $(wildcard $(CURDIR)/../src/controller/*.cpp)
 INO_FILES := $(wildcard src/*.ino)
 
 # include paths for libraries
