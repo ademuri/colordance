@@ -1,6 +1,6 @@
 /* Teensyduino Core Library
  * http://www.pjrc.com/teensy/
- * Copyright (c) 2013 PJRC.COM, LLC.
+ * Copyright (c) 2017 PJRC.COM, LLC.
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -189,6 +189,7 @@ int usb_serial_putchar(uint8_t c)
 
 int usb_serial_write(const void *buffer, uint32_t size)
 {
+	uint32_t ret = size;
 	uint32_t len;
 	uint32_t wait_count;
 	const uint8_t *src = (const uint8_t *)buffer;
@@ -231,7 +232,7 @@ int usb_serial_write(const void *buffer, uint32_t size)
 		usb_cdc_transmit_flush_timer = TRANSMIT_FLUSH_TIMEOUT;
 	}
 	tx_noautoflush = 0;
-	return 0;
+	return ret;
 }
 
 int usb_serial_write_buffer_free(void)

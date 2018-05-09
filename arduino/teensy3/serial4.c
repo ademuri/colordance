@@ -1,6 +1,6 @@
 /* Teensyduino Core Library
  * http://www.pjrc.com/teensy/
- * Copyright (c) 2013 PJRC.COM, LLC.
+ * Copyright (c) 2017 PJRC.COM, LLC.
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -44,8 +44,8 @@
 #ifndef SERIAL4_RX_BUFFER_SIZE
 #define SERIAL4_RX_BUFFER_SIZE     64 // number of incoming bytes to buffer
 #endif
-#define RTS_HIGH_WATERMARK 40 // RTS requests sender to pause
-#define RTS_LOW_WATERMARK  26 // RTS allows sender to resume
+#define RTS_HIGH_WATERMARK (SERIAL4_RX_BUFFER_SIZE-24) // RTS requests sender to pause
+#define RTS_LOW_WATERMARK  (SERIAL4_RX_BUFFER_SIZE-38) // RTS allows sender to resume
 #define IRQ_PRIORITY  64  // 0 = highest priority, 255 = lowest
 
 
@@ -112,6 +112,7 @@ void serial4_begin(uint32_t divisor)
 		case 32: CORE_PIN32_CONFIG = PORT_PCR_DSE | PORT_PCR_SRE | PORT_PCR_MUX(3); break;
 		case 62: CORE_PIN62_CONFIG = PORT_PCR_DSE | PORT_PCR_SRE | PORT_PCR_MUX(3); break;
 	}
+	if (divisor < 32) divisor = 32;
 	UART3_BDH = (divisor >> 13) & 0x1F;
 	UART3_BDL = (divisor >> 5) & 0xFF;
 	UART3_C4 = divisor & 0x1F;
@@ -159,8 +160,6 @@ void serial4_end(void)
 	while (transmitting) yield();  // wait for buffered data to send
 	NVIC_DISABLE_IRQ(IRQ_UART3_STATUS);
 	UART3_C2 = 0;
-	CORE_PIN31_CONFIG = PORT_PCR_PE | PORT_PCR_PS | PORT_PCR_MUX(1);
-	CORE_PIN32_CONFIG = PORT_PCR_PE | PORT_PCR_PS | PORT_PCR_MUX(1);
 	switch (rx_pin_num) {
 		case 31: CORE_PIN31_CONFIG = PORT_PCR_PE | PORT_PCR_PS | PORT_PCR_MUX(1); break; // PTC3
 		case 63: CORE_PIN63_CONFIG = 0; break;
@@ -199,8 +198,8 @@ void serial4_set_tx(uint8_t pin, uint8_t opendrain)
 			cfg = PORT_PCR_DSE | PORT_PCR_SRE;
 		}
 		switch (pin & 127) {
-			case 32:  CORE_PIN32_CONFIG = cfg | PORT_PCR_MUX(3); break;
-			case 62: CORE_PIN62_CONFIG = cfg | PORT_PCR_MUX(3);; break;
+			case 32: CORE_PIN32_CONFIG = cfg | PORT_PCR_MUX(3); break;
+			case 62: CORE_PIN62_CONFIG = cfg | PORT_PCR_MUX(3); break;
 		}
 	}
 	tx_pin_num = pin;

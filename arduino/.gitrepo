@@ -6,6 +6,6 @@
 [subrepo]
 	remote = git@github.com:ademuri/teensy-template.git
 	branch = master
-	commit = 864345a6d36b94750a65e0e09c1e513bacbac2a5
-	parent = 474db5e9247beac53a41c18d77b9e8fff5be5812
+	commit = c360d560dadecfe9d87289a7519a5256e9bd047c
+	parent = 23c84f2166dde589daef38f4f8f7d16881ce80a6
 	cmdver = 0.3.1
