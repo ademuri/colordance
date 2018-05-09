@@ -3,7 +3,7 @@
 #include <vector>
 #include "ParamController.hpp"
 
-#define DEBUG_LIGHT_CHOICE
+//#define DEBUG_LIGHT_CHOICE
 
 std::vector<std::vector<uint16_t>> LightController::GetLights(
     ParamController *paramController, int16_t rows, int16_t cols) {
@@ -16,10 +16,13 @@ std::vector<std::vector<uint16_t>> LightController::GetLights(
   // same size.
   // TODO: do something different in production?
   if (rows > numRows || cols > numCols) {
+#ifndef ARDUINO
+    // TODO: use a better solution than ifndef
     printf(
         "Rows or cols too big in GetLights: requested (%u, %u), present "
         "(%d, %d).\n",
         rows, cols, numRows, numCols);
+#endif
     rows = numRows;
     cols = numCols;
   }
@@ -159,7 +162,9 @@ std::vector<uint16_t> LightController::GetLightsFromParams(
       break;
 
     default:
+#ifndef ARDUINO
       printf("Warning: hit unexpected default case in GetLightsFromParams\n");
+#endif
       break;
   }
 

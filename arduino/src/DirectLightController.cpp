@@ -1,28 +1,31 @@
 #include "WProgram.h"
 #include "DirectLightController.hpp"
-#include "../../src/Color.hpp"
+#include "../../src/color/Color.hpp"
 
 
 DirectLightController::DirectLightController() {
-  lightIds = {};
   int currentId = 1;
-  for (int rows = 0; rows < 5; row++) {
-    std::vector<uint16_t> row = {};
-    for (int cols = 0; cols < 5; cols++) {
-      row.push_back(currentId);
+  for (int row = 0; row < 5; row++) {
+    std::vector<uint16_t> rowIds;
+    for (int col = 0; col < 5; col++) {
+      rowIds.push_back(currentId);
       currentId += 3;
     }
-    lightIds.push_back(row);
+    lightIds.push_back(rowIds);
   }
   dmx.begin();
-  dmx.setPacketSize(80);
+  // TODO: this needs to be some magic minimum value for DMX to work (?)
+  dmx.setPacketSize(192);
+
+  numRows = 5;
+  numCols = 5;
 }
 
 void DirectLightController::Set(const uint16_t lightId, HSV hsv) {
   RGB rgb = Color::toRGB(hsv);
-  dmx.set(lightId * 3, rgb.r);
-  dmx.set(lightId * 3 + 1, rgb.g);
-  dmx.set(lightId * 3 + 2, rgb.b);
+  dmx.set(lightId, rgb.r);
+  dmx.set(lightId + 1, rgb.g);
+  dmx.set(lightId + 2, rgb.b);
 }
 
 uint16_t DirectLightController::GetMs() {

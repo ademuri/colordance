@@ -5,7 +5,7 @@
 #include "../../src/controller/LightController.hpp"
 
 // From https://github.com/ssilverman/TeensyDMX
-#include "TeensyDMX.h"
+#include "../libraries/TeensyDMX/src/TeensyDMX.h"
 
 namespace teensydmx = ::qindesign::teensydmx;
 
