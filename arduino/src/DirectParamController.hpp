@@ -19,6 +19,9 @@ class DirectParamController : public ParamController {
 
  private:
   std::map<const Params, uint16_t> params;
+
+  // Pins
+  const int kWidthPin = A2;
 };
 
 #endif
