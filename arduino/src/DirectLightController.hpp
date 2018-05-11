@@ -10,15 +10,14 @@
 namespace teensydmx = ::qindesign::teensydmx;
 
 class DirectLightController : public LightController {
-  public:
-    DirectLightController();
+ public:
+  DirectLightController();
 
-    void Set(const uint16_t lightId, HSV hsv) override;
-    uint16_t GetMs() override;
+  void Set(const uint16_t lightId, HSV hsv) override;
+  uint16_t GetMs() override;
 
-  private:
-    teensydmx::Sender dmx{Serial2};
-
+ private:
+  teensydmx::Sender dmx{Serial2};
 };
 
 #endif

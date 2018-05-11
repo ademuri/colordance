@@ -1,7 +1,6 @@
-#include "WProgram.h"
 #include "DirectLightController.hpp"
 #include "../../src/color/Color.hpp"
-
+#include "WProgram.h"
 
 DirectLightController::DirectLightController() {
   int currentId = 1;
@@ -28,6 +27,4 @@ void DirectLightController::Set(const uint16_t lightId, HSV hsv) {
   dmx.set(lightId + 2, rgb.b);
 }
 
-uint16_t DirectLightController::GetMs() {
-  return millis();
-}
+uint16_t DirectLightController::GetMs() { return millis(); }

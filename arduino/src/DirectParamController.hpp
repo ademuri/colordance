@@ -25,4 +25,3 @@ class DirectParamController : public ParamController {
 };
 
 #endif
-

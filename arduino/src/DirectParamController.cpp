@@ -1,5 +1,5 @@
-#include "WProgram.h"
 #include "DirectParamController.hpp"
+#include "WProgram.h"
 
 DirectParamController::DirectParamController() : ParamController() {}
 
