@@ -14,6 +14,7 @@ void ColorShiftEffect::DoRun() {
   }
 
   hsv.h += hsvAdvance;
+  SleepMs(2);
 }
 
 void ColorShiftEffect::BeatDetected() { hsv.h += 60; }
@@ -21,7 +22,7 @@ void ColorShiftEffect::BeatDetected() { hsv.h += 60; }
 void ColorShiftEffect::ParamChanged(Params param) {
   switch (param) {
     case Params::kTempo:
-      hsvAdvance = paramController->GetScaled(Params::kTempo, 1, 10);
+      hsvAdvance = paramController->GetScaled(Params::kTempo, 1, 8);
       break;
 
     // TODO: handle other cases

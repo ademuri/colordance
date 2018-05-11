@@ -33,7 +33,7 @@ extern "C" int main(void) {
   }*/
 
   DirectLightController *lightController = new DirectLightController();
-  ParamController *paramController = new DirectParamController();
+  DirectParamController *paramController = new DirectParamController();
   paramController->Set(Params::kHue0, 120);
   paramController->Set(Params::kTempo, 254);
   paramController->Set(Params::kWidth, 255);
@@ -53,8 +53,12 @@ extern "C" int main(void) {
   bool lightStatus = false;
   while (1) {
     effect->Run();
+
+    if (paramController->ScanForChanges(effect) != ParamChanged::kNone) {
+      effect->ChooseLights();
+    }
     // digitalWriteFast(13, lightStatus);
-    delay(5);
+    delay(3);
 
     lightStatus = !lightStatus;
   }
