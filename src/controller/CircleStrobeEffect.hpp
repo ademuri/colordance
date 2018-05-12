@@ -19,12 +19,12 @@ class CircleStrobeEffect : public Effect {
 
  private:
   /** Utility to set the given light (and maybe adjacent lights) */
-  void setIndex(uint16_t index, const HSV &hsv);
+  void setIndex(int16_t index, const HSV &hsv);
 
-  std::vector<uint16_t> lightIds;
+  std::vector<int16_t> lightIds;
 
-  uint16_t currentLight = 0;
-  uint16_t hueAdjust = 0;
+  int16_t currentLight = 0;
+  int16_t hueAdjust = 0;
 
   HSV hsv = {HUE_RED, 255, 255};
 };

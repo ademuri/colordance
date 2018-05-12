@@ -26,9 +26,9 @@ class ThreeColorEffect : public Effect {
   void DoRun() override;
 
  private:
-  uint16_t light1;
-  uint16_t light2;
-  uint16_t light3;
+  int16_t light1;
+  int16_t light2;
+  int16_t light3;
 
   HSV hsv1 = {HUE_RED, 255, 200};
   HSV hsv2 = {HUE_GREEN, 255, 200};

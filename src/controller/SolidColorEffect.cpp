@@ -10,7 +10,7 @@ SolidColorEffect::SolidColorEffect(LightController *lightController,
 void SolidColorEffect::BeatDetected() {}
 
 void SolidColorEffect::DoRun() {
-  for (uint16_t i = 0; i < lightIds.size(); i++) {
+  for (int16_t i = 0; i < lightIds.size(); i++) {
     lightController->Set(lightIds[i], {hsv.h + i * hsvShift, hsv.s, hsv.v});
   }
 }
@@ -35,7 +35,7 @@ void SolidColorEffect::ParamChanged(Params param) {
 void SolidColorEffect::ChooseLights() {
   // Keep track of the lights that were on before, and turn them off if they're
   // no longer selected.
-  std::vector<uint16_t> oldLightIds = lightIds;
+  std::vector<int16_t> oldLightIds = lightIds;
 
   lightIds = lightController->GetLightsFromParams(paramController);
   hsvShift = 360 / lightIds.size();

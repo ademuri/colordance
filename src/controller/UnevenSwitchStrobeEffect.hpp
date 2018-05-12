@@ -21,12 +21,12 @@ class UnevenSwitchStrobeEffect : public Effect {
   void DoRun() override;
 
  private:
-  std::vector<uint16_t> lightIds;
+  std::vector<int16_t> lightIds;
 
   HSV hsv1 = {HUE_RED, 255, 255};
   HSV hsv2 = {HUE_BLUE, 255, 255};
-  uint16_t hsvShift = 0;
-  uint16_t hsvAdvance = 1;
+  int16_t hsvShift = 0;
+  int16_t hsvAdvance = 1;
   // Counter for where we are in the on-off cycle
   int16_t strobeCounter = 0;
 };

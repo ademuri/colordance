@@ -27,7 +27,7 @@ class LightController {
   /*
    * Sets the specified light to an RGB value corresponding to the given HSV.
    */
-  virtual void Set(const uint16_t lightId, HSV hsv) = 0;
+  virtual void Set(const int16_t lightId, HSV hsv) = 0;
 
   /*
    * Gets a block of lights with the specified dimensions. Lights aren't
@@ -35,14 +35,14 @@ class LightController {
    * by id 0.
    * TODO: make this respect parameters (e.g. width, panning).
    */
-  std::vector<std::vector<uint16_t>> GetLights(ParamController *paramController,
-                                               int16_t rows, int16_t cols);
+  std::vector<std::vector<int16_t>> GetLights(ParamController *paramController,
+                                              int16_t rows, int16_t cols);
 
   /*
    * Gets a block of lights. The size and location will be based on the params.
    * Unlike GetLights, no null IDs will be present.
    */
-  std::vector<uint16_t> GetLightsFromParams(ParamController *paramController);
+  std::vector<int16_t> GetLightsFromParams(ParamController *paramController);
 
   /*
    * Gets the number of milliseconds the system has been running for. Used for
@@ -61,7 +61,7 @@ class LightController {
    * used by implementations of this class to identify lights. For DMX, this
    * will probaby be the starting DMX id of the light.
    */
-  std::vector<std::vector<uint16_t>> lightIds;
+  std::vector<std::vector<int16_t>> lightIds;
 
   /* The physical center row of lightIds. */
   int16_t centerLightRow;

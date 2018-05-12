@@ -41,8 +41,8 @@ void ThreeColorEffect::ParamChanged(Params param) {
 void ThreeColorEffect::ChooseLights() {
   // Keep track of the lights that were on before, and turn them off if they're
   // no longer selected.
-  std::vector<uint16_t> oldLightIds = {light1, light2, light3};
-  std::vector<uint16_t> lightIds =
+  std::vector<int16_t> oldLightIds = {light1, light2, light3};
+  std::vector<int16_t> lightIds =
       lightController->GetLights(paramController, 1, 3)[0];
   TurnOffUnusedLights(oldLightIds, lightIds);
 

@@ -69,7 +69,7 @@ void UnevenSwitchStrobeEffect::ParamChanged(Params param) {
 void UnevenSwitchStrobeEffect::ChooseLights() {
   // Keep track of the lights that were on before, and turn them off if they're
   // no longer selected.
-  std::vector<uint16_t> oldLightIds = lightIds;
+  std::vector<int16_t> oldLightIds = lightIds;
 
   lightIds = lightController->GetLights(paramController, 1, 2)[0];
 

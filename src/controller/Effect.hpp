@@ -41,8 +41,8 @@ class Effect {
   /* Effect-specific code. Must be overriden by subclasses. */
   virtual void DoRun() = 0;
 
-  void TurnOffUnusedLights(const std::vector<uint16_t> &oldLightIds,
-                           const std::vector<uint16_t> &currentLightIds);
+  void TurnOffUnusedLights(const std::vector<int16_t> &oldLightIds,
+                           const std::vector<int16_t> &currentLightIds);
 
   /*
    * Sleeps this effect for the specified number of milliseconds. DoRun won't be

@@ -5,7 +5,7 @@
 DirectLightController::DirectLightController() {
   int currentId = 1;
   for (int row = 0; row < 5; row++) {
-    std::vector<uint16_t> rowIds;
+    std::vector<int16_t> rowIds;
     for (int col = 0; col < 5; col++) {
       rowIds.push_back(currentId);
       currentId += 3;
@@ -22,7 +22,7 @@ DirectLightController::DirectLightController() {
   centerLightCol = 3;
 }
 
-void DirectLightController::Set(const uint16_t lightId, HSV hsv) {
+void DirectLightController::Set(const int16_t lightId, HSV hsv) {
   RGB rgb = Color::toRGB(hsv);
   dmx.set(lightId, rgb.r);
   dmx.set(lightId + 1, rgb.g);

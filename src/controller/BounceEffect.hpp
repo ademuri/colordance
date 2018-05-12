@@ -21,15 +21,15 @@ class BounceEffect : public Effect {
   void DoRun() override;
 
  private:
-  std::vector<uint16_t> lightIds;
+  std::vector<int16_t> lightIds;
 
   int16_t numLights = 2;
   int16_t leftLight = 0;
   int16_t step = 1;
 
   HSV hsv = {HUE_RED, 255, 255};
-  uint16_t hsvShift = 0;
-  uint16_t hsvAdvance = 1;
+  int16_t hsvShift = 0;
+  int16_t hsvAdvance = 1;
 };
 
 #endif

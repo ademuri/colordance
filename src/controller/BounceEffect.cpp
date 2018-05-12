@@ -9,13 +9,13 @@ BounceEffect::BounceEffect(LightController *lightController,
 }
 
 void BounceEffect::DoRun() {
-  for (uint16_t i = 0; i < leftLight; i++) {
+  for (int16_t i = 0; i < leftLight; i++) {
     lightController->Set(lightIds[i], {0, 0, 0});
   }
-  for (uint16_t i = leftLight; i < leftLight + numLights; i++) {
+  for (int16_t i = leftLight; i < leftLight + numLights; i++) {
     lightController->Set(lightIds[i], {hsv.h + i * hsvShift, hsv.s, hsv.v});
   }
-  for (uint16_t i = leftLight + numLights; i < lightIds.size(); i++) {
+  for (int16_t i = leftLight + numLights; i < lightIds.size(); i++) {
     lightController->Set(lightIds[i], {0, 0, 0});
   }
 
@@ -62,7 +62,7 @@ void BounceEffect::ParamChanged(Params param) {
 void BounceEffect::ChooseLights() {
   // Keep track of the lights that were on before, and turn them off if they're
   // no longer selected.
-  std::vector<uint16_t> oldLightIds = lightIds;
+  std::vector<int16_t> oldLightIds = lightIds;
 
   // lightIds = lightController->GetLights(paramController, 1,
   // paramController->GetScaled(Params::kWidth, 3, numCols));

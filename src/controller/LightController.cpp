@@ -5,9 +5,9 @@
 
 //#define DEBUG_LIGHT_CHOICE
 
-std::vector<std::vector<uint16_t>> LightController::GetLights(
+std::vector<std::vector<int16_t>> LightController::GetLights(
     ParamController *paramController, int16_t rows, int16_t cols) {
-  std::vector<std::vector<uint16_t>> selectedLights;
+  std::vector<std::vector<int16_t>> selectedLights;
 
   const int16_t numRows = lightIds.size();
   const int16_t numCols = lightIds[0].size();
@@ -106,9 +106,9 @@ std::vector<std::vector<uint16_t>> LightController::GetLights(
     lowerRow += (totalTilt - lowerRow) - 1;
   }
 
-  for (uint16_t i = lowerRow; i <= upperRow; i++) {
-    std::vector<uint16_t> row;
-    for (uint16_t j = lowerCol; j <= upperCol; j++) {
+  for (int16_t i = lowerRow; i <= upperRow; i++) {
+    std::vector<int16_t> row;
+    for (int16_t j = lowerCol; j <= upperCol; j++) {
       row.push_back(lightIds[i][j]);
     }
     selectedLights.push_back(row);
@@ -116,9 +116,9 @@ std::vector<std::vector<uint16_t>> LightController::GetLights(
 
 #ifdef DEBUG_LIGHT_CHOICE
   printf("Selected lights: {");
-  for (uint16_t i = 0; i < selectedLights.size(); i++) {
+  for (int16_t i = 0; i < selectedLights.size(); i++) {
     printf(" {");
-    for (uint16_t j = 0; j < selectedLights[i].size() - 1; j++) {
+    for (int16_t j = 0; j < selectedLights[i].size() - 1; j++) {
       printf("%d, ", selectedLights[i][j]);
     }
     printf("%d}, ", selectedLights[i][selectedLights[i].size() - 1]);
@@ -129,9 +129,9 @@ std::vector<std::vector<uint16_t>> LightController::GetLights(
   return selectedLights;
 }
 
-std::vector<uint16_t> LightController::GetLightsFromParams(
+std::vector<int16_t> LightController::GetLightsFromParams(
     ParamController *paramController) {
-  std::vector<uint16_t> availableLights;
+  std::vector<int16_t> availableLights;
   const int16_t orientation =
       paramController->GetScaled(Params::kOrientation, 0, 1);
   int16_t tilt;
@@ -172,7 +172,7 @@ std::vector<uint16_t> LightController::GetLightsFromParams(
       paramController->GetScaled(Params::kWidth, 1, availableLights.size());
   const int16_t pan = paramController->GetScaled(
       Params::kPan, 0, availableLights.size() - numLights);
-  std::vector<uint16_t> chosenLights;
+  std::vector<int16_t> chosenLights;
   for (int i = 0; i < numLights; i++) {
     chosenLights.push_back(availableLights[i + pan]);
   }

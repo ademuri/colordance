@@ -33,7 +33,7 @@ void StrobeEffect::DoRun() {
 void StrobeEffect::ChooseLights() {
   // Keep track of the lights that were on before, and turn them off if they're
   // no longer selected.
-  std::vector<uint16_t> oldLightIds = lightIds;
+  std::vector<int16_t> oldLightIds = lightIds;
 
   lightIds = lightController->GetLightsFromParams(paramController);
   hueAdjust = 320 / lightIds.size();

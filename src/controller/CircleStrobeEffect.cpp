@@ -8,7 +8,7 @@ CircleStrobeEffect::CircleStrobeEffect(LightController *lightController,
   ChooseLights();
 }
 
-void CircleStrobeEffect::setIndex(uint16_t index, const HSV &hsv) {
+void CircleStrobeEffect::setIndex(int16_t index, const HSV &hsv) {
   HSV adjustedHsv = hsv;
   adjustedHsv.h += hueAdjust;
   lightController->Set(lightIds[index], adjustedHsv);
@@ -45,10 +45,10 @@ void CircleStrobeEffect::DoRun() {
 void CircleStrobeEffect::ChooseLights() {
   // Keep track of the lights that were on before, and turn them off if they're
   // no longer selected.
-  std::vector<uint16_t> oldLightIds = lightIds;
+  std::vector<int16_t> oldLightIds = lightIds;
   lightIds.clear();
 
-  std::vector<std::vector<uint16_t>> lightArray = lightController->GetLights(
+  std::vector<std::vector<int16_t>> lightArray = lightController->GetLights(
       paramController, lightController->numRows, lightController->numCols);
   const int colSize = lightArray[0].size();
 

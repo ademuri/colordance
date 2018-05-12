@@ -22,10 +22,10 @@ class SolidColorEffect : public Effect {
   void DoRun() override;
 
  private:
-  std::vector<uint16_t> lightIds;
+  std::vector<int16_t> lightIds;
 
   HSV hsv = {HUE_RED, 255, 255};
-  uint16_t hsvShift = 0;
+  int16_t hsvShift = 0;
 };
 
 #endif
