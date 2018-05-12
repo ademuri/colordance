@@ -26,14 +26,14 @@ class DirectParamController : public ParamController {
  public:
   DirectParamController();
 
-  uint16_t Get(Params param) override;
+  int16_t Get(Params param) override;
 
-  void Set(Params param, uint16_t val) override;
+  void Set(Params param, int16_t val) override;
 
   ParamChanged ScanForChanges(Effect *effect);
 
  private:
-  std::map<const Params, uint16_t> params;
+  std::map<const Params, int16_t> params;
 
   /** Maps from param to the pot pin */
   const std::map<const Params, const int> potParamMap = {

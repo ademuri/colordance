@@ -8,12 +8,12 @@ class DummyParamController : public ParamController {
  public:
   DummyParamController();
 
-  uint16_t Get(Params param) override;
+  int16_t Get(Params param) override;
 
-  void Set(Params param, uint16_t val) override;
+  void Set(Params param, int16_t val) override;
 
  private:
-  std::map<const Params, uint16_t> params;
+  std::map<const Params, int16_t> params;
 };
 
 #endif

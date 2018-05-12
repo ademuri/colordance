@@ -2,8 +2,8 @@
 
 DummyParamController::DummyParamController() : ParamController() {}
 
-uint16_t DummyParamController::Get(Params param) { return params[param]; }
+int16_t DummyParamController::Get(Params param) { return params[param]; }
 
-void DummyParamController::Set(Params param, uint16_t val) {
+void DummyParamController::Set(Params param, int16_t val) {
   params[param] = val;
 }

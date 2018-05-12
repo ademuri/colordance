@@ -42,10 +42,10 @@ class ParamController {
   ParamController();
 
   /*
-   * Gets the value of a param. Note that while the return type is uint16_t,
+   * Gets the value of a param. Note that while the return type is int16_t,
    * the semantic type could be an 8-bit value, a boolean, etc.
    */
-  virtual uint16_t Get(Params param) = 0;
+  virtual int16_t Get(Params param) = 0;
 
   /*
    * Gets a parameter scaled to the given range. min may be greater than max,
@@ -57,14 +57,14 @@ class ParamController {
    * Returns the param, wrapped around to be in the appropriate range for the
    * given param.
    */
-  uint16_t WrapParam(Params param, uint16_t val);
+  int16_t WrapParam(Params param, int16_t val);
 
   /**
    * Sets the value of a param. I'm not sure yet if this will be useful
    * outside of the simulator. Possible usages are for automatically changing
    * params (e.g. if no one is interacting with the control surface).
    */
-  virtual void Set(Params param, uint16_t val) = 0;
+  virtual void Set(Params param, int16_t val) = 0;
 
   /*
    * Sets the value of a param, scaled from 0 to the given max to the internal
@@ -73,8 +73,8 @@ class ParamController {
   void SetScaled(Params param, int16_t val, int16_t min, int16_t max);
 
   // The "neutral" (center) values for kPan and kTilt.
-  static const uint16_t kPanNeutral = 127;
-  static const uint16_t kTiltNeutral = 127;
+  static const int16_t kPanNeutral = 127;
+  static const int16_t kTiltNeutral = 127;
 
  private:
   std::map<const Params, int16_t> paramRangeMap;
