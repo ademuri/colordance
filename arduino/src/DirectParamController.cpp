@@ -12,6 +12,7 @@ void DirectParamController::Set(Params param, uint16_t val) {
 
 ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
   bool paramChanged = false;
+  bool chooseLights = false;
 
   for (std::map<const Params, const int>::const_iterator iter =
            potParamMap.begin();
@@ -24,7 +25,7 @@ ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
     }
   }
 
-  for (std::map<const Params, Encoder *>::iterator iter =
+  for (std::map<const Params, Encoder *const>::iterator iter =
            encoderParamMap.begin();
        iter != encoderParamMap.end(); iter++) {
     const int readValue = iter->second->read();
@@ -32,12 +33,17 @@ ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
       paramChanged = true;
       params[iter->first] = readValue;
       effect->ParamChanged(iter->first);
+
+      if (!chooseLights &&
+          chooseLightParams.find(iter->first) != chooseLightParams.end()) {
+        chooseLights = true;
+      }
     }
   }
 
   // TODO: return the correct value depending on the param
   if (paramChanged) {
-    return ParamChanged::kChooseLights;
+    return chooseLights ? ParamChanged::kChooseLights : ParamChanged::kOther;
   } else {
     return ParamChanged::kNone;
   }

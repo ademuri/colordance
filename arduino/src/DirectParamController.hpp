@@ -3,6 +3,7 @@
 
 #include <Encoder.h>
 #include <map>
+#include <set>
 #include "../../src/controller/Effect.hpp"
 #include "../../src/controller/ParamController.hpp"
 #include "WProgram.h"
@@ -42,10 +43,14 @@ class DirectParamController : public ParamController {
       {Params::kTempo, 17},
   };
 
-  std::map<const Params, Encoder *> encoderParamMap = {
+  std::map<const Params, Encoder *const> encoderParamMap = {
       {Params::kHue0, new Encoder(6, 7)},
       {Params::kHue1, new Encoder(4, 5)},
       {Params::kHue2, new Encoder(2, 3)},
+  };
+
+  const std::set<Params> chooseLightParams = {
+      Params::kWidth, Params::kPan, Params::kTilt, Params::kOrientation,
   };
 
   // Pins
