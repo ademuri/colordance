@@ -23,7 +23,7 @@ TEST(ParamControllerTest, GetScaled_scalePositive) {
   EXPECT_EQ(controller.GetScaled(Params::kTempo, 0, 128), 128);
 
   controller.Set(Params::kTempo, 127);
-  EXPECT_EQ(controller.GetScaled(Params::kTempo, 0, 128), 63);
+  EXPECT_EQ(controller.GetScaled(Params::kTempo, 0, 128), 64);
 }
 
 TEST(ParamControllerTest, GetScaled_roundsCorrectlyForSmallerRange) {
@@ -56,7 +56,7 @@ TEST(ParamControllerTest, GetScaled_scaleNegative) {
   EXPECT_EQ(controller.GetScaled(Params::kTempo, 128, 0), 0);
 
   controller.Set(Params::kTempo, 127);
-  EXPECT_EQ(controller.GetScaled(Params::kTempo, 128, 0), 65);
+  EXPECT_EQ(controller.GetScaled(Params::kTempo, 128, 0), 64);
 
   controller.Set(Params::kTempo, 2);
   EXPECT_EQ(controller.GetScaled(Params::kTempo, 128, 0), 127);

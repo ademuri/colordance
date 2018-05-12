@@ -11,26 +11,44 @@ ParamController::ParamController() {
   paramRangeMap[Params::kOrientation] = 255;
 }
 
-uint16_t ParamController::GetScaled(Params param, uint16_t min, uint16_t max) {
+int16_t ParamController::GetScaled(Params param, int16_t min, int16_t max) {
   // TODO: technically going from uint16 to int16 could result in clipping, but
   // it probably won't happen (param values shouldn't be near the limit of
   // int16).
   // Use a signed int so that we can have max < min
-  const int16_t expectedRange = max - min;
-  const uint16_t actualRange = paramRangeMap[param];
+  int16_t expectedRange = max - min;
+  const int16_t actualRange = paramRangeMap[param];
 
   if (expectedRange == 0) {
     return min;
   }
 
-  // The result for this function uses integer division, so the remainder is
-  // truncated. That means that the threshold for a value changing is at the
-  // 'end' of the range - e.g. scaling from 0 to 10, 255->10 and 254->10. This
-  // isn't a natural mapping. This offset simulates rounding up for the decimal
-  // place being ~>.5
-  const uint16_t offset = actualRange / expectedRange / 2;
+  // If expectedRange is even, then the number of bins returned is odd. In that
+  // case, add one to expectedRange so that the range is centered.
+  if (expectedRange % 2 == 0) {
+    if (expectedRange > 0) {
+      expectedRange++;
+    } else {
+      expectedRange--;
+    }
+  }
 
-  return min + ((Get(param) + offset) * expectedRange) / actualRange;
+  // return min + ((Get(param) + offset) * expectedRange) / actualRange;
+  int16_t val = min + Get(param) * expectedRange / actualRange;
+  if (max > min) {
+    if (val > max) {
+      val = max;
+    } else if (val < min) {
+      val = min;
+    }
+  } else if (min > max) {
+    if (val < max) {
+      val = max;
+    } else if (val > min) {
+      val = min;
+    }
+  }
+  return val;
 }
 
 uint16_t ParamController::WrapParam(Params param, uint16_t val) {

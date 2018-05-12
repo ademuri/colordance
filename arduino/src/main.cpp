@@ -38,7 +38,7 @@ extern "C" int main(void) {
   paramController->Set(Params::kWidth, 255);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
-  Effect *effect = new ThreeColorEffect(lightController, paramController);
+  Effect *effect = new SolidColorEffect(lightController, paramController);
 
   while (1) {
     effect->Run();

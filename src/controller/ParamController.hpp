@@ -51,7 +51,7 @@ class ParamController {
    * Gets a parameter scaled to the given range. min may be greater than max,
    * giving an inverted range.
    */
-  uint16_t GetScaled(Params param, uint16_t min, uint16_t max);
+  int16_t GetScaled(Params param, int16_t min, int16_t max);
 
   /*
    * Returns the param, wrapped around to be in the appropriate range for the
@@ -77,7 +77,7 @@ class ParamController {
   static const uint16_t kTiltNeutral = 127;
 
  private:
-  std::map<const Params, uint16_t> paramRangeMap;
+  std::map<const Params, int16_t> paramRangeMap;
 };
 
 #endif

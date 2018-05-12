@@ -6,7 +6,7 @@
 #include "DummyLightController.hpp"
 
 void setDefaultParams(DummyParamController *p) {
-  p->SetScaled(Params::kPan, 6, 0, 10);
+  p->SetScaled(Params::kPan, 5, 0, 10);
   p->SetScaled(Params::kTilt, 5, 0, 10);
 }
 
@@ -243,11 +243,11 @@ TEST(LightControllerTest, GetLightsFromParams_orientation) {
   p->SetScaled(Params::kTilt, 0, 0, 10);
   EXPECT_EQ(c.GetLightsFromParams(p), expected);
 
-  expected = {4, 7};
+  expected = {1, 4};
   p->SetScaled(Params::kWidth, 5, 0, 10);
   EXPECT_EQ(c.GetLightsFromParams(p), expected);
 
-  expected = {1, 4};
-  p->SetScaled(Params::kPan, 0, 0, 10);
+  expected = {4, 7};
+  p->SetScaled(Params::kPan, 10, 0, 10);
   EXPECT_EQ(c.GetLightsFromParams(p), expected);
 }
