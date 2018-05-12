@@ -27,4 +27,4 @@ void DirectLightController::Set(const uint16_t lightId, HSV hsv) {
   dmx.set(lightId + 2, rgb.b);
 }
 
-uint16_t DirectLightController::GetMs() { return millis(); }
+long DirectLightController::GetMs() { return millis(); }

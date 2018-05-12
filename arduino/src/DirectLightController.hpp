@@ -14,7 +14,7 @@ class DirectLightController : public LightController {
   DirectLightController();
 
   void Set(const uint16_t lightId, HSV hsv) override;
-  uint16_t GetMs() override;
+  long GetMs() override;
 
  private:
   teensydmx::Sender dmx{Serial2};

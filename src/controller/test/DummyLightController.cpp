@@ -19,7 +19,7 @@ DummyLightController::DummyLightController(const uint8_t rows,
   centerLightCol = cols / 2;
 }
 
-uint16_t DummyLightController::GetMs() { return 1; }
+long DummyLightController::GetMs() { return 1; }
 
 void DummyLightController::Set(const uint16_t lightId, HSV hsv) {
   lights[lightId] = hsv;

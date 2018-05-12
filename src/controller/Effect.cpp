@@ -12,9 +12,7 @@ void Effect::Run() {
   }
 }
 
-void Effect::SleepMs(uint16_t ms) {
-  this->runAtMs = lightController->GetMs() + ms;
-}
+void Effect::SleepMs(long ms) { this->runAtMs = lightController->GetMs() + ms; }
 
 void Effect::TurnOffUnusedLights(const std::vector<uint16_t> &oldLightIds,
                                  const std::vector<uint16_t> &currentLightIds) {

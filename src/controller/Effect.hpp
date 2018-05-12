@@ -48,7 +48,7 @@ class Effect {
    * Sleeps this effect for the specified number of milliseconds. DoRun won't be
    * called until this elapses.
    */
-  void SleepMs(uint16_t ms);
+  void SleepMs(long ms);
 
   /* Controls the output lights. */
   LightController *const lightController;
@@ -58,7 +58,7 @@ class Effect {
 
  private:
   /* When to call DoRun again. Used for SleepMs. */
-  uint16_t runAtMs = 0;
+  long runAtMs = 0;
 };
 
 #endif

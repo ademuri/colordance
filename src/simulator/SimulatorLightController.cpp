@@ -121,7 +121,7 @@ void SimulatorLightController::Set(const uint16_t lightId, HSV hsv) {
                                          rgb.b / 255.0);
 }
 
-uint16_t SimulatorLightController::GetMs() {
+long SimulatorLightController::GetMs() {
   const std::chrono::steady_clock::time_point endTime =
       std::chrono::steady_clock::now();
   return std::chrono::duration_cast<std::chrono::milliseconds>(endTime -

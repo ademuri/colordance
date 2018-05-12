@@ -49,7 +49,7 @@ class LightController {
    * timing (like millis() on Arduino).
    * TODO: should this live in a different class?
    */
-  virtual uint16_t GetMs() = 0;
+  virtual long GetMs() = 0;
 
   int16_t numRows = 0;
   int16_t numCols = 0;
