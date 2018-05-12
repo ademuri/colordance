@@ -30,12 +30,6 @@ void __throw_length_error(char const *e) {
 
 extern "C" int main(void) {
   pinMode(13, OUTPUT);
-  /*while (1) {
-          digitalWriteFast(13, HIGH);
-          delay(500);
-          digitalWriteFast(13, LOW);
-          delay(500);
-  }*/
 
   DirectLightController *lightController = new DirectLightController();
   DirectParamController *paramController = new DirectParamController();
@@ -46,25 +40,12 @@ extern "C" int main(void) {
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
   Effect *effect = new ThreeColorEffect(lightController, paramController);
 
-  digitalWriteFast(13, HIGH);
-  delay(500);
-  digitalWriteFast(13, LOW);
-  delay(500);
-
-  /*lightController->Set(1, {0, 255, 255});
-  lightController->Set(4, {0, 255, 255});
-  lightController->Set(7, {0, 255, 255});*/
-
-  bool lightStatus = false;
   while (1) {
     effect->Run();
 
     if (paramController->ScanForChanges(effect) != ParamChanged::kNone) {
       effect->ChooseLights();
     }
-    // digitalWriteFast(13, lightStatus);
     delay(3);
-
-    lightStatus = !lightStatus;
   }
 }
