@@ -1,4 +1,5 @@
 #include "DirectParamController.hpp"
+#include <Encoder.h>
 #include "WProgram.h"
 
 DirectParamController::DirectParamController() : ParamController() {}
@@ -12,8 +13,9 @@ void DirectParamController::Set(Params param, uint16_t val) {
 ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
   bool paramChanged = false;
 
-  std::map<const Params, const int>::const_iterator iter;
-  for (iter = potParamMap.begin(); iter != potParamMap.end(); iter++) {
+  for (std::map<const Params, const int>::const_iterator iter =
+           potParamMap.begin();
+       iter != potParamMap.end(); iter++) {
     const int readValue = analogRead(iter->second) >> 2;
     if (readValue != params[iter->first]) {
       paramChanged = true;
@@ -22,6 +24,21 @@ ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
     }
   }
 
+  for (std::map<const Params, Encoder *>::iterator iter =
+           encoderParamMap.begin();
+       iter != encoderParamMap.end(); iter++) {
+    const int readValue = iter->second->read();
+    if (readValue != params[iter->first]) {
+      paramChanged = true;
+      params[iter->first] = readValue;
+      effect->ParamChanged(iter->first);
+    }
+  }
+
   // TODO: return the correct value depending on the param
-  return ParamChanged::kChooseLights;
+  if (paramChanged) {
+    return ParamChanged::kChooseLights;
+  } else {
+    return ParamChanged::kNone;
+  }
 }

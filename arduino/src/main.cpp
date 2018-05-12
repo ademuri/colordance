@@ -1,5 +1,7 @@
 #include "../../src/controller/ColorShiftEffect.hpp"
+#include "../../src/controller/SolidColorEffect.hpp"
 #include "../../src/controller/StrobeEffect.hpp"
+#include "../../src/controller/ThreeColorEffect.hpp"
 #include "DirectLightController.hpp"
 #include "DirectParamController.hpp"
 #include "WProgram.h"
@@ -39,7 +41,7 @@ extern "C" int main(void) {
   paramController->Set(Params::kWidth, 255);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
-  Effect *effect = new ColorShiftEffect(lightController, paramController);
+  Effect *effect = new SolidColorEffect(lightController, paramController);
 
   digitalWriteFast(13, HIGH);
   delay(500);

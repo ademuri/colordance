@@ -1,6 +1,7 @@
 #ifndef __DIRECT_PARAM_CONTROLLER_HPP__
 #define __DIRECT_PARAM_CONTROLLER_HPP__
 
+#include <Encoder.h>
 #include <map>
 #include "../../src/controller/Effect.hpp"
 #include "../../src/controller/ParamController.hpp"
@@ -39,6 +40,12 @@ class DirectParamController : public ParamController {
       {Params::kPan, 16},
       {Params::kTilt, 23},
       {Params::kTempo, 17},
+  };
+
+  std::map<const Params, Encoder *> encoderParamMap = {
+      {Params::kHue0, new Encoder(6, 7)},
+      {Params::kHue1, new Encoder(4, 5)},
+      {Params::kHue2, new Encoder(2, 3)},
   };
 
   // Pins
