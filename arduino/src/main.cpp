@@ -44,7 +44,7 @@ extern "C" int main(void) {
   paramController->Set(Params::kWidth, 255);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
-  Effect *effect = new SolidColorEffect(lightController, paramController);
+  Effect *effect = new ThreeColorEffect(lightController, paramController);
 
   digitalWriteFast(13, HIGH);
   delay(500);
