@@ -31,6 +31,9 @@ enum class Params {
 
   // The orientation of chosen lights. Probably either horizontal or vertical.
   kOrientation,
+
+  // Which effect is selected
+  kEffect,
 };
 
 /**
@@ -76,8 +79,14 @@ class ParamController {
   static const int16_t kPanNeutral = 127;
   static const int16_t kTiltNeutral = 127;
 
- private:
-  std::map<const Params, int16_t> paramRangeMap;
+ protected:
+  std::map<const Params, const int16_t> paramRangeMap = {
+      {Params::kHue0, 359},   {Params::kHue1, 359},
+      {Params::kHue2, 359},   {Params::kTempo, 255},
+      {Params::kWidth, 255},  {Params::kPan, 255},
+      {Params::kTilt, 255},   {Params::kOrientation, 255},
+      {Params::kEffect, 200},
+  };
 };
 
 #endif

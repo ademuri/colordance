@@ -51,6 +51,9 @@ class LightController {
    */
   virtual long GetMs() = 0;
 
+  /** Turns off all lights. */
+  void Blackout();
+
   int16_t numRows = 0;
   int16_t numCols = 0;
 

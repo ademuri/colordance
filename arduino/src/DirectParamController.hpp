@@ -41,12 +41,14 @@ class DirectParamController : public ParamController {
       {Params::kPan, 16},
       {Params::kTilt, 23},
       {Params::kTempo, 17},
+      //{Params::kEffect, A21},
   };
 
   std::map<const Params, Encoder *const> encoderParamMap = {
       {Params::kHue0, new Encoder(6, 7)},
       {Params::kHue1, new Encoder(4, 5)},
       {Params::kHue2, new Encoder(2, 3)},
+      {Params::kEffect, new Encoder(8, 9)},
   };
 
   const std::set<Params> chooseLightParams = {

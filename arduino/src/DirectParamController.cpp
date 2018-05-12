@@ -28,7 +28,9 @@ ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
   for (std::map<const Params, Encoder *const>::iterator iter =
            encoderParamMap.begin();
        iter != encoderParamMap.end(); iter++) {
-    const int readValue = iter->second->read();
+    const int16_t paramRange = paramRangeMap[iter->first];
+    const int readValue =
+        (iter->second->read() % paramRange + paramRange) % paramRange;
     if (readValue != params[iter->first]) {
       paramChanged = true;
       params[iter->first] = readValue;

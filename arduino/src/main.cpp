@@ -1,5 +1,6 @@
 #include "../../src/controller/BounceEffect.hpp"
 #include "../../src/controller/CircleStrobeEffect.hpp"
+#include "../../src/controller/ColorShiftAndStrobeEffect.hpp"
 #include "../../src/controller/ColorShiftEffect.hpp"
 #include "../../src/controller/SolidColorEffect.hpp"
 #include "../../src/controller/StrobeEffect.hpp"
@@ -38,9 +39,32 @@ extern "C" int main(void) {
   paramController->Set(Params::kWidth, 255);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
-  Effect *effect = new SolidColorEffect(lightController, paramController);
+
+  std::vector<Effect *> effects = {
+      new SolidColorEffect(lightController, paramController),
+      new ColorShiftEffect(lightController, paramController),
+      new CircleStrobeEffect(lightController, paramController),
+      new BounceEffect(lightController, paramController),
+      new StrobeEffect(lightController, paramController),
+      new UnevenSwitchStrobeEffect(lightController, paramController),
+      new ColorShiftAndStrobeEffect(lightController, paramController),
+  };
+  // Effect *effect = new SolidColorEffect(lightController, paramController);
+
+  Effect *effect = effects[0];
+  effect->ChooseLights();
+  int effectIndex = 0;
+  int prevEffectIndex = effectIndex;
 
   while (1) {
+    effectIndex =
+        paramController->GetScaled(Params::kEffect, 0, effects.size());
+    if (effectIndex != prevEffectIndex) {
+      effect = effects[effectIndex];
+      prevEffectIndex = effectIndex;
+      lightController->Blackout();
+      effect->ChooseLights();
+    }
     effect->Run();
 
     if (paramController->ScanForChanges(effect) != ParamChanged::kNone) {

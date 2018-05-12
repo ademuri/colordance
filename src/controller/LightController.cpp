@@ -179,3 +179,11 @@ std::vector<int16_t> LightController::GetLightsFromParams(
 
   return chosenLights;
 }
+
+void LightController::Blackout() {
+  for (auto rowIter : lightIds) {
+    for (auto colIter : rowIter) {
+      Set(colIter, {0, 0, 0});
+    }
+  }
+}
