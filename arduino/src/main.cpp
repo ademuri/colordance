@@ -41,8 +41,9 @@ extern "C" int main(void) {
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
 
   std::vector<Effect *> effects = {
-      new SolidColorEffect(lightController, paramController),
+      new ThreeColorEffect(lightController, paramController),
       new ColorShiftEffect(lightController, paramController),
+      new SolidColorEffect(lightController, paramController),
       new CircleStrobeEffect(lightController, paramController),
       new BounceEffect(lightController, paramController),
       new StrobeEffect(lightController, paramController),

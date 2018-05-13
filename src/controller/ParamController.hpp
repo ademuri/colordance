@@ -34,6 +34,8 @@ enum class Params {
 
   // Which effect is selected
   kEffect,
+
+  kParam,
 };
 
 /**
@@ -85,7 +87,7 @@ class ParamController {
       {Params::kHue2, 359},   {Params::kTempo, 255},
       {Params::kWidth, 255},  {Params::kPan, 255},
       {Params::kTilt, 255},   {Params::kOrientation, 255},
-      {Params::kEffect, 200},
+      {Params::kEffect, 200}, {Params::kParam, 255},
   };
 };
 

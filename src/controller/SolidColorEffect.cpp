@@ -40,7 +40,7 @@ void SolidColorEffect::ChooseLights() {
   lightIds = lightController->GetLightsFromParams(paramController);
   hsvShift = 360 / lightIds.size();
   hsv.h = paramController->Get(Params::kHue0);
-  hsv.v = 100 + (155 / lightIds.size());
+  // hsv.v = 100 + (155 / lightIds.size());
 
   TurnOffUnusedLights(oldLightIds, lightIds);
 }
