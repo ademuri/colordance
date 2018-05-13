@@ -18,8 +18,8 @@ DirectLightController::DirectLightController() {
 
   numRows = 5;
   numCols = 5;
-  centerLightRow = 3;
-  centerLightCol = 3;
+  centerLightRow = 2;
+  centerLightCol = 2;
 }
 
 void DirectLightController::Set(const int16_t lightId, HSV hsv) {
