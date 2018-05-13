@@ -23,7 +23,7 @@ namespace teensydmx {
 // 8E2: 100000 baud, 100us break, 20us MAB
 
 //constexpr uint32_t kBreakBaud   = 1000000 / 12;
-constexpr uint32_t kBreakBaud   = 800;
+constexpr uint32_t kBreakBaud   = 700;
 constexpr uint32_t kBreakFormat = SERIAL_8N1;
 constexpr uint32_t kSlotsBaud   = 250000;
 constexpr uint32_t kSlotsFormat = SERIAL_8N2;
