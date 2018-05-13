@@ -50,7 +50,6 @@ extern "C" int main(void) {
       new UnevenSwitchStrobeEffect(lightController, paramController),
       new ColorShiftAndStrobeEffect(lightController, paramController),
   };
-  // Effect *effect = new SolidColorEffect(lightController, paramController);
 
   Effect *effect = effects[0];
   effect->ChooseLights();
@@ -59,7 +58,7 @@ extern "C" int main(void) {
 
   while (1) {
     effectIndex =
-        paramController->GetScaled(Params::kEffect, 0, effects.size());
+        paramController->GetScaled(Params::kEffect, 0, effects.size() - 1);
     if (effectIndex != prevEffectIndex) {
       effect = effects[effectIndex];
       prevEffectIndex = effectIndex;

@@ -69,7 +69,6 @@ void BounceEffect::ChooseLights() {
   lightIds = lightController->GetLights(paramController, 1,
                                         lightController->numCols)[0];
   hsvShift = 360 / lightIds.size() + 20;
-  hsv.v = 100 + (310 / lightIds.size());
 
   TurnOffUnusedLights(oldLightIds, lightIds);
 

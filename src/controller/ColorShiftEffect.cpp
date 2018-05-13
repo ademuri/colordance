@@ -48,7 +48,6 @@ void ColorShiftEffect::ChooseLights() {
 
   lightIds = lightController->GetLightsFromParams(paramController);
   hsvShift = 360 / lightIds.size();
-  hsv.v = 100 + (310 / lightIds.size());
 
   TurnOffUnusedLights(oldLightIds, lightIds);
 }

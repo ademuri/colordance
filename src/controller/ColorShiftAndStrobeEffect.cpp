@@ -52,7 +52,6 @@ void ColorShiftAndStrobeEffect::ChooseLights() {
   lightIds = lightController->GetLightsFromParams(paramController);
   hsvShift = 180 / lightIds.size();
   // hsvShift = 2;
-  hsv.v = 100 + (310 / lightIds.size());
 
   TurnOffUnusedLights(oldLightIds, lightIds);
 }
