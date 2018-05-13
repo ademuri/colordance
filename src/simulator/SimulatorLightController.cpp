@@ -16,7 +16,7 @@ void SimulatorLightController::addGridLights(Ogre::SceneManager *scnMgr) {
   // Adds a 5x5 grid of lights
   int lightId = 1;
   for (int i = -2; i < 3; i++) {
-    std::vector<uint16_t> rowIds = {};
+    std::vector<int16_t> rowIds = {};
     for (int j = -2; j < 3; j++) {
       rowIds.push_back(lightId);
       lightIdMap[lightId] = createLight(Ogre::Vector3(
@@ -107,7 +107,7 @@ SimulatorLightController::SimulatorLightController(Ogre::SceneManager *scnMgr)
   addGridLights(scnMgr);
 }
 
-void SimulatorLightController::Set(const uint16_t lightId, HSV hsv) {
+void SimulatorLightController::Set(const int16_t lightId, HSV hsv) {
   if (lightId == 0) {
     // printf("Error: got 0 light id, hsv: {%d, %d, %d}\n", hsv.h, hsv.s,
     // hsv.v);

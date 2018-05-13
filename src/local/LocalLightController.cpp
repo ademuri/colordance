@@ -12,9 +12,9 @@ LocalLightController::LocalLightController()
 
   // The 5x5 matrix lights have RGB channels for each pixel, starting at channel
   // 1
-  uint16_t id = 1;
+  int16_t id = 1;
   for (int row = 0; row < numRows; row++) {
-    std::vector<uint16_t> rowIds = {};
+    std::vector<int16_t> rowIds = {};
     for (int col = 0; col < numCols; col++) {
       rowIds.push_back(id);
       id += 3;
@@ -22,8 +22,8 @@ LocalLightController::LocalLightController()
     lightIds.push_back(rowIds);
   }
 
-  std::vector<std::vector<uint16_t>>::iterator rowIt;
-  std::vector<uint16_t>::iterator colIt;
+  std::vector<std::vector<int16_t>>::iterator rowIt;
+  std::vector<int16_t>::iterator colIt;
   for (rowIt = lightIds.begin(); rowIt != lightIds.end(); rowIt++) {
     for (colIt = (*rowIt).begin(); colIt != (*rowIt).end(); colIt++) {
       idToColorMap[*colIt] = {0, 0, 0};
@@ -59,7 +59,7 @@ LocalLightController::LocalLightController()
   }
 }
 
-void LocalLightController::Set(const uint16_t lightId, HSV hsv) {
+void LocalLightController::Set(const int16_t lightId, HSV hsv) {
   RGB rgb = Color::toRGB(hsv);
   idToColorMap[lightId] = rgb;
 }
@@ -73,8 +73,8 @@ long LocalLightController::GetMs() {
 }
 
 void LocalLightController::WriteDmx() {
-  std::vector<std::vector<uint16_t>>::iterator rowIt;
-  std::vector<uint16_t>::iterator colIt;
+  std::vector<std::vector<int16_t>>::iterator rowIt;
+  std::vector<int16_t>::iterator colIt;
   for (rowIt = lightIds.begin(); rowIt != lightIds.end(); rowIt++) {
     for (colIt = (*rowIt).begin(); colIt != (*rowIt).end(); colIt++) {
       serialBuf[*colIt + kRedOffset] = idToColorMap[*colIt].r;

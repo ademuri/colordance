@@ -16,7 +16,7 @@ class SimulatorLightController : public LightController {
  public:
   SimulatorLightController(Ogre::SceneManager *scnMgr);
 
-  void Set(const uint16_t lightId, HSV hsv) override;
+  void Set(const int16_t lightId, HSV hsv) override;
 
   long GetMs() override;
 
@@ -34,7 +34,7 @@ class SimulatorLightController : public LightController {
   void addGridLights(Ogre::SceneManager *scnMgr);
 
   std::map<const Lights, Ogre::Light *> lightMap;
-  std::map<const uint16_t, Ogre::Light *> lightIdMap;
+  std::map<const int16_t, Ogre::Light *> lightIdMap;
 
   const std::chrono::steady_clock::time_point startTime;
   Ogre::SceneManager *const scnMgr;

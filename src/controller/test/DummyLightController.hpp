@@ -10,16 +10,16 @@
  */
 class DummyLightController : public LightController {
  public:
-  DummyLightController(const uint8_t rows, const uint8_t cols);
+  DummyLightController(const int8_t rows, const int8_t cols);
 
   long GetMs() override;
 
-  void Set(const uint16_t lightId, HSV hsv) override;
+  void Set(const int16_t lightId, HSV hsv) override;
 
-  HSV Get(const uint16_t lightId);
+  HSV Get(const int16_t lightId);
 
  private:
-  std::map<const uint16_t, HSV> lights;
+  std::map<const int16_t, HSV> lights;
 };
 
 #endif

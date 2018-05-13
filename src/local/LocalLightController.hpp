@@ -12,7 +12,7 @@ class LocalLightController : public LightController {
  public:
   LocalLightController();
 
-  void Set(const uint16_t lightId, HSV hsv) override;
+  void Set(const int16_t lightId, HSV hsv) override;
   long GetMs() override;
 
   /**
@@ -30,10 +30,10 @@ class LocalLightController : public LightController {
    * 1-8. Channel 4 is the master brightness, and following three channels are
    * red, green, and blue.
    */
-  const uint16_t kMasterOffset = 0;
-  const uint16_t kRedOffset = 0;
-  const uint16_t kGreenOffset = 1;
-  const uint16_t kBlueOffset = 2;
+  const int16_t kMasterOffset = 0;
+  const int16_t kRedOffset = 0;
+  const int16_t kGreenOffset = 1;
+  const int16_t kBlueOffset = 2;
 
   // TODO: size this once we know the actual number of physical lights.
   // Should be <num lights> * 8 + 1.
@@ -45,7 +45,7 @@ class LocalLightController : public LightController {
    * send the DMX data, we have to send data to all of the lights, so we need to
    * keep track of the state.
    */
-  std::map<const uint16_t, RGB> idToColorMap;
+  std::map<const int16_t, RGB> idToColorMap;
 
   /**
    * FTDI context used for sending DMX signals.

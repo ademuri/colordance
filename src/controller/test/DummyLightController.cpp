@@ -1,15 +1,15 @@
 #include "DummyLightController.hpp"
 
-DummyLightController::DummyLightController(const uint8_t rows,
-                                           const uint8_t cols) {
+DummyLightController::DummyLightController(const int8_t rows,
+                                           const int8_t cols) {
   numRows = rows;
   numCols = cols;
 
-  uint16_t counter = 1;
+  int16_t counter = 1;
 
-  for (uint8_t i = 0; i < rows; i++) {
-    std::vector<uint16_t> row;
-    for (uint8_t j = 0; j < cols; j++) {
+  for (int8_t i = 0; i < rows; i++) {
+    std::vector<int16_t> row;
+    for (int8_t j = 0; j < cols; j++) {
       row.push_back(counter++);
     }
     lightIds.push_back(row);
@@ -21,10 +21,8 @@ DummyLightController::DummyLightController(const uint8_t rows,
 
 long DummyLightController::GetMs() { return 1; }
 
-void DummyLightController::Set(const uint16_t lightId, HSV hsv) {
+void DummyLightController::Set(const int16_t lightId, HSV hsv) {
   lights[lightId] = hsv;
 }
 
-HSV DummyLightController::Get(const uint16_t lightId) {
-  return lights[lightId];
-}
+HSV DummyLightController::Get(const int16_t lightId) { return lights[lightId]; }

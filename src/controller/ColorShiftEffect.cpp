@@ -1,4 +1,5 @@
 #include "ColorShiftEffect.hpp"
+#include <cmath>
 #include "LightController.hpp"
 
 ColorShiftEffect::ColorShiftEffect(LightController *lightController,
@@ -25,9 +26,13 @@ void ColorShiftEffect::ParamChanged(Params param) {
       hsvAdvance = paramController->GetScaled(Params::kTempo, 1, 8);
       break;
 
+    case Params::kHue1:
+      hsv.s =
+          100 + std::abs(paramController->GetScaled(Params::kHue1, -155, 155));
+      break;
+
     // TODO: handle other cases
     case Params::kHue0:
-    case Params::kHue1:
     case Params::kHue2:
     case Params::kWidth:
     case Params::kPan:
