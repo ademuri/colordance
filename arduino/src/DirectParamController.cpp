@@ -18,7 +18,7 @@ ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
            potParamMap.begin();
        iter != potParamMap.end(); iter++) {
     const int readValue = analogRead(iter->second) >> 2;
-    if (readValue != params[iter->first]) {
+    if (abs(readValue - params[iter->first]) > 1) {
       paramChanged = true;
       params[iter->first] = readValue;
       effect->ParamChanged(iter->first);

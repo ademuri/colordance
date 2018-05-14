@@ -29,6 +29,10 @@ void __throw_length_error(char const *e) {
 }
 }
 
+// Tuning constants
+/** Fall asleep if not interacted with for this long. */
+const long kNoInteractionSleepMs = 5 * 60 * 1000;
+
 extern "C" int main(void) {
   pinMode(13, OUTPUT);
 
@@ -56,20 +60,38 @@ extern "C" int main(void) {
   int effectIndex = 0;
   int prevEffectIndex = effectIndex;
 
-  while (1) {
-    effectIndex =
-        paramController->GetScaled(Params::kEffect, 0, effects.size() - 1);
-    if (effectIndex != prevEffectIndex) {
-      effect = effects[effectIndex];
-      prevEffectIndex = effectIndex;
-      lightController->Blackout();
-      effect->ChooseLights();
-    }
-    effect->Run();
+  long sleepAt = millis() + kNoInteractionSleepMs;
+  bool sleeping = false;
 
-    if (paramController->ScanForChanges(effect) != ParamChanged::kNone) {
-      effect->ChooseLights();
+  while (1) {
+    if (sleeping) {
+      if (paramController->ScanForChanges(effect) != ParamChanged::kNone) {
+        sleeping = false;
+        sleepAt = millis() + kNoInteractionSleepMs;
+        // TODO: check motion sensors too
+      }
+    } else {
+      effectIndex =
+          paramController->GetScaled(Params::kEffect, 0, effects.size() - 1);
+      if (effectIndex != prevEffectIndex) {
+        // TODO: make effect reload all params
+        effect = effects[effectIndex];
+        prevEffectIndex = effectIndex;
+        lightController->Blackout();
+        effect->ChooseLights();
+      }
+      effect->Run();
+
+      if (paramController->ScanForChanges(effect) != ParamChanged::kNone) {
+        effect->ChooseLights();
+        sleepAt = millis() + kNoInteractionSleepMs;
+      }
+      if (millis() > sleepAt) {
+        sleeping = true;
+        // TODO: make a sleep pattern
+        lightController->Blackout();
+      }
+      delay(1);
     }
-    delay(3);
   }
 }
