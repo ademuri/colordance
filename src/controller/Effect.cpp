@@ -25,3 +25,9 @@ void Effect::TurnOffUnusedLights(const std::vector<int16_t> &oldLightIds,
     }
   }
 }
+
+void Effect::ReloadParams() {
+  for (auto iter : paramController->paramRangeMap) {
+    ParamChanged(iter.first);
+  }
+}

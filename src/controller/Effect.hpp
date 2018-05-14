@@ -37,6 +37,10 @@ class Effect {
    */
   virtual void ParamChanged(Params param){};
 
+  /** Applies the current state of all params by calling ParamChanged for all
+   * parameters. */
+  void ReloadParams();
+
  protected:
   /* Effect-specific code. Must be overriden by subclasses. */
   virtual void DoRun() = 0;

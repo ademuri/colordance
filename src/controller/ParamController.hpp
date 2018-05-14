@@ -81,7 +81,6 @@ class ParamController {
   static const int16_t kPanNeutral = 127;
   static const int16_t kTiltNeutral = 127;
 
- protected:
   std::map<const Params, const int16_t> paramRangeMap = {
       {Params::kHue0, 359},   {Params::kHue1, 359},
       {Params::kHue2, 359},   {Params::kTempo, 255},

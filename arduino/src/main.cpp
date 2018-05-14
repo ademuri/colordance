@@ -79,6 +79,7 @@ extern "C" int main(void) {
         prevEffectIndex = effectIndex;
         lightController->Blackout();
         effect->ChooseLights();
+        effect->ReloadParams();
       }
       effect->Run();
 
