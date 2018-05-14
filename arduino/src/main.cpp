@@ -2,6 +2,7 @@
 #include "../../src/controller/CircleStrobeEffect.hpp"
 #include "../../src/controller/ColorShiftAndStrobeEffect.hpp"
 #include "../../src/controller/ColorShiftEffect.hpp"
+#include "../../src/controller/SleepEffect.hpp"
 #include "../../src/controller/SolidColorEffect.hpp"
 #include "../../src/controller/StrobeEffect.hpp"
 #include "../../src/controller/ThreeColorEffect.hpp"
@@ -32,6 +33,7 @@ void __throw_length_error(char const *e) {
 // Tuning constants
 /** Fall asleep if not interacted with for this long. */
 const long kNoInteractionSleepMs = 5 * 60 * 1000;
+// const long kNoInteractionSleepMs = 5 * 1000;
 
 extern "C" int main(void) {
   pinMode(13, OUTPUT);
@@ -55,8 +57,11 @@ extern "C" int main(void) {
       new ColorShiftAndStrobeEffect(lightController, paramController),
   };
 
+  SleepEffect *sleepEffect = new SleepEffect(lightController, paramController);
+
   Effect *effect = effects[0];
   effect->ChooseLights();
+  effect->ReloadParams();
   int effectIndex = 0;
   int prevEffectIndex = effectIndex;
 
@@ -65,12 +70,15 @@ extern "C" int main(void) {
 
   while (1) {
     if (sleeping) {
+      sleepEffect->Run();
       if (paramController->ScanForChanges(effect) != ParamChanged::kNone) {
         sleeping = false;
         sleepAt = millis() + kNoInteractionSleepMs;
+        lightController->Blackout();
         // TODO: check motion sensors too
       }
     } else {
+      // Awake
       effectIndex =
           paramController->GetScaled(Params::kEffect, 0, effects.size() - 1);
       if (effectIndex != prevEffectIndex) {
@@ -89,8 +97,8 @@ extern "C" int main(void) {
       }
       if (millis() > sleepAt) {
         sleeping = true;
-        // TODO: make a sleep pattern
         lightController->Blackout();
+        sleepEffect->ChooseLights();
       }
       delay(1);
     }
