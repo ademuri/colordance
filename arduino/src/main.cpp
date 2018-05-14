@@ -32,8 +32,13 @@ void __throw_length_error(char const *e) {
 
 // Tuning constants
 /** Fall asleep if not interacted with for this long. */
-const long kNoInteractionSleepMs = 5 * 60 * 1000;
+const unsigned long kNoInteractionSleepMs = 5 * 60 * 1000;
 // const long kNoInteractionSleepMs = 5 * 1000;
+
+// How long after no controls have been changed to randomly change the effect
+// Note that this won't work as long as a knob controls the effect
+const unsigned long kAutoEffectBaseMs = 60 * 1000;
+const unsigned long kAutoEffectRandomMs = 30 * 1000;
 
 extern "C" int main(void) {
   pinMode(13, OUTPUT);
@@ -65,8 +70,11 @@ extern "C" int main(void) {
   int effectIndex = 0;
   int prevEffectIndex = effectIndex;
 
-  long sleepAt = millis() + kNoInteractionSleepMs;
+  unsigned long sleepAt = millis() + kNoInteractionSleepMs;
   bool sleeping = false;
+
+  unsigned long autoEffectAt =
+      millis() + kAutoEffectBaseMs + random(kAutoEffectRandomMs);
 
   while (1) {
     if (sleeping) {
@@ -77,6 +85,7 @@ extern "C" int main(void) {
         lightController->Blackout();
         // TODO: check motion sensors too
       }
+
     } else {
       // Awake
       effectIndex =
@@ -90,16 +99,27 @@ extern "C" int main(void) {
         effect->ReloadParams();
       }
       effect->Run();
-
       if (paramController->ScanForChanges(effect) != ParamChanged::kNone) {
         effect->ChooseLights();
         sleepAt = millis() + kNoInteractionSleepMs;
+        autoEffectAt =
+            millis() + kAutoEffectBaseMs + random(kAutoEffectRandomMs);
       }
+
       if (millis() > sleepAt) {
         sleeping = true;
         lightController->Blackout();
         sleepEffect->ChooseLights();
       }
+
+      if (millis() > autoEffectAt) {
+        lightController->Blackout();
+        paramController->SetScaled(Params::kEffect, random(effects.size()), 0,
+                                   effects.size() - 1);
+        autoEffectAt =
+            millis() + kAutoEffectBaseMs + random(kAutoEffectRandomMs);
+      }
+
       delay(1);
     }
   }
