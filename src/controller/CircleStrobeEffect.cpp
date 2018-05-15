@@ -1,3 +1,10 @@
+// Note: this needs to be before the <cmath> include, because Arduino includes
+// an abs macro that clobbers the std::abs. Putting a break after this import
+// prevents clang-format from reordering it.
+#ifdef ARDUINO
+#include "WProgram.h"
+#endif
+
 #include "CircleStrobeEffect.hpp"
 #include "LightController.hpp"
 
@@ -39,7 +46,7 @@ void CircleStrobeEffect::DoRun() {
   setIndex((currentLight + lightIds.size() / 2) % lightIds.size(), second);
 
   hsv.h += 2;
-  SleepMs(paramController->GetScaled(Params::kTempo, 200, 10));
+  SleepMs(paramController->GetScaled(Params::kTempo, 500, 50));
 }
 
 void CircleStrobeEffect::ChooseLights() {
@@ -49,7 +56,9 @@ void CircleStrobeEffect::ChooseLights() {
   lightIds.clear();
 
   std::vector<std::vector<int16_t>> lightArray = lightController->GetLights(
-      paramController, lightController->numRows, lightController->numCols);
+      paramController,
+      paramController->GetScaled(Params::kParam2, 2, lightController->numRows),
+      paramController->GetScaled(Params::kWidth, 2, lightController->numCols));
   const int colSize = lightArray[0].size();
 
   // Grab the top row
@@ -76,4 +85,14 @@ void CircleStrobeEffect::ChooseLights() {
 void CircleStrobeEffect::BeatDetected() {
   hsv.h += 30;
   DoRun();
+}
+
+void CircleStrobeEffect::RandomizeParams() {
+#ifdef ARDUINO
+  paramController->SetScaled(Params::kTempo, random(70), 0, 100);
+  paramController->SetScaled(Params::kWidth, 2 + random(3), 0, 4);
+  paramController->SetScaled(Params::kParam2, 2 + random(3), 0, 4);
+  paramController->SetScaled(Params::kPan, random(5), 0, 4);
+  paramController->SetScaled(Params::kTilt, random(5), 0, 4);
+#endif
 }

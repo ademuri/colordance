@@ -13,6 +13,8 @@ class CircleStrobeEffect : public Effect {
 
   void ChooseLights() override;
 
+  void RandomizeParams() override;
+
  protected:
   /* Called periodically to perform the effect. */
   void DoRun() override;

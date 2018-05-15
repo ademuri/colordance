@@ -37,10 +37,10 @@ const unsigned long kNoInteractionSleepMs = 5 * 60 * 1000;
 
 // How long after no controls have been changed to randomly change the effect
 // Note that this won't work as long as a knob controls the effect
-const unsigned long kAutoEffectBaseMs = 60 * 1000;
-const unsigned long kAutoEffectRandomMs = 30 * 1000;
-// const unsigned long kAutoEffectBaseMs = 5 * 1000;
-// const unsigned long kAutoEffectRandomMs = 2 * 1000;
+// const unsigned long kAutoEffectBaseMs = 60 * 1000;
+// const unsigned long kAutoEffectRandomMs = 30 * 1000;
+const unsigned long kAutoEffectBaseMs = 5 * 1000;
+const unsigned long kAutoEffectRandomMs = 2 * 1000;
 
 extern "C" int main(void) {
   pinMode(13, OUTPUT);
@@ -49,11 +49,11 @@ extern "C" int main(void) {
   DirectParamController *paramController = new DirectParamController();
 
   std::vector<Effect *> effects = {
-      new ColorShiftEffect(lightController, paramController),
+      // new ColorShiftEffect(lightController, paramController),
+      new CircleStrobeEffect(lightController, paramController),
       // TODO: fully parameterize these and clean them up, then uncomment
       // new ThreeColorEffect(lightController, paramController),
       // new SolidColorEffect(lightController, paramController),
-      // new CircleStrobeEffect(lightController, paramController),
       // new BounceEffect(lightController, paramController),
       // new StrobeEffect(lightController, paramController),
       // new UnevenSwitchStrobeEffect(lightController, paramController),

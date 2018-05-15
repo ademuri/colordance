@@ -30,4 +30,7 @@ void Effect::ReloadParams() {
   for (auto iter : paramController->paramRangeMap) {
     ParamChanged(iter.first);
   }
+
+  // This being called probably means we've been reset, so clear sleep.
+  this->runAtMs = 0;
 }
