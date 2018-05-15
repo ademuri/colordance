@@ -11,11 +11,8 @@ class ColorShiftEffect : public Effect {
                    ParamController *paramController);
 
   void BeatDetected() override;
-
   void ChooseLights() override;
-
   void ParamChanged(Params param) override;
-
   void RandomizeParams() override;
 
  protected:

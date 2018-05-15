@@ -50,11 +50,11 @@ extern "C" int main(void) {
 
   std::vector<Effect *> effects = {
       // new ColorShiftEffect(lightController, paramController),
-      new CircleStrobeEffect(lightController, paramController),
+      //new CircleStrobeEffect(lightController, paramController),
+      new BounceEffect(lightController, paramController),
       // TODO: fully parameterize these and clean them up, then uncomment
       // new ThreeColorEffect(lightController, paramController),
       // new SolidColorEffect(lightController, paramController),
-      // new BounceEffect(lightController, paramController),
       // new StrobeEffect(lightController, paramController),
       // new UnevenSwitchStrobeEffect(lightController, paramController),
       // new ColorShiftAndStrobeEffect(lightController, paramController),

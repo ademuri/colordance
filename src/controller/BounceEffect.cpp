@@ -37,8 +37,8 @@ void BounceEffect::BeatDetected() { hsv.h += 60; }
 
 void BounceEffect::ParamChanged(Params param) {
   switch (param) {
-    case Params::kTempo:
-      hsvAdvance = paramController->GetScaled(Params::kTempo, 1, 10);
+    case Params::kParam1:
+      hsvAdvance = paramController->GetScaled(Params::kParam1, 2, 20);
       break;
 
     case Params::kWidth:
@@ -47,6 +47,10 @@ void BounceEffect::ParamChanged(Params param) {
       if (leftLight + numLights > lightIds.size()) {
         leftLight = lightIds.size() - numLights;
       }
+      break;
+
+    case Params::kParam2:
+      hsvShift = paramController->GetScaled(Params::kParam2, 30, 360 / numLights);
       break;
 
     // TODO: handle other cases
@@ -64,11 +68,8 @@ void BounceEffect::ChooseLights() {
   // no longer selected.
   std::vector<int16_t> oldLightIds = lightIds;
 
-  // lightIds = lightController->GetLights(paramController, 1,
-  // paramController->GetScaled(Params::kWidth, 3, numCols));
   lightIds = lightController->GetLights(paramController, 1,
                                         lightController->numCols)[0];
-  hsvShift = 360 / lightIds.size() + 20;
 
   TurnOffUnusedLights(oldLightIds, lightIds);
 
@@ -82,4 +83,15 @@ void BounceEffect::ChooseLights() {
     numLights = 1;
     leftLight = 0;
   }
+  //hsvShift = 360 / numLights;
+}
+
+void BounceEffect::RandomizeParams() {
+#ifdef ARDUINO
+  paramController->SetScaled(Params::kTempo, random(70), 0, 100);
+  paramController->SetScaled(Params::kWidth, random(5), 0, 4);
+  paramController->SetScaled(Params::kTilt, random(5), 0, 4);
+  paramController->SetScaled(Params::kParam1, random(256), 0, 255);
+  paramController->SetScaled(Params::kParam2, random(256), 0, 255);
+#endif
 }

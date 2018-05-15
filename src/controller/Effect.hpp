@@ -1,6 +1,13 @@
 #ifndef __EFFECT_HPP__
 #define __EFFECT_HPP__
 
+// Note: this needs to be before the <cmath> include, because Arduino includes
+// an abs macro that clobbers the std::abs. Putting a break after this import
+// prevents clang-format from reordering it.
+#ifdef ARDUINO
+#include "WProgram.h"
+#endif
+
 #include "LightController.hpp"
 #include "ParamController.hpp"
 
