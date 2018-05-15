@@ -13,6 +13,8 @@ class CircleStrobeEffect : public Effect {
 
   void ChooseLights() override;
 
+  void ParamChanged(Params param) override;
+
   void RandomizeParams() override;
 
  protected:
@@ -26,7 +28,11 @@ class CircleStrobeEffect : public Effect {
   std::vector<int16_t> lightIds;
 
   int16_t currentLight = 0;
-  int16_t hueAdjust = 0;
+  // Hue distance between adjacent lights
+  int16_t hueGap = 0;
+
+  // Hue distance between the two groups
+  int16_t hueDistance = 180;
 
   HSV hsv = {HUE_RED, 255, 255};
 };

@@ -5,6 +5,7 @@
 #include "WProgram.h"
 #endif
 
+#include <cmath>
 #include "CircleStrobeEffect.hpp"
 #include "LightController.hpp"
 
@@ -16,12 +17,10 @@ CircleStrobeEffect::CircleStrobeEffect(LightController *lightController,
 }
 
 void CircleStrobeEffect::setIndex(int16_t index, const HSV &hsv) {
-  HSV adjustedHsv = hsv;
-  adjustedHsv.h += hueAdjust;
-  lightController->Set(lightIds[index], adjustedHsv);
+  lightController->Set(lightIds[index], hsv);
 
-  HSV secondHsv = adjustedHsv;
-  secondHsv.h = adjustedHsv.h + 20;
+  HSV secondHsv = hsv;
+  secondHsv.h = hsv.h + hueGap;
   lightController->Set(lightIds[(index + 1) % lightIds.size()], secondHsv);
 
   if (index == 0) {
@@ -42,11 +41,36 @@ void CircleStrobeEffect::DoRun() {
   setIndex(currentLight, hsv);
 
   HSV second = hsv;
-  second.h = hsv.h + 180;
+  second.h = hsv.h + hueDistance;
   setIndex((currentLight + lightIds.size() / 2) % lightIds.size(), second);
 
-  hsv.h += 2;
+  hsv.h += 1;
   SleepMs(paramController->GetScaled(Params::kTempo, 500, 50));
+}
+
+void CircleStrobeEffect::ParamChanged(Params param) {
+  switch (param) {
+    case Params::kHue0:
+      hueGap = 5 + std::abs(paramController->GetScaled(Params::kHue0, -55, 55));
+      break;
+
+    case Params::kHue1:
+      hueDistance =
+          90 + std::abs(paramController->GetScaled(Params::kHue1, -90, 90));
+      break;
+
+    case Params::kParam1:
+      hsv.s = paramController->GetScaled(Params::kParam1, 100, 255);
+      break;
+
+    // TODO: handle other cases
+    case Params::kTempo:
+    case Params::kHue2:
+    case Params::kWidth:
+    case Params::kPan:
+    case Params::kTilt:
+      break;
+  }
 }
 
 void CircleStrobeEffect::ChooseLights() {
@@ -78,7 +102,6 @@ void CircleStrobeEffect::ChooseLights() {
     lightIds.push_back(lightArray[i][0]);
   }
 
-  hueAdjust = 320 / lightIds.size();
   TurnOffUnusedLights(oldLightIds, lightIds);
 }
 
@@ -94,5 +117,8 @@ void CircleStrobeEffect::RandomizeParams() {
   paramController->SetScaled(Params::kParam2, 2 + random(3), 0, 4);
   paramController->SetScaled(Params::kPan, random(5), 0, 4);
   paramController->SetScaled(Params::kTilt, random(5), 0, 4);
+  paramController->SetScaled(Params::kParam1, 100 + random(156), 0, 255);
+  paramController->SetScaled(Params::kHue0, 0, random(40), 100);
+  paramController->SetScaled(Params::kHue1, 0, random(40), 100);
 #endif
 }
