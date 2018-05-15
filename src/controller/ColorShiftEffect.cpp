@@ -1,7 +1,13 @@
-#include "ColorShiftEffect.hpp"
-#include <cmath>
-#include "LightController.hpp"
+// Note: this needs to be before the <cmath> include, because Arduino includes
+// an abs macro that clobbers the std::abs. Putting a break after this import
+// prevents clang-format from reordering it.
+#ifdef ARDUINO
 #include "WProgram.h"
+#endif
+
+#include <cmath>
+#include "ColorShiftEffect.hpp"
+#include "LightController.hpp"
 
 ColorShiftEffect::ColorShiftEffect(LightController *lightController,
                                    ParamController *paramController)
@@ -54,10 +60,12 @@ void ColorShiftEffect::ChooseLights() {
 }
 
 void ColorShiftEffect::RandomizeParams() {
+#ifdef ARDUINO
   paramController->Set(Params::kHue1,
                        random(paramController->paramRangeMap[Params::kHue1]));
   paramController->SetScaled(Params::kTempo, random(60), 0, 100);
   paramController->SetScaled(Params::kWidth, 1 + random(4), 0, 4);
   paramController->SetScaled(Params::kPan, random(5), 0, 4);
   paramController->SetScaled(Params::kTilt, random(5), 0, 4);
+#endif
 }

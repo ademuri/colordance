@@ -10,17 +10,13 @@ int16_t ParamController::GetScaled(Params param, int16_t min, int16_t max) {
     return min;
   }
 
-  // If expectedRange is even, then the number of bins returned is odd. In that
-  // case, add one to expectedRange so that the range is centered.
-  if (expectedRange % 2 == 0) {
-    if (expectedRange > 0) {
-      expectedRange++;
-    } else {
-      expectedRange--;
-    }
+  // Add one to expectedRange so that the range is centered.
+  if (expectedRange > 0) {
+    expectedRange++;
+  } else {
+    expectedRange--;
   }
 
-  // return min + ((Get(param) + offset) * expectedRange) / actualRange;
   int16_t val = min + Get(param) * expectedRange / actualRange;
   if (max > min) {
     if (val > max) {

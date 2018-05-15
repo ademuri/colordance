@@ -35,6 +35,45 @@ TEST(ParamControllerTest, GetScaled_roundsCorrectlyForSmallerRange) {
   EXPECT_EQ(controller.GetScaled(Params::kTempo, 0, 10), 0);
 }
 
+TEST(ParamControllerTest, GetScaled_evenlySpaced_evenBins) {
+  // Range should be:
+  // 0-127: 0
+  // 128-255: 1
+  DummyParamController controller;
+  for (int i = 0; i <= 127; i++) {
+    controller.Set(Params::kTempo, i);
+    EXPECT_EQ(controller.GetScaled(Params::kTempo, 0, 1), 0)
+        << "Should be 0 for " << i;
+  }
+
+  for (int i = 128; i <= 255; i++) {
+    controller.Set(Params::kTempo, i);
+    EXPECT_EQ(controller.GetScaled(Params::kTempo, 0, 1), 1)
+        << "Should be 1 for " << i;
+  }
+}
+
+TEST(ParamControllerTest, GetScaled_evenlySpaced_oddBins) {
+  DummyParamController controller;
+  for (int i = 0; i <= 84; i++) {
+    controller.Set(Params::kTempo, i);
+    EXPECT_EQ(controller.GetScaled(Params::kTempo, 0, 2), 0)
+        << "Should be 0 for " << i;
+  }
+
+  for (int i = 85; i <= 169; i++) {
+    controller.Set(Params::kTempo, i);
+    EXPECT_EQ(controller.GetScaled(Params::kTempo, 0, 2), 1)
+        << "Should be 1 for " << i;
+  }
+
+  for (int i = 170; i <= 255; i++) {
+    controller.Set(Params::kTempo, i);
+    EXPECT_EQ(controller.GetScaled(Params::kTempo, 0, 2), 2)
+        << "Should be 2 for " << i;
+  }
+}
+
 TEST(ParamControllerTest, GetScaled_negativeNoScale) {
   DummyParamController controller;
   controller.Set(Params::kTempo, 0);
