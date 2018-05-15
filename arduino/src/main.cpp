@@ -45,26 +45,24 @@ extern "C" int main(void) {
 
   DirectLightController *lightController = new DirectLightController();
   DirectParamController *paramController = new DirectParamController();
-  paramController->Set(Params::kHue0, 120);
-  paramController->Set(Params::kTempo, 254);
-  paramController->Set(Params::kWidth, 255);
-  paramController->Set(Params::kPan, ParamController::kPanNeutral);
-  paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
 
   std::vector<Effect *> effects = {
-      new ThreeColorEffect(lightController, paramController),
       new ColorShiftEffect(lightController, paramController),
-      new SolidColorEffect(lightController, paramController),
-      new CircleStrobeEffect(lightController, paramController),
-      new BounceEffect(lightController, paramController),
-      new StrobeEffect(lightController, paramController),
-      new UnevenSwitchStrobeEffect(lightController, paramController),
-      new ColorShiftAndStrobeEffect(lightController, paramController),
+      // TODO: fully parameterize these and clean them up, then uncomment
+      // new ThreeColorEffect(lightController, paramController),
+      // new SolidColorEffect(lightController, paramController),
+      // new CircleStrobeEffect(lightController, paramController),
+      // new BounceEffect(lightController, paramController),
+      // new StrobeEffect(lightController, paramController),
+      // new UnevenSwitchStrobeEffect(lightController, paramController),
+      // new ColorShiftAndStrobeEffect(lightController, paramController),
   };
 
   SleepEffect *sleepEffect = new SleepEffect(lightController, paramController);
 
   Effect *effect = effects[0];
+  paramController->ScanForChanges(effect);
+  paramController->Set(Params::kHue1, 180);
   effect->ChooseLights();
   effect->ReloadParams();
   int effectIndex = 0;
@@ -91,7 +89,6 @@ extern "C" int main(void) {
       effectIndex =
           paramController->GetScaled(Params::kEffect, 0, effects.size() - 1);
       if (effectIndex != prevEffectIndex) {
-        // TODO: make effect reload all params
         effect = effects[effectIndex];
         prevEffectIndex = effectIndex;
         lightController->Blackout();

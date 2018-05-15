@@ -2,12 +2,23 @@
 #include <Encoder.h>
 #include "WProgram.h"
 
-DirectParamController::DirectParamController() : ParamController() {}
+DirectParamController::DirectParamController() : ParamController() {
+  for (auto pair : potParamMap) {
+    // Note: this will be overriden the first time through ScanForChanges
+    potValueMap[pair.first] = 0;
+  }
+}
 
 int16_t DirectParamController::Get(Params param) { return params[param]; }
 
 void DirectParamController::Set(Params param, int16_t val) {
   params[param] = val;
+
+  // If this is an encoder-controller param, reset the encoder to this value so
+  // that when the user rotates the encoder, it doesn't 'jump'.
+  if (encoderParamMap.find(param) != encoderParamMap.end()) {
+    encoderParamMap[param]->write(val);
+  }
 }
 
 ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
@@ -18,8 +29,9 @@ ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
            potParamMap.begin();
        iter != potParamMap.end(); iter++) {
     const int readValue = analogRead(iter->second) >> 2;
-    if (abs(readValue - params[iter->first]) > 1) {
+    if (abs(readValue - potValueMap[iter->first]) > 1) {
       paramChanged = true;
+      potValueMap[iter->first] = readValue;
       params[iter->first] = readValue;
       effect->ParamChanged(iter->first);
     }

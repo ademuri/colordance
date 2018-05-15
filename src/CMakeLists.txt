@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 2.8)
 cmake_policy(SET CMP0028 NEW)
 project(colordance LANGUAGES CXX)
 
+# Support for YCM
+SET( CMAKE_EXPORT_COMPILE_COMMANDS ON )
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${colordance_SOURCE_DIR}/cmake")
 
 # Set an output directory for our binaries
@@ -33,3 +36,12 @@ add_subdirectory(color)
 add_subdirectory(controller)
 add_subdirectory(simulator)
 add_subdirectory(local)
+
+# Support for YCM
+# TODO: this should copy the file up, but doesn't
+IF( EXISTS "${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json" )
+  EXECUTE_PROCESS( COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    ${CMAKE_CURRENT_BINARY_DIR}/compile_commands.json
+    ${CMAKE_CURRENT_SOURCE_DIR}/compile_commands.json
+  )
+ENDIF()

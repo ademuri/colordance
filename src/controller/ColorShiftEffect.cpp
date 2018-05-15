@@ -15,7 +15,7 @@ void ColorShiftEffect::DoRun() {
   }
 
   hsv.h += hsvAdvance;
-  SleepMs(2);
+  SleepMs(5);
 }
 
 void ColorShiftEffect::BeatDetected() { hsv.h += 60; }

@@ -1,0 +1,122 @@
+[
+{
+  "directory": "/home/adam/work/colordance/build/color",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/color   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/color.dir/Color.cpp.o -c /home/adam/work/colordance/src/color/Color.cpp",
+  "file": "/home/adam/work/colordance/src/color/Color.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/color",
+  "command": "/usr/bin/c++   -isystem /usr/local/include -I/home/adam/work/colordance/src/color   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/colortest.dir/test/colortest.cpp.o -c /home/adam/work/colordance/src/color/test/colortest.cpp",
+  "file": "/home/adam/work/colordance/src/color/test/colortest.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controller.dir/BounceEffect.cpp.o -c /home/adam/work/colordance/src/controller/BounceEffect.cpp",
+  "file": "/home/adam/work/colordance/src/controller/BounceEffect.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controller.dir/CircleStrobeEffect.cpp.o -c /home/adam/work/colordance/src/controller/CircleStrobeEffect.cpp",
+  "file": "/home/adam/work/colordance/src/controller/CircleStrobeEffect.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controller.dir/ColorShiftAndStrobeEffect.cpp.o -c /home/adam/work/colordance/src/controller/ColorShiftAndStrobeEffect.cpp",
+  "file": "/home/adam/work/colordance/src/controller/ColorShiftAndStrobeEffect.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controller.dir/ColorShiftEffect.cpp.o -c /home/adam/work/colordance/src/controller/ColorShiftEffect.cpp",
+  "file": "/home/adam/work/colordance/src/controller/ColorShiftEffect.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controller.dir/DummyParamController.cpp.o -c /home/adam/work/colordance/src/controller/DummyParamController.cpp",
+  "file": "/home/adam/work/colordance/src/controller/DummyParamController.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controller.dir/Effect.cpp.o -c /home/adam/work/colordance/src/controller/Effect.cpp",
+  "file": "/home/adam/work/colordance/src/controller/Effect.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controller.dir/LightController.cpp.o -c /home/adam/work/colordance/src/controller/LightController.cpp",
+  "file": "/home/adam/work/colordance/src/controller/LightController.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controller.dir/ParamController.cpp.o -c /home/adam/work/colordance/src/controller/ParamController.cpp",
+  "file": "/home/adam/work/colordance/src/controller/ParamController.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controller.dir/SleepEffect.cpp.o -c /home/adam/work/colordance/src/controller/SleepEffect.cpp",
+  "file": "/home/adam/work/colordance/src/controller/SleepEffect.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controller.dir/SolidColorEffect.cpp.o -c /home/adam/work/colordance/src/controller/SolidColorEffect.cpp",
+  "file": "/home/adam/work/colordance/src/controller/SolidColorEffect.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controller.dir/StrobeEffect.cpp.o -c /home/adam/work/colordance/src/controller/StrobeEffect.cpp",
+  "file": "/home/adam/work/colordance/src/controller/StrobeEffect.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controller.dir/ThreeColorEffect.cpp.o -c /home/adam/work/colordance/src/controller/ThreeColorEffect.cpp",
+  "file": "/home/adam/work/colordance/src/controller/ThreeColorEffect.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controller.dir/UnevenSwitchStrobeEffect.cpp.o -c /home/adam/work/colordance/src/controller/UnevenSwitchStrobeEffect.cpp",
+  "file": "/home/adam/work/colordance/src/controller/UnevenSwitchStrobeEffect.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -isystem /usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controllertest.dir/test/DummyLightController.cpp.o -c /home/adam/work/colordance/src/controller/test/DummyLightController.cpp",
+  "file": "/home/adam/work/colordance/src/controller/test/DummyLightController.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -isystem /usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controllertest.dir/test/LightControllerTest.cpp.o -c /home/adam/work/colordance/src/controller/test/LightControllerTest.cpp",
+  "file": "/home/adam/work/colordance/src/controller/test/LightControllerTest.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -isystem /usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controllertest.dir/test/ParamControllerTest.cpp.o -c /home/adam/work/colordance/src/controller/test/ParamControllerTest.cpp",
+  "file": "/home/adam/work/colordance/src/controller/test/ParamControllerTest.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -isystem /usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controllertest.dir/test/SolidColorEffectTest.cpp.o -c /home/adam/work/colordance/src/controller/test/SolidColorEffectTest.cpp",
+  "file": "/home/adam/work/colordance/src/controller/test/SolidColorEffectTest.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/simulator",
+  "command": "/usr/bin/c++  -DUSE_BOOST=1 -I/usr/local/include -isystem /usr/local/include/OGRE -isystem /usr/local/include/OGRE/Bites -isystem /usr/include/SDL2 -isystem /usr/local/include/OGRE/HLMS -isystem /usr/local/include/OGRE/MeshLodGenerator -isystem /usr/local/include/OGRE/Overlay -isystem /usr/local/include/OGRE/Paging -isystem /usr/local/include/OGRE/Property -isystem /usr/local/include/OGRE/RTShaderSystem -isystem /usr/local/include/OGRE/Terrain -isystem /usr/local/include/OGRE/Volume -I/home/adam/work/colordance/src/simulator -I/home/adam/work/colordance/src/controller -I/home/adam/work/colordance/src/color   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/Simulator.dir/Simulator.cpp.o -c /home/adam/work/colordance/src/simulator/Simulator.cpp",
+  "file": "/home/adam/work/colordance/src/simulator/Simulator.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/simulator",
+  "command": "/usr/bin/c++  -DUSE_BOOST=1 -I/usr/local/include -isystem /usr/local/include/OGRE -isystem /usr/local/include/OGRE/Bites -isystem /usr/include/SDL2 -isystem /usr/local/include/OGRE/HLMS -isystem /usr/local/include/OGRE/MeshLodGenerator -isystem /usr/local/include/OGRE/Overlay -isystem /usr/local/include/OGRE/Paging -isystem /usr/local/include/OGRE/Property -isystem /usr/local/include/OGRE/RTShaderSystem -isystem /usr/local/include/OGRE/Terrain -isystem /usr/local/include/OGRE/Volume -I/home/adam/work/colordance/src/simulator -I/home/adam/work/colordance/src/controller -I/home/adam/work/colordance/src/color   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/Simulator.dir/SimulatorLightController.cpp.o -c /home/adam/work/colordance/src/simulator/SimulatorLightController.cpp",
+  "file": "/home/adam/work/colordance/src/simulator/SimulatorLightController.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/local",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/local -I/home/adam/work/colordance/src/controller -I/home/adam/work/colordance/src/color   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/Local.dir/Local.cpp.o -c /home/adam/work/colordance/src/local/Local.cpp",
+  "file": "/home/adam/work/colordance/src/local/Local.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/local",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/local -I/home/adam/work/colordance/src/controller -I/home/adam/work/colordance/src/color   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/Local.dir/LocalLightController.cpp.o -c /home/adam/work/colordance/src/local/LocalLightController.cpp",
+  "file": "/home/adam/work/colordance/src/local/LocalLightController.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/local",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/local -I/home/adam/work/colordance/src/controller -I/home/adam/work/colordance/src/color   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/Local.dir/LocalParamController.cpp.o -c /home/adam/work/colordance/src/local/LocalParamController.cpp",
+  "file": "/home/adam/work/colordance/src/local/LocalParamController.cpp"
+}
+]

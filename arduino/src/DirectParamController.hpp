@@ -18,9 +18,11 @@ enum class ParamChanged {
 };
 
 /**
- * Reads params the controls connected to this teensy.
+ * Reads params from the controls connected to this teensy.
  *
- * TODO: actually do that
+ * Also allows manually overriding the params (e.g. so that effects can be
+ * controlled automatically if no-one is using the controls). In this case, each
+ * param will stay as manually set until that particular control is changed.
  */
 class DirectParamController : public ParamController {
  public:
@@ -40,6 +42,11 @@ class DirectParamController : public ParamController {
       {Params::kWidth, 14}, {Params::kPan, 16},    {Params::kTilt, 23},
       {Params::kTempo, 17}, {Params::kParam, A21},
   };
+
+  /** Holds the most recently read values of the pots. Used to determine if a
+   * control has changed - if it has, then we set the param. This allows
+   * programmatic control of the params. */
+  std::map<const Params, int16_t> potValueMap;
 
   std::map<const Params, Encoder *const> encoderParamMap = {
       {Params::kHue0, new Encoder(6, 7)},
