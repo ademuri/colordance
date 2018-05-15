@@ -35,7 +35,9 @@ enum class Params {
   // Which effect is selected
   kEffect,
 
-  kParam,
+  // These two are different per-effect. They're the left two pots.
+  kParam1,
+  kParam2,
 };
 
 /**
@@ -82,11 +84,13 @@ class ParamController {
   static const int16_t kTiltNeutral = 127;
 
   std::map<const Params, const int16_t> paramRangeMap = {
-      {Params::kHue0, 359},   {Params::kHue1, 359},
-      {Params::kHue2, 359},   {Params::kTempo, 255},
+      {Params::kHue0, 96},    {Params::kHue1, 96},
+      {Params::kHue2, 96},    {Params::kTempo, 255},
       {Params::kWidth, 255},  {Params::kPan, 255},
       {Params::kTilt, 255},   {Params::kOrientation, 255},
-      {Params::kEffect, 200}, {Params::kParam, 255},
+      {Params::kEffect, 200}, {Params::kParam1, 255},
+      {Params::kParam2, 255},
+
   };
 };
 

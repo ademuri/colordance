@@ -29,8 +29,8 @@ void ThreeColorEffect::ParamChanged(Params param) {
       hsv3.h = paramController->Get(Params::kHue2);
       break;
 
-    case Params::kParam:
-      hsv1.v = hsv2.v = hsv3.v = paramController->Get(Params::kParam);
+    case Params::kParam1:
+      hsv1.v = hsv2.v = hsv3.v = paramController->Get(Params::kParam1);
       break;
 
     case Params::kTempo:

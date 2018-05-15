@@ -39,8 +39,8 @@ class DirectParamController : public ParamController {
 
   /** Maps from param to the pot pin */
   const std::map<const Params, const int> potParamMap = {
-      {Params::kWidth, 14}, {Params::kPan, 16},    {Params::kTilt, 23},
-      {Params::kTempo, 17}, {Params::kParam, A21},
+      {Params::kWidth, 14}, {Params::kPan, 16},     {Params::kTilt, 23},
+      {Params::kTempo, 17}, {Params::kParam1, A21}, {Params::kParam2, A22},
   };
 
   /** Holds the most recently read values of the pots. Used to determine if a

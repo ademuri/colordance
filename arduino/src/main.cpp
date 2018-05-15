@@ -104,8 +104,11 @@ extern "C" int main(void) {
         effect->ReloadParams();
       }
       effect->Run();
-      if (paramController->ScanForChanges(effect) != ParamChanged::kNone) {
-        effect->ChooseLights();
+      ParamChanged changed = paramController->ScanForChanges(effect);
+      if (changed != ParamChanged::kNone) {
+        if (changed == ParamChanged::kChooseLights) {
+          effect->ChooseLights();
+        }
         sleepAt = millis() + kNoInteractionSleepMs;
         autoEffectAt =
             millis() + kAutoEffectBaseMs + random(kAutoEffectRandomMs);

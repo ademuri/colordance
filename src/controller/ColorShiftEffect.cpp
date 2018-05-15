@@ -33,13 +33,16 @@ void ColorShiftEffect::ParamChanged(Params param) {
       hsvAdvance = paramController->GetScaled(Params::kTempo, 1, 8);
       break;
 
-    case Params::kHue1:
-      hsv.s =
-          100 + std::abs(paramController->GetScaled(Params::kHue1, -155, 155));
+    case Params::kParam1:
+      hsvShift = paramController->GetScaled(Params::kParam1, 30,
+                                            360 / lightIds.size());
+      break;
+
+    case Params::kParam2:
+      hsv.s = paramController->GetScaled(Params::kParam2, 100, 255);
       break;
 
     // TODO: handle other cases
-    case Params::kHue0:
     case Params::kHue2:
     case Params::kWidth:
     case Params::kPan:
@@ -61,11 +64,11 @@ void ColorShiftEffect::ChooseLights() {
 
 void ColorShiftEffect::RandomizeParams() {
 #ifdef ARDUINO
-  paramController->Set(Params::kHue1,
-                       random(paramController->paramRangeMap[Params::kHue1]));
   paramController->SetScaled(Params::kTempo, random(60), 0, 100);
   paramController->SetScaled(Params::kWidth, 1 + random(4), 0, 4);
   paramController->SetScaled(Params::kPan, random(5), 0, 4);
   paramController->SetScaled(Params::kTilt, random(5), 0, 4);
+  paramController->SetScaled(Params::kParam1, random(256), 100, 255);
+  paramController->SetScaled(Params::kParam2, random(256), 100, 255);
 #endif
 }

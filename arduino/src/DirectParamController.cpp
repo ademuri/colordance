@@ -34,6 +34,11 @@ ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
       potValueMap[iter->first] = readValue;
       params[iter->first] = readValue;
       effect->ParamChanged(iter->first);
+
+      if (!chooseLights &&
+          chooseLightParams.find(iter->first) != chooseLightParams.end()) {
+        chooseLights = true;
+      }
     }
   }
 
@@ -55,7 +60,6 @@ ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
     }
   }
 
-  // TODO: return the correct value depending on the param
   if (paramChanged) {
     return chooseLights ? ParamChanged::kChooseLights : ParamChanged::kOther;
   } else {
