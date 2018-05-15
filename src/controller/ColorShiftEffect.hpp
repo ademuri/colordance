@@ -16,6 +16,8 @@ class ColorShiftEffect : public Effect {
 
   void ParamChanged(Params param) override;
 
+  void RandomizeParams() override;
+
  protected:
   /* Called periodically to perform the effect. */
   void DoRun() override;

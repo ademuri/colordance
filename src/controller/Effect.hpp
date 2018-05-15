@@ -37,9 +37,17 @@ class Effect {
    */
   virtual void ParamChanged(Params param){};
 
-  /** Applies the current state of all params by calling ParamChanged for all
-   * parameters. */
+  /**
+   * Applies the current state of all params by calling ParamChanged for all
+   * parameters.
+   */
   void ReloadParams();
+
+  /**
+   * Sets the used params to "appropriate" random values. This shouldn't choose
+   * anything too harsh (like a high-tempo strobe).
+   */
+  virtual void RandomizeParams(){};
 
  protected:
   /* Effect-specific code. Must be overriden by subclasses. */

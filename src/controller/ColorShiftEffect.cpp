@@ -1,6 +1,7 @@
 #include "ColorShiftEffect.hpp"
 #include <cmath>
 #include "LightController.hpp"
+#include "WProgram.h"
 
 ColorShiftEffect::ColorShiftEffect(LightController *lightController,
                                    ParamController *paramController)
@@ -50,4 +51,13 @@ void ColorShiftEffect::ChooseLights() {
   hsvShift = 360 / lightIds.size();
 
   TurnOffUnusedLights(oldLightIds, lightIds);
+}
+
+void ColorShiftEffect::RandomizeParams() {
+  paramController->Set(Params::kHue1,
+                       random(paramController->paramRangeMap[Params::kHue1]));
+  paramController->SetScaled(Params::kTempo, random(60), 0, 100);
+  paramController->SetScaled(Params::kWidth, 1 + random(4), 0, 4);
+  paramController->SetScaled(Params::kPan, random(5), 0, 4);
+  paramController->SetScaled(Params::kTilt, random(5), 0, 4);
 }
