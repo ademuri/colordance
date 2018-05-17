@@ -54,6 +54,14 @@ class LightController {
   /** Turns off all lights. */
   void Blackout();
 
+  virtual void WriteLeds() {}
+
+  /**
+   * The decorative LED strips placed as part of the installation. These values
+   * are written out when WriteLeds is called.
+   */
+  std::vector<RGB> leds;
+
   int16_t numRows = 0;
   int16_t numCols = 0;
 

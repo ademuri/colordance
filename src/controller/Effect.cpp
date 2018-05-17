@@ -9,6 +9,7 @@ Effect::Effect(LightController *lightController,
 void Effect::Run() {
   if (this->runAtMs < lightController->GetMs()) {
     DoRun();
+    lightController->WriteLeds();
   }
 }
 

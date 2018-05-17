@@ -15,9 +15,13 @@ class DirectLightController : public LightController {
 
   void Set(const int16_t lightId, HSV hsv) override;
   long GetMs() override;
+  void WriteLeds() override;
 
  private:
   teensydmx::Sender dmx{Serial2};
+
+  /** The number of serial LEDs. */
+  const int kNumLeds = 5;
 };
 
 #endif
