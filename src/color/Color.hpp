@@ -3,31 +3,8 @@
 
 #include <cstdint>
 
-/* RGB color. 8 bits per color, since that's what our lights support. */
-struct RGB {
-  uint8_t r;
-  uint8_t g;
-  uint8_t b;
-};
-
-inline bool operator==(const RGB &x, const RGB &y) {
-  return x.r == y.r && x.g == y.g && x.b == y.b;
-}
-
-struct HSV {
-  /* Hue. Ranges from 0 to 359. */
-  uint16_t h;
-
-  /* Saturation. Ranges from 0 to 255. */
-  uint8_t s;
-
-  /* Value. Ranges from 0 to 255. */
-  uint8_t v;
-};
-
-inline bool operator==(const HSV &x, const HSV &y) {
-  return x.h == y.h && x.s == y.s && x.v == y.v;
-}
+struct HSV;
+struct RGB;
 
 enum Hue {
   HUE_RED = 0,
@@ -52,4 +29,33 @@ class Color {
   // (pure red), hues 0 through 120 will contain some red.
   static const uint16_t kHueWidth = 120;
 };
+
+/* RGB color. 8 bits per color, since that's what our lights support. */
+struct RGB {
+  uint8_t r;
+  uint8_t g;
+  uint8_t b;
+};
+
+inline bool operator==(const RGB &x, const RGB &y) {
+  return x.r == y.r && x.g == y.g && x.b == y.b;
+}
+
+struct HSV {
+  /* Hue. Ranges from 0 to 359. */
+  uint16_t h;
+
+  /* Saturation. Ranges from 0 to 255. */
+  uint8_t s;
+
+  /* Value. Ranges from 0 to 255. */
+  uint8_t v;
+
+  /** Automagically convert HSV to RGB. */
+  operator RGB() { return Color::toRGB(*this); }
+};
+
+inline bool operator==(const HSV &x, const HSV &y) {
+  return x.h == y.h && x.s == y.s && x.v == y.v;
+}
 #endif
