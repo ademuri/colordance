@@ -1,5 +1,5 @@
-#include <cmath>
 #include "ColorShiftEffect.hpp"
+#include <cmath>
 #include "LightController.hpp"
 
 ColorShiftEffect::ColorShiftEffect(LightController *lightController,

@@ -50,7 +50,8 @@ void BounceEffect::ParamChanged(Params param) {
       break;
 
     case Params::kParam2:
-      hsvShift = paramController->GetScaled(Params::kParam2, 30, 360 / numLights);
+      hsvShift =
+          paramController->GetScaled(Params::kParam2, 30, 360 / numLights);
       break;
 
     // TODO: handle other cases
@@ -83,7 +84,7 @@ void BounceEffect::ChooseLights() {
     numLights = 1;
     leftLight = 0;
   }
-  //hsvShift = 360 / numLights;
+  // hsvShift = 360 / numLights;
 }
 
 void BounceEffect::RandomizeParams() {
