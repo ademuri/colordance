@@ -136,12 +136,17 @@ std::vector<int16_t> LightController::GetLightsFromParams(
       paramController->GetScaled(Params::kOrientation, 0, 1);
   int16_t tilt;
 
+  // Flip pan and tilt if orientation is vertical, so that they still track the
+  // physical direction
+  Params panParam = Params::kPan;
+  Params tiltParam = Params::kTilt;
+
   // Depending on the orientation, choose lights in a vertical stack instead of
   // horizontally. If vertical, pan and tilt are flipped.
   switch (orientation) {
     case 0:
       // Horizontal (i.e. "normal")
-      tilt = paramController->GetScaled(Params::kTilt, 0, numRows - 1);
+      tilt = paramController->GetScaled(tiltParam, 0, numRows - 1);
 
       for (int i = 0; i < lightIds[tilt].size(); i++) {
         if (lightIds[tilt][i] != 0) {
@@ -151,8 +156,11 @@ std::vector<int16_t> LightController::GetLightsFromParams(
       break;
 
     case 1:
+      panParam = Params::kTilt;
+      tiltParam = Params::kPan;
+
       // Vertical (tilt and pan are flipped from normal)
-      tilt = paramController->GetScaled(Params::kTilt, 0, numCols - 1);
+      tilt = paramController->GetScaled(tiltParam, 0, numCols - 1);
 
       for (int i = 0; i < lightIds.size(); i++) {
         if (lightIds[i][tilt] != 0) {
@@ -171,7 +179,7 @@ std::vector<int16_t> LightController::GetLightsFromParams(
   const int16_t numLights =
       paramController->GetScaled(Params::kWidth, 1, availableLights.size());
   const int16_t pan = paramController->GetScaled(
-      Params::kPan, 0, availableLights.size() - numLights);
+      panParam, 0, availableLights.size() - numLights);
   std::vector<int16_t> chosenLights;
   for (int i = 0; i < numLights; i++) {
     chosenLights.push_back(availableLights[i + pan]);
