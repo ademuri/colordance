@@ -133,7 +133,7 @@ std::vector<int16_t> LightController::GetLightsFromParams(
     ParamController *paramController) {
   std::vector<int16_t> availableLights;
   const int16_t orientation =
-      paramController->GetScaled(Params::kOrientation, 0, 1);
+      paramController->GetScaled(Params::kOrientation, 0, 2);
   int16_t tilt;
 
   // Flip pan and tilt if orientation is vertical, so that they still track the
@@ -156,10 +156,10 @@ std::vector<int16_t> LightController::GetLightsFromParams(
       break;
 
     case 1:
+      // Vertical (tilt and pan are flipped from normal)
       panParam = Params::kTilt;
       tiltParam = Params::kPan;
 
-      // Vertical (tilt and pan are flipped from normal)
       tilt = paramController->GetScaled(tiltParam, 0, numCols - 1);
 
       for (int i = 0; i < lightIds.size(); i++) {
@@ -168,6 +168,15 @@ std::vector<int16_t> LightController::GetLightsFromParams(
         }
       }
       break;
+
+    case 2: {
+      // Diagonal
+      unsigned int diagonalSize = std::min(lightIds.size(), lightIds[0].size());
+      for (unsigned int i = 0; i < diagonalSize; i++) {
+        availableLights.push_back(lightIds[i][i]);
+      }
+      break;
+    }
 
     default:
 #ifndef ARDUINO
