@@ -6,6 +6,7 @@
 #include <set>
 #include "../../src/controller/Effect.hpp"
 #include "../../src/controller/ParamController.hpp"
+#include "../libraries/Bounce2/Bounce2.h"
 #include "WProgram.h"
 
 enum class ParamChanged {
@@ -32,7 +33,10 @@ class DirectParamController : public ParamController {
 
   void Set(Params param, int16_t val) override;
 
-  ParamChanged ScanForChanges(Effect *effect);
+  ParamChanged ScanForChanges(Effect* effect);
+
+  int getEffectIndex();
+  void setNumEffects(int numEffects_);
 
  private:
   std::map<const Params, int16_t> params;
@@ -48,7 +52,7 @@ class DirectParamController : public ParamController {
    * programmatic control of the params. */
   std::map<const Params, int16_t> potValueMap;
 
-  std::map<const Params, Encoder *const> encoderParamMap = {
+  std::map<const Params, Encoder* const> encoderParamMap = {
       {Params::kHue0, new Encoder(6, 7)},
       {Params::kHue1, new Encoder(4, 5)},
       {Params::kHue2, new Encoder(2, 3)},
@@ -63,6 +67,20 @@ class DirectParamController : public ParamController {
 
   // Pins
   const int kWidthPin = A2;
+
+  /** Which effect is selected. Changed via arcade buttons. */
+  int effectIndex = 0;
+
+  /** The total number of effects. The main loop sets this. */
+  int numEffects = 1;
+
+  // Debounce objects for the buttons
+  Bounce* prevEffect;
+  Bounce* nextEffect;
+
+  // Pins for the buttons
+  const int kPrevEffectPin = 39;
+  const int kNextEffectPin = 34;
 };
 
 #endif

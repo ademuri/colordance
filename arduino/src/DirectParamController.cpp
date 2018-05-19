@@ -7,6 +7,12 @@ DirectParamController::DirectParamController() : ParamController() {
     // Note: this will be overriden the first time through ScanForChanges
     potValueMap[pair.first] = 0;
   }
+
+  prevEffect = new Bounce();
+  prevEffect->attach(kPrevEffectPin, INPUT_PULLUP);
+
+  nextEffect = new Bounce();
+  nextEffect->attach(kNextEffectPin, INPUT_PULLUP);
 }
 
 int16_t DirectParamController::Get(Params param) { return params[param]; }
@@ -60,9 +66,21 @@ ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
     }
   }
 
+  if (prevEffect->update() && prevEffect->rose()) {
+    effectIndex = (effectIndex - 1 + numEffects) % numEffects;
+  } else if (nextEffect->update() && nextEffect->rose()) {
+    effectIndex = (effectIndex + 1 + numEffects) % numEffects;
+  }
+
   if (paramChanged) {
     return chooseLights ? ParamChanged::kChooseLights : ParamChanged::kOther;
   } else {
     return ParamChanged::kNone;
   }
+}
+
+int DirectParamController::getEffectIndex() { return effectIndex; }
+
+void DirectParamController::setNumEffects(int numEffects_) {
+  this->numEffects = numEffects_;
 }
