@@ -38,6 +38,8 @@ class DirectParamController : public ParamController {
   // Button-driven params
   int getEffectIndex();
   void setNumEffects(int numEffects_);
+  void setEffectIndex(int effectIndex_);
+
   /**
    * Returns true if the randomize button had a rising edge this cycle (i.e. the
    * signal is already debounced).
@@ -62,8 +64,6 @@ class DirectParamController : public ParamController {
       {Params::kHue0, new Encoder(6, 7)},
       {Params::kHue1, new Encoder(4, 5)},
       {Params::kHue2, new Encoder(2, 3)},
-      // TODO: remove this and make it controlled by buttons instead
-      {Params::kEffect, new Encoder(8, 9)},
   };
 
   const std::set<Params> chooseLightParams = {

@@ -132,8 +132,7 @@ extern "C" int main(void) {
       }
 
       if (millis() > autoEffectAt) {
-        paramController->SetScaled(Params::kEffect, random(effects.size()), 0,
-                                   effects.size() - 1);
+        paramController->setEffectIndex(random(effects.size()));
         autoEffectAt =
             millis() + kAutoEffectBaseMs + random(kAutoEffectRandomMs);
         autoEffectTriggered = true;

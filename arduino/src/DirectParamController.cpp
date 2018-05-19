@@ -86,6 +86,10 @@ ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
 
 int DirectParamController::getEffectIndex() { return effectIndex; }
 
+void DirectParamController::setEffectIndex(int effectIndex_) {
+  effectIndex = (numEffects + (effectIndex_ % numEffects)) % numEffects;
+}
+
 void DirectParamController::setNumEffects(int numEffects_) {
   this->numEffects = numEffects_;
 }
