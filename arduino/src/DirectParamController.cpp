@@ -8,11 +8,14 @@ DirectParamController::DirectParamController() : ParamController() {
     potValueMap[pair.first] = 0;
   }
 
-  prevEffect = new Bounce();
-  prevEffect->attach(kPrevEffectPin, INPUT_PULLUP);
+  bPrevEffect = new Bounce();
+  bPrevEffect->attach(kPrevEffectPin, INPUT_PULLUP);
 
-  nextEffect = new Bounce();
-  nextEffect->attach(kNextEffectPin, INPUT_PULLUP);
+  bNextEffect = new Bounce();
+  bNextEffect->attach(kNextEffectPin, INPUT_PULLUP);
+
+  bRandomize = new Bounce();
+  bRandomize->attach(kRandomizePin, INPUT_PULLUP);
 }
 
 int16_t DirectParamController::Get(Params param) { return params[param]; }
@@ -66,11 +69,13 @@ ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
     }
   }
 
-  if (prevEffect->update() && prevEffect->rose()) {
+  if (bPrevEffect->update() && bPrevEffect->rose()) {
     effectIndex = (effectIndex - 1 + numEffects) % numEffects;
-  } else if (nextEffect->update() && nextEffect->rose()) {
+  } else if (bNextEffect->update() && bNextEffect->rose()) {
     effectIndex = (effectIndex + 1 + numEffects) % numEffects;
   }
+
+  randomize = bRandomize->update() && bRandomize->rose();
 
   if (paramChanged) {
     return chooseLights ? ParamChanged::kChooseLights : ParamChanged::kOther;
@@ -84,3 +89,5 @@ int DirectParamController::getEffectIndex() { return effectIndex; }
 void DirectParamController::setNumEffects(int numEffects_) {
   this->numEffects = numEffects_;
 }
+
+bool DirectParamController::getRandomize() { return randomize; }

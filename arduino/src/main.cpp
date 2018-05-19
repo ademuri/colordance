@@ -102,7 +102,18 @@ extern "C" int main(void) {
 
         effect->ChooseLights();
         effect->ReloadParams();
+      } else if (paramController->getRandomize()) {
+        // If we haven't already switched effects and the randomize button is
+        // pressed, randomize the params
+        autoEffectAt =
+            millis() + kAutoEffectBaseMs + random(kAutoEffectRandomMs);
+        sleepAt = millis() + kNoInteractionSleepMs;
+
+        effect->RandomizeParams();
+        effect->ChooseLights();
+        effect->ReloadParams();
       }
+
       effect->Run();
       ParamChanged changed = paramController->ScanForChanges(effect);
       if (changed != ParamChanged::kNone) {

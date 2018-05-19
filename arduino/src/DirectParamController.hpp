@@ -35,8 +35,14 @@ class DirectParamController : public ParamController {
 
   ParamChanged ScanForChanges(Effect* effect);
 
+  // Button-driven params
   int getEffectIndex();
   void setNumEffects(int numEffects_);
+  /**
+   * Returns true if the randomize button had a rising edge this cycle (i.e. the
+   * signal is already debounced).
+   */
+  bool getRandomize();
 
  private:
   std::map<const Params, int16_t> params;
@@ -75,12 +81,16 @@ class DirectParamController : public ParamController {
   int numEffects = 1;
 
   // Debounce objects for the buttons
-  Bounce* prevEffect;
-  Bounce* nextEffect;
+  Bounce* bPrevEffect;
+  Bounce* bNextEffect;
+  Bounce* bRandomize;
 
   // Pins for the buttons
   const int kPrevEffectPin = 39;
   const int kNextEffectPin = 34;
+  const int kRandomizePin = 24;
+
+  bool randomize = false;
 };
 
 #endif
