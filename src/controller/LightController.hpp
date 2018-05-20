@@ -39,10 +39,17 @@ class LightController {
                                               int16_t rows, int16_t cols);
 
   /*
-   * Gets a block of lights. The size and location will be based on the params.
+   * Gets a line of lights. The size and location will be based on the params.
    * Unlike GetLights, no null IDs will be present.
    */
   std::vector<int16_t> GetLightsFromParams(ParamController *paramController);
+
+  /**
+   * Like the above method, but with a specified width. Still uses params to do
+   * pan/tilt/orientation. If width is 0, uses params to choose the width.
+   */
+  std::vector<int16_t> GetLightsFromParams(ParamController *paramController,
+                                           unsigned int width);
 
   /*
    * Gets the number of milliseconds the system has been running for. Used for

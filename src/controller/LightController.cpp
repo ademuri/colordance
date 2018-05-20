@@ -1,4 +1,5 @@
 #include "LightController.hpp"
+#include <cmath>
 #include <cstdio>
 #include <vector>
 #include "ParamController.hpp"
@@ -131,6 +132,11 @@ std::vector<std::vector<int16_t>> LightController::GetLights(
 
 std::vector<int16_t> LightController::GetLightsFromParams(
     ParamController *paramController) {
+  return GetLightsFromParams(paramController, 0);
+}
+
+std::vector<int16_t> LightController::GetLightsFromParams(
+    ParamController *paramController, unsigned int width) {
   std::vector<int16_t> availableLights;
   const int16_t orientation =
       paramController->GetScaled(Params::kOrientation, 0, 2);
@@ -185,8 +191,16 @@ std::vector<int16_t> LightController::GetLightsFromParams(
       break;
   }
 
-  const int16_t numLights =
+  int16_t numLights =
       paramController->GetScaled(Params::kWidth, 1, availableLights.size());
+  if (width != 0) {
+    // Can't use std::min here because vector size type varies across platforms
+    if (availableLights.size() < width) {
+      numLights = availableLights.size();
+    } else {
+      numLights = width;
+    }
+  }
   const int16_t pan = paramController->GetScaled(
       panParam, 0, availableLights.size() - numLights);
   std::vector<int16_t> chosenLights;

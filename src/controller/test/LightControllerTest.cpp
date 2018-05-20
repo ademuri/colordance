@@ -236,11 +236,11 @@ TEST(LightControllerTest, GetLightsFromParams_orientation) {
   EXPECT_EQ(c.GetLightsFromParams(p), expected);
 
   expected = {2, 5, 8};
-  p->SetScaled(Params::kOrientation, 1, 0, 1);
+  p->SetScaled(Params::kOrientation, 1, 0, 2);
   EXPECT_EQ(c.GetLightsFromParams(p), expected);
 
   expected = {1, 4, 7};
-  p->SetScaled(Params::kTilt, 0, 0, 10);
+  p->SetScaled(Params::kPan, 0, 0, 10);
   EXPECT_EQ(c.GetLightsFromParams(p), expected);
 
   expected = {1, 4};
@@ -248,6 +248,6 @@ TEST(LightControllerTest, GetLightsFromParams_orientation) {
   EXPECT_EQ(c.GetLightsFromParams(p), expected);
 
   expected = {4, 7};
-  p->SetScaled(Params::kPan, 10, 0, 10);
+  p->SetScaled(Params::kTilt, 10, 0, 10);
   EXPECT_EQ(c.GetLightsFromParams(p), expected);
 }

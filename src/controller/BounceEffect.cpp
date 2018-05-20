@@ -69,8 +69,9 @@ void BounceEffect::ChooseLights() {
   // no longer selected.
   std::vector<int16_t> oldLightIds = lightIds;
 
-  lightIds = lightController->GetLights(paramController, 1,
-                                        lightController->numCols)[0];
+  lightIds = lightController->GetLightsFromParams(
+      paramController,
+      std::max(lightController->numCols, lightController->numRows));
 
   TurnOffUnusedLights(oldLightIds, lightIds);
 
