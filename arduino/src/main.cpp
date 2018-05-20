@@ -10,6 +10,8 @@
 #include "../../src/controller/StrobeEffect.hpp"
 #include "../../src/controller/ThreeColorEffect.hpp"
 #include "../../src/controller/UnevenSwitchStrobeEffect.hpp"
+#include "../libraries/DS1307RTC/DS1307RTC.h"
+#include "../libraries/Time/TimeLib.h"
 #include "DirectLightController.hpp"
 #include "DirectParamController.hpp"
 #include "WProgram.h"
@@ -18,7 +20,7 @@ template <typename... Args>
 void log(const std::string &format, Args... args) {
   static char buffer[kLogBufferSize];
   // Print the time and then the caller's message
-  snprintf(buffer, kLogBufferSize, "%lu, ", millis());
+  snprintf(buffer, kLogBufferSize, "%lu, ", now());
   Serial5.print(buffer);
 
   snprintf(buffer, kLogBufferSize, format.c_str(), args...);
@@ -40,6 +42,9 @@ const unsigned long kAutoEffectRandomMs = 2 * 1000;
 extern "C" int main(void) {
   pinMode(13, OUTPUT);
   Serial5.begin(115200);
+
+  // Tells the Teensy to use the onboard RTC
+  setSyncProvider(RTC.get);
 
   log("Hello, world!");
 
@@ -150,7 +155,7 @@ extern "C" int main(void) {
     // Census: log certain values every so often. Log CSV-like as "name, value"
     if (millis() > censusLogAt) {
       // Note: this seems to take about 1-2ms.
-      log("census, effect=%d, sleeping=%d, usingAutoEffect=%s", effectIndex,
+      log("census, effect=%d, sleeping=%d, usingAutoEffect=%d", effectIndex,
           sleeping, usingAutoEffect);
       censusLogAt = millis() + kCensusLogMs;
     }
