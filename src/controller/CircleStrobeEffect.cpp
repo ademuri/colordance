@@ -75,7 +75,7 @@ void CircleStrobeEffect::ChooseLights() {
 
   std::vector<std::vector<int16_t>> lightArray = lightController->GetLights(
       paramController,
-      paramController->GetScaled(Params::kParam2, 2, lightController->numRows),
+      paramController->GetScaled(Params::kParam2, 3, lightController->numRows),
       paramController->GetScaled(Params::kWidth, 2, lightController->numCols));
   const int colSize = lightArray[0].size();
 
