@@ -1,3 +1,6 @@
+// This defines the logging function, so it needs to be first
+#include "main.hpp"
+
 #include "../../src/controller/BounceEffect.hpp"
 #include "../../src/controller/CircleStrobeEffect.hpp"
 #include "../../src/controller/ColorShiftAndStrobeEffect.hpp"
@@ -11,23 +14,15 @@
 #include "DirectParamController.hpp"
 #include "WProgram.h"
 
-// This is some stuff to fix issues with the Teensy library vector
-// implementation where
-// it throws warnings or fails to link if there is no __throw_bad_alloc()
-// or __throw_length_error() functions.
+template <typename... Args>
+void log(const std::string &format, Args... args) {
+  static char buffer[kLogBufferSize];
+  // Print the time and then the caller's message
+  snprintf(buffer, kLogBufferSize, "%lu, ", millis());
+  Serial5.print(buffer);
 
-namespace std {
-void __throw_bad_alloc() {
-  Serial.println("bad_alloc");
-  while (1)
-    ;
-}
-void __throw_length_error(char const *e) {
-  Serial.print("length_error: ");
-  Serial.println(e);
-  while (1)
-    ;
-}
+  snprintf(buffer, kLogBufferSize, format.c_str(), args...);
+  Serial5.println(buffer);
 }
 
 // Tuning constants
@@ -37,13 +32,16 @@ const unsigned long kNoInteractionSleepMs = 5 * 60 * 1000;
 
 // How long after no controls have been changed to randomly change the effect
 // Note that this won't work as long as a knob controls the effect
-const unsigned long kAutoEffectBaseMs = 60 * 1000;
-const unsigned long kAutoEffectRandomMs = 30 * 1000;
-// const unsigned long kAutoEffectBaseMs = 5 * 1000;
-// const unsigned long kAutoEffectRandomMs = 2 * 1000;
+// const unsigned long kAutoEffectBaseMs = 60 * 1000;
+// const unsigned long kAutoEffectRandomMs = 30 * 1000;
+const unsigned long kAutoEffectBaseMs = 5 * 1000;
+const unsigned long kAutoEffectRandomMs = 2 * 1000;
 
 extern "C" int main(void) {
   pinMode(13, OUTPUT);
+  Serial5.begin(115200);
+
+  log("Hello, world!");
 
   DirectLightController *lightController = new DirectLightController();
   DirectParamController *paramController = new DirectParamController();
@@ -76,6 +74,9 @@ extern "C" int main(void) {
   unsigned long autoEffectAt =
       millis() + kAutoEffectBaseMs + random(kAutoEffectRandomMs);
   bool autoEffectTriggered = false;
+  // Census variable that keeps track of whether the params were automatically
+  // generated.
+  bool usingAutoEffect = false;
 
   while (1) {
     if (sleeping) {
@@ -114,7 +115,6 @@ extern "C" int main(void) {
         effect->ReloadParams();
       }
 
-      effect->Run();
       ParamChanged changed = paramController->ScanForChanges(effect);
       if (changed != ParamChanged::kNone) {
         if (changed == ParamChanged::kChooseLights) {
@@ -123,6 +123,7 @@ extern "C" int main(void) {
         sleepAt = millis() + kNoInteractionSleepMs;
         autoEffectAt =
             millis() + kAutoEffectBaseMs + random(kAutoEffectRandomMs);
+        usingAutoEffect = false;
       }
 
       if (millis() > sleepAt) {
@@ -130,18 +131,28 @@ extern "C" int main(void) {
         lightController->Blackout();
         sleepEffect->ChooseLights();
       }
+      effect->Run();
 
       if (millis() > autoEffectAt) {
         paramController->setEffectIndex(random(effects.size()));
         autoEffectAt =
             millis() + kAutoEffectBaseMs + random(kAutoEffectRandomMs);
         autoEffectTriggered = true;
+        usingAutoEffect = true;
 
         // Skip the delay to reduce the chance of flickering
         continue;
       }
 
       delay(1);
+    }
+
+    // Census: log certain values every so often. Log CSV-like as "name, value"
+    if (millis() > censusLogAt) {
+      // Note: this seems to take about 1-2ms.
+      log("census, effect=%d, sleeping=%d, usingAutoEffect=%s", effectIndex,
+          sleeping, usingAutoEffect);
+      censusLogAt = millis() + kCensusLogMs;
     }
   }
 }
