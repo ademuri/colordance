@@ -50,7 +50,8 @@ void ColorShiftEffect::ChooseLights() {
   std::vector<int16_t> oldLightIds = lightIds;
 
   lightIds = lightController->GetLightsFromParams(paramController);
-  hsvShift = 360 / lightIds.size();
+  hsvShift =
+      paramController->GetScaled(Params::kParam1, 30, 360 / lightIds.size());
 
   TurnOffUnusedLights(oldLightIds, lightIds);
 }
