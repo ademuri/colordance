@@ -64,7 +64,7 @@ class DirectParamController : public ParamController {
       {Params::kHue0, new Encoder(6, 7)},
       {Params::kHue1, new Encoder(4, 5)},
       {Params::kHue2, new Encoder(2, 3)},
-      {Params::kOrientation, new Encoder(8, 9)},
+      //{Params::kOrientation, new Encoder(8, 9)},
   };
 
   const std::set<Params> chooseLightParams = {
@@ -85,11 +85,13 @@ class DirectParamController : public ParamController {
   Bounce* bPrevEffect;
   Bounce* bNextEffect;
   Bounce* bRandomize;
+  Bounce* bOrientation;
 
   // Pins for the buttons
   const int kPrevEffectPin = 39;
   const int kNextEffectPin = 34;
   const int kRandomizePin = 24;
+  const int kOrientationPin = 25;
 
   bool randomize = false;
 };

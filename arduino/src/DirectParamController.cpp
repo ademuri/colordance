@@ -16,6 +16,9 @@ DirectParamController::DirectParamController() : ParamController() {
 
   bRandomize = new Bounce();
   bRandomize->attach(kRandomizePin, INPUT_PULLUP);
+
+  bOrientation = new Bounce();
+  bOrientation->attach(kOrientationPin, INPUT_PULLUP);
 }
 
 int16_t DirectParamController::Get(Params param) { return params[param]; }
@@ -71,11 +74,20 @@ ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
 
   if (bPrevEffect->update() && bPrevEffect->rose()) {
     effectIndex = (effectIndex - 1 + numEffects) % numEffects;
+    paramChanged = true;
   } else if (bNextEffect->update() && bNextEffect->rose()) {
     effectIndex = (effectIndex + 1 + numEffects) % numEffects;
+    paramChanged = true;
   }
 
   randomize = bRandomize->update() && bRandomize->rose();
+
+  if (bOrientation->update() && bOrientation->rose()) {
+    params[Params::kOrientation] = (params[Params::kOrientation] + 1) %
+                                   paramRangeMap[Params::kOrientation];
+    paramChanged = true;
+    chooseLights = true;
+  }
 
   if (paramChanged) {
     return chooseLights ? ParamChanged::kChooseLights : ParamChanged::kOther;
