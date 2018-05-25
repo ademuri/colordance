@@ -83,7 +83,7 @@ class ParamController {
   std::map<const Params, const int16_t> paramRangeMap = {
       {Params::kHue0, 96},    {Params::kHue1, 96},       {Params::kHue2, 96},
       {Params::kTempo, 255},  {Params::kWidth, 255},     {Params::kPan, 255},
-      {Params::kTilt, 255},   {Params::kOrientation, 3}, {Params::kParam1, 255},
+      {Params::kTilt, 255},   {Params::kOrientation, 4}, {Params::kParam1, 255},
       {Params::kParam2, 255},
 
   };

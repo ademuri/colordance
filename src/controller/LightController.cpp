@@ -139,7 +139,7 @@ std::vector<int16_t> LightController::GetLightsFromParams(
     ParamController *paramController, unsigned int width) {
   std::vector<int16_t> availableLights;
   const int16_t orientation =
-      paramController->GetScaled(Params::kOrientation, 0, 2);
+      paramController->GetScaled(Params::kOrientation, 0, 3);
   int16_t tilt;
 
   // Flip pan and tilt if orientation is vertical, so that they still track the
@@ -180,6 +180,15 @@ std::vector<int16_t> LightController::GetLightsFromParams(
       unsigned int diagonalSize = std::min(lightIds.size(), lightIds[0].size());
       for (unsigned int i = 0; i < diagonalSize; i++) {
         availableLights.push_back(lightIds[i][i]);
+      }
+      break;
+    }
+
+    case 3: {
+      // Other diagonal
+      unsigned int diagonalSize = std::min(lightIds.size(), lightIds[0].size());
+      for (unsigned int i = 0; i < diagonalSize; i++) {
+        availableLights.push_back(lightIds[lightIds.size() - i - 1][i]);
       }
       break;
     }
