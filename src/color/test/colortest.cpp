@@ -18,7 +18,7 @@ TEST(ColorTest, zeroSaturation) {
 
 TEST(ColorTest, zeroSaturationPartialValue) {
   HSV hsv = {HUE_RED, 0, 127};
-  RGB expected = {55, 55, 55};
+  RGB expected = {47, 47, 47};
 
   EXPECT_EQ(Color::toRGB(hsv), expected);
 }
@@ -46,7 +46,7 @@ TEST(ColorTest, blue) {
 
 TEST(ColorTest, blueDim) {
   HSV hsv = {HUE_BLUE, 255, 127};
-  RGB expected = {0, 0, 55};
+  RGB expected = {0, 0, 47};
 
   EXPECT_EQ(Color::toRGB(hsv), expected);
 }
@@ -82,7 +82,7 @@ TEST(ColorTest, yellowDesaturated) {
 
 TEST(ColorTest, yellowDimDesaturated) {
   HSV hsv = {HUE_YELLOW, 127, 127};
-  RGB expected = {34, 34, 14};
+  RGB expected = {29, 29, 12};
 
   EXPECT_EQ(Color::toRGB(hsv), expected);
 }
@@ -132,14 +132,14 @@ TEST(ColorTest, moreReddish) {
 }
 
 TEST(ColorTest, lowValueGammaToZero) {
-  HSV hsv = {0, 255, 14};
+  HSV hsv = {0, 255, 4};
   RGB expected = {0, 0, 0};
 
   EXPECT_EQ(Color::toRGB(hsv), expected);
 }
 
 TEST(ColorTest, lowValue) {
-  HSV hsv = {0, 255, 15};
+  HSV hsv = {0, 255, 5};
   RGB expected = {1, 0, 0};
 
   EXPECT_EQ(Color::toRGB(hsv), expected);
