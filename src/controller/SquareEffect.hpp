@@ -29,11 +29,24 @@ class SquareEffect : public Effect {
  private:
   std::vector<int16_t> lightIds;
 
-  std::vector<HSV> hues = {
+  /** The hues selected by the user. */
+  std::vector<HSV> baseHues = {
       {0, 255, 255}, {90, 255, 255}, {180, 255, 255}, {270, 255, 255},
   };
 
+  /**
+   * The rotated hues. If tempo is non-zero, these will interpolate between the
+   * base hues.
+   */
+  std::vector<HSV> actualHues = baseHues;
+
+  int16_t tempo = 0;
+  int16_t shiftPosition = 0;
+
   const unsigned int kNumLights = 4;
+
+  /** How many shiftPosition steps between each color when interpolating. */
+  const int16_t kStepsPerHue = 100;
 };
 
 #endif

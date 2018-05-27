@@ -10,41 +10,52 @@ SquareEffect::SquareEffect(LightController *lightController,
 void SquareEffect::BeatDetected() {}
 
 void SquareEffect::DoRun() {
+  shiftPosition += tempo;
+
   for (unsigned int i = 0; i < kNumLights; i++) {
-    lightController->Set(lightIds[i], hues[i]);
+    const int32_t hueIndex = (i + shiftPosition / kStepsPerHue) % kNumLights;
+    const int32_t hueOffset = shiftPosition % kStepsPerHue;
+
+    actualHues[i] = Color::interpolate(baseHues[hueIndex],
+                                       baseHues[(hueIndex + 1) % kNumLights],
+                                       hueOffset * 255 / kStepsPerHue);
+
+    lightController->Set(lightIds[i], actualHues[i]);
   }
 }
 
 void SquareEffect::ParamChanged(Params param) {
   switch (param) {
     case Params::kHue0:
-      hues[0].h = paramController->GetScaled(Params::kHue0, 0, 359);
+      baseHues[0].h = paramController->GetScaled(Params::kHue0, 0, 359);
       break;
 
     case Params::kHue1:
-      hues[1].h = paramController->GetScaled(Params::kHue1, 0, 359);
+      baseHues[1].h = paramController->GetScaled(Params::kHue1, 0, 359);
       break;
 
     case Params::kHue2:
-      hues[2].h = paramController->GetScaled(Params::kHue2, 0, 359);
+      baseHues[2].h = paramController->GetScaled(Params::kHue2, 0, 359);
       break;
 
     case Params::kKnob:
-      hues[3].h = paramController->GetScaled(Params::kKnob, 0, 359);
+      baseHues[3].h = paramController->GetScaled(Params::kKnob, 0, 359);
       break;
 
     case Params::kParam1:
-      hues[0].v = hues[1].v = hues[2].v =
+      baseHues[0].v = baseHues[1].v = baseHues[2].v =
           paramController->GetScaled(Params::kParam1, 0, 255);
       break;
 
     case Params::kParam2:
-      hues[0].s = hues[1].s = hues[2].s =
+      baseHues[0].s = baseHues[1].s = baseHues[2].s =
           paramController->GetScaled(Params::kParam2, 0, 255);
       break;
 
-    // TODO: handle other cases
     case Params::kTempo:
+      tempo = paramController->GetScaled(Params::kTempo, 0, 5);
+      break;
+
     case Params::kWidth:
     case Params::kPan:
       break;
@@ -67,4 +78,6 @@ void SquareEffect::ChooseLights() {
       newLightIds[newLightIds.size() - 1][newLightIds[0].size() - 1]);
   lightIds.push_back(newLightIds[newLightIds.size() - 1][0]);
   TurnOffUnusedLights(oldLightIds, lightIds);
+
+  tempo = 1;
 }

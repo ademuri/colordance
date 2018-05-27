@@ -1,3 +1,4 @@
+#include <cmath>
 #include <cstdint>
 
 #include "Color.hpp"
@@ -100,4 +101,25 @@ RGB Color::toRGB(HSV &hsv) {
   rgb.b = GetColorValue(HUE_BLUE, hsv);
 
   return rgb;
+}
+
+HSV Color::interpolate(HSV &hsv1, HSV &hsv2, int32_t ratio) {
+  const int32_t invRatio = 255 - ratio;
+
+  HSV ret;
+  ret.s = (hsv1.s * invRatio + hsv2.s * ratio) / 255;
+  ret.v = (hsv1.v * invRatio + hsv2.v * ratio) / 255;
+
+  int32_t hue1 = (hsv1.h % 360 + 360) % 360;
+  int32_t hue2 = (hsv2.h % 360 + 360) % 360;
+  if (std::abs(hue1 - hue2) > 180) {
+    if (hue1 > hue2) {
+      hue2 += 360;
+    } else {
+      hue1 == 360;
+    }
+  }
+  ret.h = ((hue1 * invRatio + hue2 * ratio) / 255) % 360;
+
+  return ret;
 }

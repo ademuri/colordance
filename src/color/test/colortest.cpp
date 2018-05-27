@@ -159,3 +159,55 @@ TEST(ColorTest, hueOverflow) {
   EXPECT_EQ(Color::toRGB(hsv), expected);
   EXPECT_EQ(hsv.h, 0);
 }
+
+TEST(ColorTest, interpolate_saturation) {
+  HSV hsv1 = {0, 255, 0};
+  HSV hsv2 = {0, 0, 0};
+  HSV ret = Color::interpolate(hsv1, hsv2, 127);
+  EXPECT_EQ(ret.s, 128);
+
+  ret = Color::interpolate(hsv1, hsv2, 0);
+  EXPECT_EQ(ret.s, 255);
+
+  ret = Color::interpolate(hsv1, hsv2, 255);
+  EXPECT_EQ(ret.s, 0);
+}
+
+TEST(ColorTest, interpolate_value) {
+  HSV hsv1 = {0, 0, 0};
+  HSV hsv2 = {0, 0, 255};
+  HSV ret = Color::interpolate(hsv1, hsv2, 127);
+  EXPECT_EQ(ret.v, 127);
+
+  ret = Color::interpolate(hsv1, hsv2, 0);
+  EXPECT_EQ(ret.v, 0);
+
+  ret = Color::interpolate(hsv1, hsv2, 255);
+  EXPECT_EQ(ret.v, 255);
+}
+
+TEST(ColorTest, interpolate_hue_smallInterval) {
+  HSV hsv1 = {0, 0, 0};
+  HSV hsv2 = {10, 0, 0};
+  HSV ret = Color::interpolate(hsv1, hsv2, 127);
+  EXPECT_EQ(ret.h, 4);
+
+  ret = Color::interpolate(hsv1, hsv2, 0);
+  EXPECT_EQ(ret.h, 0);
+
+  ret = Color::interpolate(hsv1, hsv2, 255);
+  EXPECT_EQ(ret.h, 10);
+}
+
+TEST(ColorTest, interpolate_hue_wrapAround) {
+  HSV hsv1 = {355, 0, 0};
+  HSV hsv2 = {5, 0, 0};
+  HSV ret = Color::interpolate(hsv1, hsv2, 127);
+  EXPECT_EQ(ret.h, 359);
+
+  ret = Color::interpolate(hsv1, hsv2, 0);
+  EXPECT_EQ(ret.h, 355);
+
+  ret = Color::interpolate(hsv1, hsv2, 255);
+  EXPECT_EQ(ret.h, 5);
+}

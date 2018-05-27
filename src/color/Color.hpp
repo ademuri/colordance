@@ -19,6 +19,8 @@ class Color {
  public:
   static RGB toRGB(HSV &hsv);
 
+  static HSV interpolate(HSV &hsv1, HSV &hsv2, int32_t ratio);
+
  private:
   static uint8_t GetColorValue(Hue color, const HSV &hsv);
 
