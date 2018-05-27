@@ -11,8 +11,6 @@ enum class Params {
   kHue1,
   kHue2,
 
-  // TODO: add more hues and saturations/values
-
   // Relative speed. Interpreted differently by different effects. Smaller
   // values are slower.
   kTempo,
@@ -35,6 +33,9 @@ enum class Params {
   // These two are different per-effect. They're the left two pots.
   kParam1,
   kParam2,
+
+  // This is the single knob on the left.
+  kKnob,
 };
 
 /**
@@ -84,7 +85,7 @@ class ParamController {
       {Params::kHue0, 96},    {Params::kHue1, 96},       {Params::kHue2, 96},
       {Params::kTempo, 255},  {Params::kWidth, 255},     {Params::kPan, 255},
       {Params::kTilt, 255},   {Params::kOrientation, 4}, {Params::kParam1, 255},
-      {Params::kParam2, 255},
+      {Params::kParam2, 255}, {Params::kKnob, 96},
 
   };
 };

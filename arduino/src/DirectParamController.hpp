@@ -64,7 +64,7 @@ class DirectParamController : public ParamController {
       {Params::kHue0, new Encoder(6, 7)},
       {Params::kHue1, new Encoder(4, 5)},
       {Params::kHue2, new Encoder(2, 3)},
-      //{Params::kOrientation, new Encoder(8, 9)},
+      {Params::kKnob, new Encoder(8, 9)},
   };
 
   const std::set<Params> chooseLightParams = {
