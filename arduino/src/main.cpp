@@ -7,6 +7,7 @@
 #include "../../src/controller/ColorShiftEffect.hpp"
 #include "../../src/controller/SleepEffect.hpp"
 #include "../../src/controller/SolidColorEffect.hpp"
+#include "../../src/controller/SquareEffect.hpp"
 #include "../../src/controller/StrobeEffect.hpp"
 #include "../../src/controller/ThreeColorEffect.hpp"
 #include "../../src/controller/UnevenSwitchStrobeEffect.hpp"
@@ -52,6 +53,7 @@ extern "C" int main(void) {
   DirectParamController *paramController = new DirectParamController();
 
   std::vector<Effect *> effects = {
+      new SquareEffect(lightController, paramController),
       new ColorShiftEffect(lightController, paramController),
       new CircleStrobeEffect(lightController, paramController),
       new BounceEffect(lightController, paramController),

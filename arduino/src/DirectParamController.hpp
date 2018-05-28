@@ -6,7 +6,7 @@
 #include <set>
 #include "../../src/controller/Effect.hpp"
 #include "../../src/controller/ParamController.hpp"
-#include "../libraries/Bounce2/Bounce2.h"
+#include "../libraries/Bounce2/src/Bounce2.h"
 #include "WProgram.h"
 
 enum class ParamChanged {

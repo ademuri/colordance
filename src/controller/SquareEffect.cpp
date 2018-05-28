@@ -10,18 +10,22 @@ SquareEffect::SquareEffect(LightController *lightController,
 void SquareEffect::BeatDetected() {}
 
 void SquareEffect::DoRun() {
-  shiftPosition += tempo;
+  if (tempo != 0) {
+    hueOsc += hueDirection;
+  }
+
+  if (hueOsc > kHueBandWidth) {
+    hueDirection = -1;
+  } else if (hueOsc <= 0) {
+    hueDirection = 1;
+  }
 
   for (unsigned int i = 0; i < kNumLights; i++) {
-    const int32_t hueIndex = (i + shiftPosition / kStepsPerHue) % kNumLights;
-    const int32_t hueOffset = shiftPosition % kStepsPerHue;
-
-    actualHues[i] = Color::interpolate(baseHues[hueIndex],
-                                       baseHues[(hueIndex + 1) % kNumLights],
-                                       hueOffset * 255 / kStepsPerHue);
-
+    actualHues[i].h = baseHues[i].h + hueOsc;
     lightController->Set(lightIds[i], actualHues[i]);
   }
+
+  SleepMs((kMaxTempo - tempo));
 }
 
 void SquareEffect::ParamChanged(Params param) {
@@ -43,17 +47,15 @@ void SquareEffect::ParamChanged(Params param) {
       break;
 
     case Params::kParam1:
-      baseHues[0].v = baseHues[1].v = baseHues[2].v =
+      baseHues[0].s = baseHues[1].s = baseHues[2].s =
           paramController->GetScaled(Params::kParam1, 0, 255);
       break;
 
     case Params::kParam2:
-      baseHues[0].s = baseHues[1].s = baseHues[2].s =
-          paramController->GetScaled(Params::kParam2, 0, 255);
       break;
 
     case Params::kTempo:
-      tempo = paramController->GetScaled(Params::kTempo, 0, 5);
+      tempo = paramController->GetScaled(Params::kTempo, 0, kMaxTempo);
       break;
 
     case Params::kWidth:
@@ -67,10 +69,10 @@ void SquareEffect::ChooseLights() {
   // no longer selected.
   std::vector<int16_t> oldLightIds = lightIds;
 
-  unsigned int size =
-      paramController->GetScaled(Params::kWidth, 2, lightController->numRows);
-  std::vector<std::vector<int16_t>> newLightIds =
-      lightController->GetLights(paramController, size, size);
+  std::vector<std::vector<int16_t>> newLightIds = lightController->GetLights(
+      paramController,
+      paramController->GetScaled(Params::kParam2, 2, lightController->numRows),
+      paramController->GetScaled(Params::kWidth, 2, lightController->numCols));
   lightIds.clear();
   lightIds.push_back(newLightIds[0][0]);
   lightIds.push_back(newLightIds[0][newLightIds[0].size() - 1]);
@@ -78,6 +80,22 @@ void SquareEffect::ChooseLights() {
       newLightIds[newLightIds.size() - 1][newLightIds[0].size() - 1]);
   lightIds.push_back(newLightIds[newLightIds.size() - 1][0]);
   TurnOffUnusedLights(oldLightIds, lightIds);
+}
 
-  tempo = 1;
+void SquareEffect::RandomizeParams() {
+#ifdef ARDUINO
+  paramController->SetScaled(Params::kTempo, random(90), 0, 100);
+  paramController->SetScaled(Params::kWidth, random(5), 0, 4);
+  paramController->SetScaled(Params::kPan, random(5), 0, 4);
+  paramController->SetScaled(Params::kTilt, random(5), 0, 4);
+  // Height
+  paramController->SetScaled(Params::kParam2, random(5), 0, 4);
+  // Saturation
+  paramController->SetScaled(Params::kParam1, 100 + random(156), 100, 255);
+
+  paramController->SetScaled(Params::kHue0, random(360), 0, 359);
+  paramController->SetScaled(Params::kHue1, random(360), 0, 359);
+  paramController->SetScaled(Params::kHue2, random(360), 0, 359);
+  paramController->SetScaled(Params::kKnob, random(360), 0, 359);
+#endif
 }

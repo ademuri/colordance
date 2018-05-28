@@ -17,10 +17,9 @@ class SquareEffect : public Effect {
                ParamController *paramController);
 
   void BeatDetected() override;
-
   void ChooseLights() override;
-
   void ParamChanged(Params param) override;
+  void RandomizeParams() override;
 
  protected:
   /* Called periodically to perform the effect. */
@@ -40,13 +39,25 @@ class SquareEffect : public Effect {
    */
   std::vector<HSV> actualHues = baseHues;
 
+  /** Param for the tempo. 0 is no change, kMaxTempo is fast change. */
   int16_t tempo = 0;
-  int16_t shiftPosition = 0;
+
+  /** Which direction the hue is currently changing (positive or negative) */
+  int16_t hueDirection = 1;
+
+  /** The oscillator that changes hues. Varies between 0 and kBandWidth. */
+  int16_t hueOsc = 0;
 
   const unsigned int kNumLights = 4;
 
   /** How many shiftPosition steps between each color when interpolating. */
   const int16_t kStepsPerHue = 100;
+
+  /** How wide the colors vary. */
+  const int16_t kHueBandWidth = 60;
+
+  /** The inverse of the max tempo. */
+  const int16_t kMaxTempo = 50;
 };
 
 #endif
