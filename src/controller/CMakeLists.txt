@@ -13,6 +13,6 @@ file(GLOB TEST_SOURCES "test/*.cpp")
 
 add_executable(controllertest ${TEST_SOURCES})
 
-target_link_libraries(controllertest controller GTest::GTest GTest::Main)
+target_link_libraries(controllertest controller gmock_main gtest)
 
 add_test(controllertest controllertest)
