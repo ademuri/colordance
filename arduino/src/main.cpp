@@ -151,7 +151,12 @@ extern "C" int main(void) {
         continue;
       }
 
-      delay(1);
+      for (unsigned int i = 0; i < lightController->leds.size(); i++) {
+        HSV hsv = {(millis() / 100) % 360, 255, 255};
+        lightController->leds[i] = hsv;
+      }
+
+      delay(5);
     }
 
     // Census: log certain values every so often. Log CSV-like as "name, value"

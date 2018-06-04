@@ -21,7 +21,7 @@ class DirectLightController : public LightController {
   teensydmx::Sender dmx{Serial2};
 
   /** The number of serial LEDs. */
-  const int kNumLeds = 5;
+  const int kNumLeds = 50;
 };
 
 #endif
