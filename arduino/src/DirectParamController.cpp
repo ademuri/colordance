@@ -37,11 +37,12 @@ ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
   bool paramChanged = false;
   bool chooseLights = false;
 
+  // Scan pots
   for (std::map<const Params, const int>::const_iterator iter =
            potParamMap.begin();
        iter != potParamMap.end(); iter++) {
     const int readValue = analogRead(iter->second) >> 2;
-    if (abs(readValue - potValueMap[iter->first]) > 1) {
+    if (abs(readValue - potValueMap[iter->first]) > 2) {
       paramChanged = true;
       potValueMap[iter->first] = readValue;
       params[iter->first] = readValue;
@@ -54,6 +55,7 @@ ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
     }
   }
 
+  // Scan encoders
   for (std::map<const Params, Encoder *const>::iterator iter =
            encoderParamMap.begin();
        iter != encoderParamMap.end(); iter++) {
@@ -81,6 +83,9 @@ ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
   }
 
   randomize = bRandomize->update() && bRandomize->rose();
+  if (randomize) {
+    paramChanged = true;
+  }
 
   if (bOrientation->update() && bOrientation->rose()) {
     params[Params::kOrientation] = (params[Params::kOrientation] + 1) %

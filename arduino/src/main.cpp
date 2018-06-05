@@ -30,8 +30,8 @@ void log(const std::string &format, Args... args) {
 
 // Tuning constants
 /** Fall asleep if not interacted with for this long. */
-const unsigned long kNoInteractionSleepMs = 5 * 60 * 1000;
-// const long kNoInteractionSleepMs = 5 * 1000;
+// const unsigned long kNoInteractionSleepMs = 5 * 60 * 1000;
+const long kNoInteractionSleepMs = 5 * 1000;
 
 // How long after no controls have been changed to randomly change the effect
 // Note that this won't work as long as a knob controls the effect
@@ -43,6 +43,9 @@ const unsigned long kAutoEffectRandomMs = 30 * 1000;
 extern "C" int main(void) {
   pinMode(13, OUTPUT);
   Serial5.begin(115200);
+
+  pinMode(kScreenMotionPin, INPUT);
+  pinMode(kControlMotionPin, INPUT);
 
   // Tells the Teensy to use the onboard RTC
   setSyncProvider(RTC.get);
@@ -100,13 +103,26 @@ extern "C" int main(void) {
     lightController->leds[46] = lightController->leds[49] =
         HSV{currentHue + 240, 255, serialLedBrightness};
 
+    bool motion = false;
+    if (analogRead(kScreenMotionPin) > kMotionThresh) {
+      motion = true;
+      screenMotionAt = millis();
+    }
+    if (analogRead(kControlMotionPin) > kMotionThresh) {
+      motion = true;
+      controlMotionAt = millis();
+    }
+    if (motion) {
+      sleepAt = millis() + kNoInteractionSleepMs;
+    }
+
     if (sleeping) {
       sleepEffect->Run();
-      if (paramController->ScanForChanges(effect) != ParamChanged::kNone) {
+      if (motion ||
+          paramController->ScanForChanges(effect) != ParamChanged::kNone) {
         sleeping = false;
         sleepAt = millis() + kNoInteractionSleepMs;
         lightController->Blackout();
-        // TODO: check motion sensors too
       }
 
     } else {
@@ -165,10 +181,7 @@ extern "C" int main(void) {
         continue;
       }
 
-      for (unsigned int i = 0; i < lightController->leds.size(); i++) {
-        HSV hsv = {(millis() / 100) % 360, 255, 255};
-        lightController->leds[i] = hsv;
-      }
+      // end of awake
     }
 
     // Census: log certain values every so often. Log CSV-like as "name, value"
