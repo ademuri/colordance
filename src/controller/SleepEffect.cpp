@@ -20,10 +20,6 @@ void SleepEffect::DoRun() {
 void SleepEffect::ParamChanged(Params param) {
   switch (param) {
     case Params::kHue0:
-      // hsv.h = paramController->Get(Params::kHue0);
-      break;
-
-    // TODO: handle other cases
     case Params::kHue1:
     case Params::kHue2:
     case Params::kWidth:
@@ -40,7 +36,6 @@ void SleepEffect::ChooseLights() {
   std::vector<int16_t> oldLightIds = lightIds;
 
   lightIds = lightController->GetLights(paramController, 1, 5)[0];
-  // hsv.h = paramController->Get(Params::kHue0);
 
   TurnOffUnusedLights(oldLightIds, lightIds);
 }
