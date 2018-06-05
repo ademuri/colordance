@@ -60,6 +60,13 @@ class Effect {
   /* Effect-specific code. Must be overriden by subclasses. */
   virtual void DoRun() = 0;
 
+  /*
+   * Actually sets the lights based on the current state. Used so that when
+   * params change, the lights are set immediately, but the state isn't
+   * advanced.
+   */
+  virtual void SetLights() {}
+
   void TurnOffUnusedLights(const std::vector<int16_t> &oldLightIds,
                            const std::vector<int16_t> &currentLightIds);
 

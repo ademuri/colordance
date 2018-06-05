@@ -16,8 +16,8 @@ class BounceEffect : public Effect {
   void RandomizeParams() override;
 
  protected:
-  /* Called periodically to perform the effect. */
   void DoRun() override;
+  void SetLights() override;
 
  private:
   std::vector<int16_t> lightIds;

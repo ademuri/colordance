@@ -9,15 +9,7 @@ BounceEffect::BounceEffect(LightController *lightController,
 }
 
 void BounceEffect::DoRun() {
-  for (int16_t i = 0; i < leftLight; i++) {
-    lightController->Set(lightIds[i], {0, 0, 0});
-  }
-  for (int16_t i = leftLight; i < leftLight + numLights; i++) {
-    lightController->Set(lightIds[i], {hsv.h + i * hsvShift, hsv.s, hsv.v});
-  }
-  for (int16_t i = leftLight + numLights; i < lightIds.size(); i++) {
-    lightController->Set(lightIds[i], {0, 0, 0});
-  }
+  SetLights();
 
   leftLight += step;
   if (leftLight + numLights > lightIds.size()) {
@@ -31,6 +23,18 @@ void BounceEffect::DoRun() {
   }
 
   SleepMs(paramController->GetScaled(Params::kTempo, 200, 40));
+}
+
+void BounceEffect::SetLights() {
+  for (int16_t i = 0; i < leftLight; i++) {
+    lightController->Set(lightIds[i], {0, 0, 0});
+  }
+  for (int16_t i = leftLight; i < leftLight + numLights; i++) {
+    lightController->Set(lightIds[i], {hsv.h + i * hsvShift, hsv.s, hsv.v});
+  }
+  for (int16_t i = leftLight + numLights; i < lightIds.size(); i++) {
+    lightController->Set(lightIds[i], {0, 0, 0});
+  }
 }
 
 void BounceEffect::BeatDetected() { hsv.h += 60; }
@@ -75,17 +79,7 @@ void BounceEffect::ChooseLights() {
 
   TurnOffUnusedLights(oldLightIds, lightIds);
 
-  if (lightIds.size() > 1) {
-    numLights =
-        paramController->GetScaled(Params::kWidth, 1, lightIds.size() - 1);
-    if (leftLight + numLights > lightIds.size()) {
-      leftLight = lightIds.size() - numLights;
-    }
-  } else {
-    numLights = 1;
-    leftLight = 0;
-  }
-  // hsvShift = 360 / numLights;
+  ParamChanged(Params::kWidth);
 }
 
 void BounceEffect::RandomizeParams() {

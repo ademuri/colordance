@@ -10,6 +10,11 @@ void Effect::Run() {
   if (this->runAtMs < lightController->GetMs()) {
     DoRun();
     lightController->WriteLeds();
+  } else {
+    // If it's not time to advance the state, just make sure that the lights are
+    // up to date with the state. This prevents flickering if the params have
+    // changed and the effect is sleeping.
+    SetLights();
   }
 }
 
