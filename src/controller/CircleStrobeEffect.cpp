@@ -17,29 +17,35 @@ void CircleStrobeEffect::setIndex(int16_t index, const HSV &hsv) {
   secondHsv.h = hsv.h + hueGap;
   lightController->Set(lightIds[(index + 1) % lightIds.size()], secondHsv);
 
-  if (index == 0) {
-    if (lightIds.size() > 1) {
-      lightController->Set(lightIds[lightIds.size() - 1], {0, 0, 0});
+  if (lightIds.size() > 4) {
+    if (index == 0) {
+      if (lightIds.size() > 1) {
+        lightController->Set(lightIds[lightIds.size() - 1], {0, 0, 0});
+      }
+    } else {
+      lightController->Set(lightIds[index - 1], {0, 0, 0});
     }
-  } else {
-    lightController->Set(lightIds[index - 1], {0, 0, 0});
   }
 }
 
 void CircleStrobeEffect::DoRun() {
+  SetLights();
+
   currentLight++;
   if (currentLight >= lightIds.size()) {
     currentLight = 0;
   }
 
+  hsv.h += 1;
+  SleepMs(paramController->GetScaled(Params::kTempo, 500, 50));
+}
+
+void CircleStrobeEffect::SetLights() {
   setIndex(currentLight, hsv);
 
   HSV second = hsv;
   second.h = hsv.h + hueDistance;
   setIndex((currentLight + lightIds.size() / 2) % lightIds.size(), second);
-
-  hsv.h += 1;
-  SleepMs(paramController->GetScaled(Params::kTempo, 500, 50));
 }
 
 void CircleStrobeEffect::ParamChanged(Params param) {
@@ -76,7 +82,7 @@ void CircleStrobeEffect::ChooseLights() {
   std::vector<std::vector<int16_t>> lightArray = lightController->GetLights(
       paramController,
       paramController->GetScaled(Params::kParam2, 3, lightController->numRows),
-      paramController->GetScaled(Params::kWidth, 2, lightController->numCols));
+      paramController->GetScaled(Params::kWidth, 3, lightController->numCols));
   const int colSize = lightArray[0].size();
 
   // Grab the top row
@@ -96,7 +102,8 @@ void CircleStrobeEffect::ChooseLights() {
     lightIds.push_back(lightArray[i][0]);
   }
 
-  TurnOffUnusedLights(oldLightIds, lightIds);
+  lightController->Blackout();
+  SetLights();
 }
 
 void CircleStrobeEffect::BeatDetected() {
