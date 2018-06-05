@@ -86,6 +86,20 @@ extern "C" int main(void) {
   bool usingAutoEffect = false;
 
   while (1) {
+    const uint8_t serialLedBrightness = 255;
+    uint16_t currentHue = (millis() / 100) % 360;
+    for (unsigned int i = 1; i < lightController->leds.size() - 6; i++) {
+      HSV hsv = {currentHue, 255, serialLedBrightness};
+      lightController->leds[i] = hsv;
+    }
+    lightController->leds[0] = HSV{sleeping ? 0 : 120, 255, 255};
+    lightController->leds[44] = lightController->leds[47] =
+        HSV{currentHue, 255, serialLedBrightness};
+    lightController->leds[45] = lightController->leds[48] =
+        HSV{currentHue + 120, 255, serialLedBrightness};
+    lightController->leds[46] = lightController->leds[49] =
+        HSV{currentHue + 240, 255, serialLedBrightness};
+
     if (sleeping) {
       sleepEffect->Run();
       if (paramController->ScanForChanges(effect) != ParamChanged::kNone) {
@@ -155,8 +169,6 @@ extern "C" int main(void) {
         HSV hsv = {(millis() / 100) % 360, 255, 255};
         lightController->leds[i] = hsv;
       }
-
-      delay(5);
     }
 
     // Census: log certain values every so often. Log CSV-like as "name, value"
@@ -166,5 +178,7 @@ extern "C" int main(void) {
           sleeping, usingAutoEffect);
       censusLogAt = millis() + kCensusLogMs;
     }
+
+    delay(3);
   }
 }

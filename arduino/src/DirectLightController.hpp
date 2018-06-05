@@ -21,6 +21,11 @@ class DirectLightController : public LightController {
   teensydmx::Sender dmx{Serial2};
 
   /** The number of serial LEDs. */
+  // One onboard
+  // 13 on the left side
+  // 18 on the middle
+  // 13 on the right
+  // 6 on the top
   const int kNumLeds = 50;
 };
 
