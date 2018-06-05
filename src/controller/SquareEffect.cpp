@@ -14,7 +14,7 @@ void SquareEffect::DoRun() {
     hueOsc += hueDirection;
   }
 
-  if (hueOsc > kHueBandWidth) {
+  if (hueOsc > hueBandWidth) {
     hueDirection = -1;
   } else if (hueOsc <= 0) {
     hueDirection = 1;
@@ -47,8 +47,7 @@ void SquareEffect::ParamChanged(Params param) {
       break;
 
     case Params::kParam1:
-      baseHues[0].s = baseHues[1].s = baseHues[2].s =
-          paramController->GetScaled(Params::kParam1, 0, 255);
+      hueBandWidth = paramController->GetScaled(Params::kParam1, 5, 60);
       break;
 
     case Params::kParam2:
@@ -90,7 +89,7 @@ void SquareEffect::RandomizeParams() {
   paramController->SetScaled(Params::kTilt, random(5), 0, 4);
   // Height
   paramController->SetScaled(Params::kParam2, random(5), 0, 4);
-  // Saturation
+  // Color bandwidth
   paramController->SetScaled(Params::kParam1, 100 + random(156), 100, 255);
 
   paramController->SetScaled(Params::kHue0, random(360), 0, 359);

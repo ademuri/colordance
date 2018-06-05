@@ -48,13 +48,13 @@ class SquareEffect : public Effect {
   /** The oscillator that changes hues. Varies between 0 and kBandWidth. */
   int16_t hueOsc = 0;
 
+  /** How wide the colors vary. */
+  int16_t hueBandWidth = 60;
+
   const unsigned int kNumLights = 4;
 
   /** How many shiftPosition steps between each color when interpolating. */
   const int16_t kStepsPerHue = 100;
-
-  /** How wide the colors vary. */
-  const int16_t kHueBandWidth = 60;
 
   /** The inverse of the max tempo. */
   const int16_t kMaxTempo = 50;
