@@ -22,7 +22,7 @@ template <typename... Args>
 void log(const std::string &format, Args... args) {
   static char buffer[kLogBufferSize];
   // Print the time and then the caller's message
-  snprintf(buffer, kLogBufferSize, "%lu, ", now());
+  snprintf(buffer, kLogBufferSize, "%lu,", now());
   Serial5.print(buffer);
 
   snprintf(buffer, kLogBufferSize, format.c_str(), args...);
@@ -44,15 +44,18 @@ const unsigned long kAutoEffectRandomMs = 30 * 1000;
 
 extern "C" int main(void) {
   pinMode(13, OUTPUT);
-  Serial5.begin(115200);
+  Serial5.begin(500000);
 
   pinMode(kScreenMotionPin, INPUT);
   pinMode(kControlMotionPin, INPUT);
 
   // Tells the Teensy to use the onboard RTC
-  setSyncProvider(RTC.get);
+  setSyncProvider((long int (*)())Teensy3Clock.get);
 
-  log("Hello, world!");
+  // Log the header
+  Serial5.println(
+      "time,census,effectIndex,sleeping,usingAutoEffect,screenMotion,"
+      "controlMotion,controlUsed");
 
   DirectLightController *lightController = new DirectLightController();
   DirectParamController *paramController = new DirectParamController();
@@ -107,14 +110,14 @@ extern "C" int main(void) {
         HSV{currentHue + 240, 255, serialLedBrightness};
 
     bool motion = false;
-    /*if (analogRead(kScreenMotionPin) > kMotionThresh) {
+    if (analogRead(kScreenMotionPin) > kMotionThresh) {
       motion = true;
       screenMotionAt = millis();
     }
     if (analogRead(kControlMotionPin) > kMotionThresh) {
       motion = true;
       controlMotionAt = millis();
-    }*/
+    }
     if (motion) {
       sleepAt = millis() + kNoInteractionSleepMs;
     }
@@ -163,6 +166,7 @@ extern "C" int main(void) {
         sleepAt = millis() + kNoInteractionSleepMs;
         autoEffectAt =
             millis() + kAutoEffectBaseMs + random(kAutoEffectRandomMs);
+        controlUsedAt = millis();
         usingAutoEffect = false;
       }
 
@@ -191,8 +195,14 @@ extern "C" int main(void) {
     // Census: log certain values every so often. Log CSV-like as "name, value"
     if (millis() > censusLogAt) {
       // Note: this seems to take about 1-2ms.
-      log("census, effect=%d, sleeping=%d, usingAutoEffect=%d", effectIndex,
-          sleeping, usingAutoEffect);
+      bool screenMotion = screenMotionAt > lastCensusAt;
+      bool controlMotion = controlMotionAt > lastCensusAt;
+      bool controlUsed = controlUsedAt > lastCensusAt;
+      // NOTE: keep this in sync with the log statement at the beginning of main
+      log("census,%d,%d,%d,%d,%d,%d", effectIndex, sleeping, usingAutoEffect,
+          screenMotion, controlMotion, controlUsed);
+
+      lastCensusAt = millis();
       censusLogAt = millis() + kCensusLogMs;
     }
 

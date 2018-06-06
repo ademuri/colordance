@@ -12,12 +12,15 @@ template <typename... Args>
 extern void log(const std::string& format, Args... args);
 
 /** How frequently to do a census log, in milliseconds. */
-const unsigned long kCensusLogMs = 10000;
+// const unsigned long kCensusLogMs = 10000;
+const unsigned long kCensusLogMs = 5 * 1000;
 
 unsigned long censusLogAt = 0;
+unsigned long lastCensusAt = 0;
 
 unsigned long screenMotionAt = 0;
 unsigned long controlMotionAt = 0;
+unsigned long controlUsedAt = 0;
 
 // Motion sensors. Note that these are connected to analog inputs which, unlike
 // ATMEGA-based Arduino devices, cannot be read using digitalRead.
