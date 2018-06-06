@@ -62,9 +62,9 @@ extern "C" int main(void) {
 
   std::vector<Effect *> effects = {
       new SquareStrobeEffect(lightController, paramController),
+      new ColorShiftEffect(lightController, paramController),
       new BounceEffect(lightController, paramController),
       new SquareEffect(lightController, paramController),
-      new ColorShiftEffect(lightController, paramController),
       new CircleStrobeEffect(lightController, paramController),
       // TODO: fully parameterize these and clean them up, then uncomment
       // new ThreeColorEffect(lightController, paramController),
@@ -97,11 +97,11 @@ extern "C" int main(void) {
   while (1) {
     const uint8_t serialLedBrightness = 255;
     uint16_t currentHue = (millis() / 100) % 360;
-    for (unsigned int i = 1; i < lightController->leds.size() - 6; i++) {
+    for (unsigned int i = 0; i < lightController->leds.size() - 6; i++) {
       HSV hsv = {currentHue, 255, serialLedBrightness};
       lightController->leds[i] = hsv;
     }
-    lightController->leds[0] = HSV{sleeping ? 0 : 120, 255, 255};
+    // lightController->leds[0] = HSV{sleeping ? 0 : 120, 255, 255};
     lightController->leds[44] = lightController->leds[47] =
         HSV{currentHue, 255, serialLedBrightness};
     lightController->leds[45] = lightController->leds[48] =
