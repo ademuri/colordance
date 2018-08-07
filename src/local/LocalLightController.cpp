@@ -64,7 +64,7 @@ void LocalLightController::Set(const int16_t lightId, HSV hsv) {
   idToColorMap[lightId] = rgb;
 }
 
-long LocalLightController::GetMs() {
+unsigned long LocalLightController::GetMs() {
   const std::chrono::steady_clock::time_point endTime =
       std::chrono::steady_clock::now();
   return std::chrono::duration_cast<std::chrono::milliseconds>(endTime -

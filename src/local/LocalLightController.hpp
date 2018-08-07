@@ -13,7 +13,7 @@ class LocalLightController : public LightController {
   LocalLightController();
 
   void Set(const int16_t lightId, HSV hsv) override;
-  long GetMs() override;
+  unsigned long GetMs() override;
 
   /**
    * Writes out all DMX data. Should be called once per loop. Moderately

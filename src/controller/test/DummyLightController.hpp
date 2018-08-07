@@ -12,7 +12,7 @@ class DummyLightController : public LightController {
  public:
   DummyLightController(const int8_t rows, const int8_t cols);
 
-  long GetMs() override;
+  unsigned long GetMs() override;
 
   void Set(const int16_t lightId, HSV hsv) override;
 

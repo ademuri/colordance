@@ -56,7 +56,7 @@ class LightController {
    * timing (like millis() on Arduino).
    * TODO: should this live in a different class?
    */
-  virtual long GetMs() = 0;
+  virtual unsigned long GetMs() = 0;
 
   /** Turns off all lights. */
   void Blackout();

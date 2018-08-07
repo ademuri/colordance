@@ -37,7 +37,7 @@ void DirectLightController::Set(const int16_t lightId, HSV hsv) {
   dmx.set(lightId + 2, rgb.b);
 }
 
-long DirectLightController::GetMs() { return millis(); }
+unsigned long DirectLightController::GetMs() { return millis(); }
 
 void DirectLightController::WriteLeds() {
   // Write out to the APA102-like LEDs. See here for the protocol:

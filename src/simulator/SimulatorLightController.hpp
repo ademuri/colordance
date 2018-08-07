@@ -18,7 +18,7 @@ class SimulatorLightController : public LightController {
 
   void Set(const int16_t lightId, HSV hsv) override;
 
-  long GetMs() override;
+  unsigned long GetMs() override;
 
   /*
    * Converts inches to the x-y-z coordinates used by Ogre. This is all

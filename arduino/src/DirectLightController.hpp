@@ -14,7 +14,7 @@ class DirectLightController : public LightController {
   DirectLightController();
 
   void Set(const int16_t lightId, HSV hsv) override;
-  long GetMs() override;
+  unsigned long GetMs() override;
   void WriteLeds() override;
 
  private:
