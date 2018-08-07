@@ -18,9 +18,19 @@ const unsigned long kCensusLogMs = 5 * 1000;
 unsigned long censusLogAt = 0;
 unsigned long lastCensusAt = 0;
 
+// Tracking for when usage was last detected
 unsigned long screenMotionAt = 0;
 unsigned long controlMotionAt = 0;
 unsigned long controlUsedAt = 0;
+
+// When to flash the controls, to hint to the users that they should play with
+// the control surface.
+unsigned long flashControlsAt = 0;
+unsigned long flashControlsEndAt = 0;
+bool flashingControls = false;
+
+const unsigned long flashControlsEvery = 30 * 1000;
+const unsigned long flashControlsDuration = 4 * 1000;
 
 // Motion sensors. Note that these are connected to analog inputs which, unlike
 // ATMEGA-based Arduino devices, cannot be read using digitalRead.

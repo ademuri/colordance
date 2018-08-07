@@ -102,12 +102,33 @@ extern "C" int main(void) {
       lightController->leds[i] = hsv;
     }
     // lightController->leds[0] = HSV{sleeping ? 0 : 120, 255, 255};
-    lightController->leds[44] = lightController->leds[47] =
-        HSV{currentHue, 255, serialLedBrightness};
-    lightController->leds[45] = lightController->leds[48] =
-        HSV{currentHue + 120, 255, serialLedBrightness};
-    lightController->leds[46] = lightController->leds[49] =
-        HSV{currentHue + 240, 255, serialLedBrightness};
+
+    // TODO: test this
+    if (flashingControls) {
+      if (millis() > flashControlsEndAt) {
+        flashingControls = false;
+        flashControlsAt = millis() + 2 * flashControlsEvery;
+      }
+      for (int i = 44; i < 49; i++) {
+        const uint8_t brightness =
+            (millis() / 100) % 2 == 0 ? 0 : serialLedBrightness;
+        lightController->leds[i] = HSV{HUE_GREEN, 255, brightness};
+      }
+    } else if (millis() > flashControlsAt) {
+      flashingControls = true;
+      flashControlsEndAt = millis() + flashControlsDuration;
+    } else {
+      lightController->leds[44] = lightController->leds[47] =
+          HSV{currentHue, 255, serialLedBrightness};
+      lightController->leds[45] = lightController->leds[48] =
+          HSV{currentHue + 120, 255, serialLedBrightness};
+      lightController->leds[46] = lightController->leds[49] =
+          HSV{currentHue + 240, 255, serialLedBrightness};
+    }
+
+    if ((controlUsedAt + flashControlsEvery) < millis()) {
+      flashControlsAt = controlMotionAt + flashControlsAt;
+    }
 
     bool motion = false;
     if (analogRead(kScreenMotionPin) > kMotionThresh) {
