@@ -14,6 +14,7 @@
 #include "../controller/DummyParamController.hpp"
 #include "../controller/LightController.hpp"
 #include "../controller/ParamController.hpp"
+#include "../controller/SleepEffect.hpp"
 #include "../controller/SolidColorEffect.hpp"
 #include "../controller/SquareEffect.hpp"
 #include "../controller/StrobeEffect.hpp"
@@ -216,7 +217,7 @@ void Simulator::setup() {
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
   paramController->Set(Params::kOrientation, 255);
-  effect = new SquareEffect(controller, paramController);
+  effect = new SleepEffect(controller, paramController);
   effect->Run();
 
 #ifdef USE_BOOST

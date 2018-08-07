@@ -23,8 +23,18 @@ class SleepEffect : public Effect {
  private:
   std::vector<int16_t> lightIds;
 
-  // TODO: tune the brightness
   HSV hsv = {HUE_RED, 255, 127};
+
+  // Every so often, flash some lights to entice people to come play
+  unsigned long enticeAtMs = 0;
+  bool entice = false;
+  unsigned long enticeEndAtMs = 0;
+  // const unsigned long kEnticeEveryMs = 2 * 60 * 1000;
+  // const unsigned long kEnticeRandom = 60 * 1000;
+  const unsigned long kEnticeEveryMs = 5 * 1000;
+  const unsigned long kEnticeEveryRandom = 5 * 1000;
+  const unsigned long kEnticeDurationMs = 5 * 1000;
+  const unsigned long kEnticeDurationRandom = 5 * 1000;
 };
 
 #endif

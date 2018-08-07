@@ -2,6 +2,12 @@
 #include <algorithm>
 #include <vector>
 
+#ifndef ARDUINO
+#include <cstdlib>
+
+long random(long max) { return std::rand() % max; }
+#endif
+
 Effect::Effect(LightController *lightController,
                ParamController *paramController)
     : lightController(lightController), paramController(paramController) {}

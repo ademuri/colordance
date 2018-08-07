@@ -36,7 +36,10 @@ class SquareStrobeEffect : public Effect {
 
   /** The hues selected by the user. */
   std::vector<HSV> hues = {
-      {0, 255, 255}, {90, 255, 255}, {180, 255, 255}, {270, 255, 255},
+      {0, 255, 255},
+      {90, 255, 255},
+      {180, 255, 255},
+      {270, 255, 255},
   };
 
   /** Param for the tempo. 0 is no change, kMaxTempo is fast change. */

@@ -30,7 +30,10 @@ class SquareEffect : public Effect {
 
   /** The hues selected by the user. */
   std::vector<HSV> baseHues = {
-      {0, 255, 255}, {90, 255, 255}, {180, 255, 255}, {270, 255, 255},
+      {0, 255, 255},
+      {90, 255, 255},
+      {180, 255, 255},
+      {270, 255, 255},
   };
 
   /**

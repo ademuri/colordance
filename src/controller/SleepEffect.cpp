@@ -10,11 +10,31 @@ SleepEffect::SleepEffect(LightController *lightController,
 void SleepEffect::BeatDetected() {}
 
 void SleepEffect::DoRun() {
-  lightController->Set(lightIds[0], {hsv.h, hsv.s, hsv.v});
-  lightController->Set(lightIds[2], {hsv.h + 120, hsv.s, hsv.v});
-  lightController->Set(lightIds[4], {hsv.h + 240, hsv.s, hsv.v});
-  hsv.h++;
-  SleepMs(100);
+  if (entice) {
+    if (lightController->GetMs() > enticeEndAtMs) {
+      entice = false;
+      enticeAtMs = lightController->GetMs() + kEnticeEveryMs +
+                   random(kEnticeEveryRandom);
+    } else {
+      lightController->Set(lightIds[0], {hsv.h, hsv.s, 255});
+      lightController->Set(lightIds[2], {hsv.h, hsv.s, 255});
+      lightController->Set(lightIds[4], {hsv.h, hsv.s, 255});
+      hsv.h++;
+      SleepMs(10);
+    }
+  } else {
+    if (lightController->GetMs() > enticeAtMs) {
+      entice = true;
+      enticeEndAtMs = lightController->GetMs() + kEnticeDurationMs +
+                      random(kEnticeDurationRandom);
+    } else {
+      lightController->Set(lightIds[0], {hsv.h, hsv.s, hsv.v});
+      lightController->Set(lightIds[2], {hsv.h + 120, hsv.s, hsv.v});
+      lightController->Set(lightIds[4], {hsv.h + 240, hsv.s, hsv.v});
+      hsv.h++;
+      SleepMs(100);
+    }
+  }
 }
 
 void SleepEffect::ParamChanged(Params param) {
@@ -26,6 +46,10 @@ void SleepEffect::ParamChanged(Params param) {
     case Params::kPan:
     case Params::kTilt:
     case Params::kTempo:
+    case Params::kOrientation:
+    case Params::kParam1:
+    case Params::kParam2:
+    case Params::kKnob:
       break;
   }
 }
@@ -38,4 +62,7 @@ void SleepEffect::ChooseLights() {
   lightIds = lightController->GetLights(paramController, 1, 5)[0];
 
   TurnOffUnusedLights(oldLightIds, lightIds);
+
+  enticeAtMs =
+      lightController->GetMs() + kEnticeEveryMs + random(kEnticeEveryRandom);
 }

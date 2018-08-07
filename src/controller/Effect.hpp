@@ -8,6 +8,11 @@
 #include "WProgram.h"
 #endif
 
+// Compatability with Arduino random function
+#ifndef ARDUINO
+extern long random(long max);
+#endif
+
 #include "LightController.hpp"
 #include "ParamController.hpp"
 

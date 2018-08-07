@@ -66,6 +66,11 @@
 },
 {
   "directory": "/home/adam/work/colordance/build/controller",
+  "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controller.dir/SquareStrobeEffect.cpp.o -c /home/adam/work/colordance/src/controller/SquareStrobeEffect.cpp",
+  "file": "/home/adam/work/colordance/src/controller/SquareStrobeEffect.cpp"
+},
+{
+  "directory": "/home/adam/work/colordance/build/controller",
   "command": "/usr/bin/c++   -I/usr/local/include -I/home/adam/work/colordance/src/controller   -Wall -Wextra -pedantic -std=c++11   -o CMakeFiles/controller.dir/StrobeEffect.cpp.o -c /home/adam/work/colordance/src/controller/StrobeEffect.cpp",
   "file": "/home/adam/work/colordance/src/controller/StrobeEffect.cpp"
 },
