@@ -19,6 +19,9 @@ DirectParamController::DirectParamController() : ParamController() {
 
   bOrientation = new Bounce();
   bOrientation->attach(kOrientationPin, INPUT_PULLUP);
+
+  bBoost = new Bounce();
+  bBoost->attach(kBoostPin, INPUT_PULLUP);
 }
 
 int16_t DirectParamController::Get(Params param) { return params[param]; }
@@ -94,6 +97,10 @@ ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
     chooseLights = true;
   }
 
+  if (bBoost->update()) {
+    paramChanged = true;
+  }
+
   if (paramChanged) {
     return chooseLights ? ParamChanged::kChooseLights : ParamChanged::kOther;
   } else {
@@ -112,3 +119,5 @@ void DirectParamController::setNumEffects(int numEffects_) {
 }
 
 bool DirectParamController::getRandomize() { return randomize; }
+
+bool DirectParamController::Boost() { return bBoost->read(); }

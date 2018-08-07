@@ -12,6 +12,8 @@ class DummyParamController : public ParamController {
 
   void Set(Params param, int16_t val) override;
 
+  bool Boost() override;
+
  private:
   std::map<const Params, int16_t> params;
 };

@@ -39,8 +39,7 @@ enum class Params {
 };
 
 /**
- * Interface class for controlling the params for effects. Eventually, there
- * will be a physical control surface for modifying these param.
+ * Interface class for controlling the params for effects.
  */
 class ParamController {
  public:
@@ -76,6 +75,11 @@ class ParamController {
    * param's range.
    */
   void SetScaled(Params param, int16_t val, int16_t min, int16_t max);
+
+  /**
+   * Returns whether the boost button is currently pressed.
+   */
+  virtual bool Boost() = 0;
 
   // The "neutral" (center) values for kPan and kTilt.
   static const int16_t kPanNeutral = 127;

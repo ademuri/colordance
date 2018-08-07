@@ -39,6 +39,7 @@ class DirectParamController : public ParamController {
   int getEffectIndex();
   void setNumEffects(int numEffects_);
   void setEffectIndex(int effectIndex_);
+  bool Boost() override;
 
   /**
    * Returns true if the randomize button had a rising edge this cycle (i.e. the
@@ -86,12 +87,14 @@ class DirectParamController : public ParamController {
   Bounce* bNextEffect;
   Bounce* bRandomize;
   Bounce* bOrientation;
+  Bounce* bBoost;
 
   // Pins for the buttons
   const int kPrevEffectPin = 39;
   const int kNextEffectPin = 34;
   const int kRandomizePin = 24;
   const int kOrientationPin = 25;
+  const int kBoostPin = 28;
 
   bool randomize = false;
 };
