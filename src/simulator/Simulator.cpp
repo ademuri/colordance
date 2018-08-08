@@ -215,18 +215,17 @@ void Simulator::setup() {
 
   controller = new SimulatorLightController(scnMgr);
   paramController = new DummyParamController();
-  paramController->Set(Params::kHue0, 120);
-  paramController->Set(Params::kTempo, 1);
-  paramController->Set(Params::kWidth, 200);
+  paramController->Set(Params::kTempo, 200);
+  paramController->Set(Params::kWidth, 100);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
-  paramController->Set(Params::kOrientation, 0);
+  paramController->Set(Params::kOrientation, 1);
   paramController->Set(Params::kParam1, 255);
   paramController->Set(Params::kHue0, 0);
   paramController->Set(Params::kHue1, 24);
   paramController->Set(Params::kHue2, 48);
   paramController->Set(Params::kKnob, 72);
-  effect = new CircleStrobeEffect(controller, paramController);
+  effect = new BounceEffect(controller, paramController);
   effect->ReloadParams();
   effect->Run();
 

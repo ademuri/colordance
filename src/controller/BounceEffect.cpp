@@ -12,7 +12,7 @@ void BounceEffect::DoRun() {
   SetLights();
 
   leftLight += step;
-  if (leftLight + numLights > lightIds.size()) {
+  if (leftLight + numLights > (int16_t)lightIds.size()) {
     step = -1;
     leftLight--;
     hsv.h += hsvAdvance;
@@ -30,9 +30,10 @@ void BounceEffect::SetLights() {
     lightController->Set(lightIds[i], {0, 0, 0});
   }
   for (int16_t i = leftLight; i < leftLight + numLights; i++) {
-    lightController->Set(lightIds[i], {hsv.h + i * hsvShift, hsv.s, hsv.v});
+    lightController->Set(lightIds[i],
+                         {(uint16_t)(hsv.h + i * hsvShift), hsv.s, hsv.v});
   }
-  for (int16_t i = leftLight + numLights; i < lightIds.size(); i++) {
+  for (int16_t i = leftLight + numLights; i < (int16_t)lightIds.size(); i++) {
     lightController->Set(lightIds[i], {0, 0, 0});
   }
 }
@@ -48,7 +49,7 @@ void BounceEffect::ParamChanged(Params param) {
     case Params::kWidth:
       numLights =
           paramController->GetScaled(Params::kWidth, 1, lightIds.size() - 1);
-      if (leftLight + numLights > lightIds.size()) {
+      if (leftLight + numLights > (int16_t)lightIds.size()) {
         leftLight = lightIds.size() - numLights;
       }
       break;
@@ -58,12 +59,14 @@ void BounceEffect::ParamChanged(Params param) {
           paramController->GetScaled(Params::kParam2, 30, 360 / numLights);
       break;
 
-    // TODO: handle other cases
     case Params::kHue0:
     case Params::kHue1:
     case Params::kHue2:
     case Params::kPan:
     case Params::kTilt:
+    case Params::kTempo:
+    case Params::kOrientation:
+    case Params::kKnob:
       break;
   }
 }
