@@ -17,9 +17,11 @@ class LocalParamController : public ParamController {
   void Set(Params param, int16_t val) override;
 
   bool Boost() override;
+  void SetBoost(bool boost);
 
  private:
   std::map<const Params, int16_t> params;
+  bool boost = false;
 };
 
 #endif

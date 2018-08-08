@@ -10,6 +10,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include "../controller/DummyParamController.hpp"
 #include "../controller/Effect.hpp"
 #include "../controller/ParamController.hpp"
 #include "SimulatorLightController.hpp"
@@ -41,7 +42,7 @@ class Simulator : public OgreBites::ApplicationContext,
 
  private:
   SimulatorLightController *controller;
-  ParamController *paramController;
+  DummyParamController *paramController;
   Effect *effect;
 
   // Keeps track of whether keys are pressed down

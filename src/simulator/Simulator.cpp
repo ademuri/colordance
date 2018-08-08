@@ -124,7 +124,7 @@ bool Simulator::keyPressed(const OgreBites::KeyboardEvent &evt) {
     effect->ChooseLights();
     effect->ParamChanged(adjustableParams[currentParamIndex]);
   } else if (evt.keysym.sym == SDLK_SPACE) {
-    effect->BeatDetected();
+    paramController->SetBoost(true);
   }
 
   if (currentParamIndex < 0) {
@@ -141,6 +141,8 @@ bool Simulator::keyReleased(const OgreBites::KeyboardEvent &evt) {
     keyDownMap[ControlKeys::kDown] = false;
   } else if (evt.keysym.sym == SDLK_UP) {
     keyDownMap[ControlKeys::kUp] = false;
+  } else if (evt.keysym.sym == SDLK_SPACE) {
+    paramController->SetBoost(false);
   }
   return true;
 }
@@ -217,7 +219,7 @@ void Simulator::setup() {
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
   paramController->Set(Params::kOrientation, 255);
-  effect = new SleepEffect(controller, paramController);
+  effect = new ColorShiftEffect(controller, paramController);
   effect->Run();
 
 #ifdef USE_BOOST

@@ -10,8 +10,10 @@ ColorShiftEffect::ColorShiftEffect(LightController *lightController,
 }
 
 void ColorShiftEffect::DoRun() {
+  int sign = paramController->Boost() ? -1 : 1;
   for (int16_t i = 0; i < lightIds.size(); i++) {
-    lightController->Set(lightIds[i], {hsv.h + i * hsvShift, hsv.s, hsv.v});
+    lightController->Set(lightIds[i],
+                         {hsv.h + sign * i * hsvShift, hsv.s, hsv.v});
   }
 
   hsv.h += hsvAdvance;

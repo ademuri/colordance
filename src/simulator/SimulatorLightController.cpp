@@ -114,11 +114,13 @@ void SimulatorLightController::Set(const int16_t lightId, HSV hsv) {
     return;
   }
 
+  // If we map brightness 255 to brightness 1, we get clipping
+  const float brightness = 255.0 * 2;
   RGB rgb = Color::toRGB(hsv);
-  lightIdMap[lightId]->setDiffuseColour(rgb.r / 255.0, rgb.g / 255.0,
-                                        rgb.b / 255.0);
-  lightIdMap[lightId]->setSpecularColour(rgb.r / 255.0, rgb.g / 255.0,
-                                         rgb.b / 255.0);
+  lightIdMap[lightId]->setDiffuseColour(rgb.r / brightness, rgb.g / brightness,
+                                        rgb.b / brightness);
+  lightIdMap[lightId]->setSpecularColour(rgb.r / brightness, rgb.g / brightness,
+                                         rgb.b / brightness);
 }
 
 unsigned long SimulatorLightController::GetMs() {

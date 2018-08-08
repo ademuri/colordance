@@ -8,4 +8,6 @@ void DummyParamController::Set(Params param, int16_t val) {
   params[param] = val;
 }
 
-bool DummyParamController::Boost() { return false; }
+bool DummyParamController::Boost() { return boost; }
+
+void DummyParamController::SetBoost(bool boost) { this->boost = boost; }

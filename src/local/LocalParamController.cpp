@@ -8,4 +8,6 @@ void LocalParamController::Set(Params param, int16_t val) {
   params[param] = val;
 }
 
-bool LocalParamController::Boost() { return false; }
+bool LocalParamController::Boost() { return boost; }
+
+void LocalParamController::SetBoost(bool boost) { this->boost = boost; }
