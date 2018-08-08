@@ -15,6 +15,7 @@
 #include "../controller/DummyParamController.hpp"
 #include "../controller/LightController.hpp"
 #include "../controller/ParamController.hpp"
+#include "../controller/RingEffect.hpp"
 #include "../controller/SleepEffect.hpp"
 #include "../controller/SolidColorEffect.hpp"
 #include "../controller/SquareEffect.hpp"
@@ -226,8 +227,7 @@ void Simulator::setup() {
   paramController->Set(Params::kHue1, 24);
   paramController->Set(Params::kHue2, 48);
   paramController->Set(Params::kKnob, 72);
-  effect =
-      new ColorShiftEffect(controller, paramController, ColorShiftMode::ring);
+  effect = new RingEffect(controller, paramController);
   effect->ReloadParams();
   effect->Run();
 
