@@ -26,6 +26,11 @@ void BounceEffect::DoRun() {
 }
 
 void BounceEffect::SetLights() {
+  if (paramController->Boost()) {
+    hsv.s = 100;
+  } else {
+    hsv.s = 255;
+  }
   for (int16_t i = 0; i < leftLight; i++) {
     lightController->Set(lightIds[i], {0, 0, 0});
   }

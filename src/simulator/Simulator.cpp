@@ -215,7 +215,7 @@ void Simulator::setup() {
 
   controller = new SimulatorLightController(scnMgr);
   paramController = new DummyParamController();
-  paramController->Set(Params::kTempo, 200);
+  paramController->Set(Params::kTempo, 100);
   paramController->Set(Params::kWidth, 100);
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
