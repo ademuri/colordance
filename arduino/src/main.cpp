@@ -62,7 +62,10 @@ extern "C" int main(void) {
 
   std::vector<Effect *> effects = {
       new SquareStrobeEffect(lightController, paramController),
-      new ColorShiftEffect(lightController, paramController),
+      new ColorShiftEffect(lightController, paramController,
+                           ColorShiftMode::straight),
+      new ColorShiftEffect(lightController, paramController,
+                           ColorShiftMode::ring),
       new BounceEffect(lightController, paramController),
       new SquareEffect(lightController, paramController),
       new CircleStrobeEffect(lightController, paramController),

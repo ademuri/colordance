@@ -3,17 +3,29 @@
 #include "LightController.hpp"
 
 ColorShiftEffect::ColorShiftEffect(LightController *lightController,
-                                   ParamController *paramController)
-    : Effect(lightController, paramController) {
+                                   ParamController *paramController,
+                                   ColorShiftMode mode)
+    : Effect(lightController, paramController), mode(mode) {
   // Choose lights
   ChooseLights();
 }
 
 void ColorShiftEffect::DoRun() {
   int sign = paramController->Boost() ? -1 : 1;
-  for (int16_t i = 0; i < lightIds.size(); i++) {
-    lightController->Set(lightIds[i],
-                         {hsv.h + sign * i * hsvShift, hsv.s, hsv.v});
+  int step = 1;
+  int offset = 0;
+  if ((int16_t)lightIds.size() > kMaxLights) {
+    step = lightIds.size() / kMaxLights;
+    offset = paramController->GetScaled(Params::kKnob, 0,
+                                        lightIds.size() - (step * kMaxLights));
+  }
+
+  // TODO: this might flicker
+  lightController->Blackout();
+  for (int16_t i = 0; i < kMaxLights && i < lightIds.size(); i++) {
+    lightController->Set(
+        lightIds[i * step + offset],
+        {(uint16_t)(hsv.h + sign * i * hsvShift), hsv.s, hsv.v});
   }
 
   hsv.h += hsvAdvance;
@@ -37,23 +49,62 @@ void ColorShiftEffect::ParamChanged(Params param) {
       hsv.s = paramController->GetScaled(Params::kParam2, 100, 255);
       break;
 
-    // TODO: handle other cases
+    case Params::kHue0:
+    case Params::kHue1:
     case Params::kHue2:
     case Params::kWidth:
     case Params::kPan:
     case Params::kTilt:
+    case Params::kOrientation:
+    case Params::kKnob:
       break;
   }
 }
 
-void ColorShiftEffect::ChooseLights() {
-  // Keep track of the lights that were on before, and turn them off if they're
-  // no longer selected.
-  std::vector<int16_t> oldLightIds = lightIds;
-
+void ColorShiftEffect::ChooseLightsStraight() {
   lightIds = lightController->GetLightsFromParams(paramController);
-  hsvShift =
-      paramController->GetScaled(Params::kParam1, 30, 360 / lightIds.size());
+}
+
+void ColorShiftEffect::ChooseLightsRing() {
+  lightIds.clear();
+
+  std::vector<std::vector<int16_t>> lightArray = lightController->GetLights(
+      paramController,
+      paramController->GetScaled(Params::kWidth, 2, lightController->numRows),
+      paramController->GetScaled(Params::kWidth, 2, lightController->numCols));
+  const int colSize = lightArray[0].size();
+  // Grab the outside ring of lights
+  for (int i = 0; i < colSize; i++) {
+    lightIds.push_back(lightArray[0][i]);
+  }
+
+  for (int i = 1; i < (int16_t)lightArray.size() - 1; i++) {
+    lightIds.push_back(lightArray[i][colSize - 1]);
+  }
+
+  for (int i = colSize - 1; i >= 0; i--) {
+    lightIds.push_back(lightArray[lightArray.size() - 1][i]);
+  }
+
+  for (int i = lightArray.size() - 2; i >= 1; i--) {
+    lightIds.push_back(lightArray[i][0]);
+  }
+}
+
+void ColorShiftEffect::ChooseLights() {
+  std::vector<int16_t> oldLightIds = lightIds;
+  switch (mode) {
+    case ColorShiftMode::straight:
+      ChooseLightsStraight();
+      break;
+
+    case ColorShiftMode::ring:
+      ChooseLightsRing();
+      break;
+  }
+  hsvShift = paramController->GetScaled(
+      Params::kParam1, 30,
+      360 / std::min((int16_t)lightIds.size(), kMaxLights));
 
   TurnOffUnusedLights(oldLightIds, lightIds);
 }

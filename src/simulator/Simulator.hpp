@@ -61,6 +61,7 @@ class Simulator : public OgreBites::ApplicationContext,
   std::vector<Params> adjustableParams = {
       /*Params::kTempo, Params::kWidth,       Params::kPan,
       Params::kTilt,  Params::kOrientation,*/
+      Params::kKnob,
       Params::kHue0,
       Params::kHue1,
       Params::kHue2,

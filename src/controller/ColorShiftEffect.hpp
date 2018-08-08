@@ -5,10 +5,12 @@
 #include "Effect.hpp"
 #include "LightController.hpp"
 
+enum class ColorShiftMode { straight, ring };
+
 class ColorShiftEffect : public Effect {
  public:
   ColorShiftEffect(LightController *lightController,
-                   ParamController *paramController);
+                   ParamController *paramController, ColorShiftMode mode);
 
   void BeatDetected() override;
   void ChooseLights() override;
@@ -20,11 +22,20 @@ class ColorShiftEffect : public Effect {
   void DoRun() override;
 
  private:
+  // This effect has multiple "modes". Each moe has a different method of
+  // choosing lights. Once the lights are chosen, the behavior is the same.
+  void ChooseLightsStraight();
+  void ChooseLightsRing();
+
   std::vector<int16_t> lightIds;
 
   HSV hsv = {HUE_RED, 255, 255};
   int16_t hsvShift = 0;
   int16_t hsvAdvance = 1;
+
+  const int16_t kMaxLights = 5;
+
+  const ColorShiftMode mode;
 };
 
 #endif
