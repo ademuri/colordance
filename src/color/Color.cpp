@@ -65,6 +65,18 @@ uint8_t Color::cmul(const uint8_t x, const uint8_t y) {
 }
 
 uint8_t Color::GetColorValue(Hue color, const HSV &hsv) {
+  // Note about CIE curve: colors are hard. If users were just looking at the
+  // lights directly (i.e. like a computer monitor), we'd probalby want to apply
+  // a CIE curve. However, since we're doing color mixing, we can't do that.
+  // This is because color mixing is linear, so e.g. if we want to mix red,
+  // green, and blue lights to make white, their values (brightnesses) all need
+  // to be equal. What this means is that we basically need to apply the CIE
+  // curve to the constant when writing them down, e.g. if I want a light that's
+  // 50% brightness, I would look it up in the table above. We apply the inverse
+  // gamma curve to saturation because the saturation is generally set directly
+  // by the user (e.g. using a fader), and so this makes the controls behave as
+  // expected.
+
   int32_t offset = hsv.h - color;
   if (offset < 0) {
     offset = -offset;
@@ -75,7 +87,7 @@ uint8_t Color::GetColorValue(Hue color, const HSV &hsv) {
 
   const uint32_t invsat = 255 - invGamma8[hsv.s];
   // const uint16_t base = invsat * hsv.v / 255;
-  const uint32_t base = (invsat * cie[hsv.v]);
+  const uint32_t base = (invsat * hsv.v);
 
   if (offset >= kHueWidth) {
     // Only saturation and value will effect the color
@@ -86,8 +98,7 @@ uint8_t Color::GetColorValue(Hue color, const HSV &hsv) {
   }
 
   const uint32_t invoffset = kHueWidth - offset;
-  return (base + ((invoffset * invGamma8[hsv.s] * cie[hsv.v]) / kHueWidth)) /
-         255;
+  return (base + ((invoffset * invGamma8[hsv.s] * hsv.v) / kHueWidth)) / 255;
 }
 
 RGB Color::toRGB(HSV &hsv) {
@@ -116,7 +127,7 @@ HSV Color::interpolate(HSV &hsv1, HSV &hsv2, int32_t ratio) {
     if (hue1 > hue2) {
       hue2 += 360;
     } else {
-      hue1 == 360;
+      hue1 += 360;
     }
   }
   ret.h = ((hue1 * invRatio + hue2 * ratio) / 255) % 360;
