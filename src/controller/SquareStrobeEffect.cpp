@@ -33,14 +33,26 @@ void SquareStrobeEffect::SetLights() {
 }
 
 void SquareStrobeEffect::DoRun() {
-  SetLights();
-  state = (state + 1) % 4;
-
-  if (state % 2) {
-    SleepMs(tempo);
-  } else {
-    SleepMs(kOnMs);
+  // TODO: upgrade this to tap tempo or at least backoff so that the user can
+  // tap slower than tempo
+  if (paramController->Boost() && !prevBoost) {
+    stateChangeAt = lightController->GetMs() + kOnMs;
+    if ((state % 2) == 1) {
+      state = (state + 1) % 4;
+    }
+    SetLights();
   }
+
+  if (lightController->GetMs() > stateChangeAt) {
+    state = (state + 1) % 4;
+    if (state % 2) {
+      stateChangeAt = lightController->GetMs() + tempo;
+    } else {
+      stateChangeAt = lightController->GetMs() + kOnMs;
+    }
+    SetLights();
+  }
+  prevBoost = paramController->Boost();
 }
 
 void SquareStrobeEffect::ParamChanged(Params param) {
@@ -101,6 +113,7 @@ void SquareStrobeEffect::ParamChanged(Params param) {
 
     case Params::kWidth:
     case Params::kPan:
+    case Params::kTilt:
       break;
   }
 }

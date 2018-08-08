@@ -48,6 +48,12 @@ class SquareStrobeEffect : public Effect {
   /** Tracks the state machine. */
   int32_t state = 0;
 
+  /**
+   * The time, in ms, when the next state change will occur. This effect doesn't
+   * use SleepMs so that it can respond to the boost button.
+   */
+  unsigned long stateChangeAt = 0;
+
   const unsigned int kNumLights = 4;
 
   /** The inverse of the max tempo. */
@@ -56,6 +62,12 @@ class SquareStrobeEffect : public Effect {
   /** How long the lights are on for when strobing. Tempo controls the off
    * delay. */
   const int16_t kOnMs = 50;
+
+  /**
+   * Previous state of the boost button. Used to trigger a strobe on the rising
+   * edge.
+   */
+  bool prevBoost = false;
 };
 
 #endif
