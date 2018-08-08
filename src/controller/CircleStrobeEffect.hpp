@@ -35,6 +35,14 @@ class CircleStrobeEffect : public Effect {
   int16_t hueDistance = 180;
 
   HSV hsv = {HUE_RED, 255, 255};
+
+  /**
+   * Previous state of the boost button. Used to trigger a strobe on the rising
+   * edge.
+   */
+  bool prevBoost = false;
+
+  unsigned long stepAt = 0;
 };
 
 #endif

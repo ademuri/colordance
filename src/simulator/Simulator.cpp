@@ -9,6 +9,7 @@
 #include <cmath>
 #include <iostream>
 #include "../controller/BounceEffect.hpp"
+#include "../controller/CircleStrobeEffect.hpp"
 #include "../controller/ColorShiftAndStrobeEffect.hpp"
 #include "../controller/ColorShiftEffect.hpp"
 #include "../controller/DummyParamController.hpp"
@@ -225,7 +226,7 @@ void Simulator::setup() {
   paramController->Set(Params::kHue1, 24);
   paramController->Set(Params::kHue2, 48);
   paramController->Set(Params::kKnob, 72);
-  effect = new SquareStrobeEffect(controller, paramController);
+  effect = new CircleStrobeEffect(controller, paramController);
   effect->ReloadParams();
   effect->Run();
 

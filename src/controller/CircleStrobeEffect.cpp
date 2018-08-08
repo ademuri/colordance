@@ -29,22 +29,32 @@ void CircleStrobeEffect::setIndex(int16_t index, const HSV &hsv) {
 }
 
 void CircleStrobeEffect::DoRun() {
-  SetLights();
-
-  currentLight++;
-  if (currentLight >= lightIds.size()) {
-    currentLight = 0;
+  // TODO: consolidate this logic with square strobe
+  if (paramController->Boost() && !prevBoost) {
+    stepAt = 0;
   }
+  prevBoost = paramController->Boost();
 
-  hsv.h += 1;
-  SleepMs(paramController->GetScaled(Params::kTempo, 500, 50));
+  if (lightController->GetMs() > stepAt) {
+    currentLight++;
+    if (currentLight >= (int16_t)lightIds.size()) {
+      currentLight = 0;
+    }
+    SetLights();
+
+    hsv.h += 1;
+    // SleepMs(paramController->GetScaled(Params::kTempo, 500, 50));
+    stepAt = lightController->GetMs() +
+             paramController->GetScaled(Params::kTempo, 500, 50);
+  }
 }
 
 void CircleStrobeEffect::SetLights() {
-  setIndex(currentLight, hsv);
-
+  HSV first = hsv;
   HSV second = hsv;
   second.h = hsv.h + hueDistance;
+
+  setIndex(currentLight, first);
   setIndex((currentLight + lightIds.size() / 2) % lightIds.size(), second);
 }
 
@@ -63,12 +73,14 @@ void CircleStrobeEffect::ParamChanged(Params param) {
       hsv.s = paramController->GetScaled(Params::kParam1, 100, 255);
       break;
 
-    // TODO: handle other cases
     case Params::kTempo:
     case Params::kHue2:
     case Params::kWidth:
     case Params::kPan:
     case Params::kTilt:
+    case Params::kOrientation:
+    case Params::kParam2:
+    case Params::kKnob:
       break;
   }
 }
@@ -90,7 +102,7 @@ void CircleStrobeEffect::ChooseLights() {
     lightIds.push_back(lightArray[0][i]);
   }
 
-  for (int i = 1; i < lightArray.size() - 1; i++) {
+  for (int i = 1; i < (int16_t)lightArray.size() - 1; i++) {
     lightIds.push_back(lightArray[i][colSize - 1]);
   }
 
