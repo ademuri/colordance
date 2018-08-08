@@ -47,7 +47,7 @@ class Effect {
   /*
    * Called by the main controller when any param is changed.
    */
-  virtual void ParamChanged(Params param){};
+  virtual void ParamChanged(Params param) { param = param; };
 
   /**
    * Applies the current state of all params by calling ParamChanged for all

@@ -17,6 +17,7 @@
 #include "../controller/SleepEffect.hpp"
 #include "../controller/SolidColorEffect.hpp"
 #include "../controller/SquareEffect.hpp"
+#include "../controller/SquareStrobeEffect.hpp"
 #include "../controller/StrobeEffect.hpp"
 #include "../controller/ThreeColorEffect.hpp"
 #include "../controller/UnevenSwitchStrobeEffect.hpp"
@@ -219,7 +220,7 @@ void Simulator::setup() {
   paramController->Set(Params::kPan, ParamController::kPanNeutral);
   paramController->Set(Params::kTilt, ParamController::kTiltNeutral);
   paramController->Set(Params::kOrientation, 255);
-  effect = new ColorShiftEffect(controller, paramController);
+  effect = new SquareEffect(controller, paramController);
   effect->Run();
 
 #ifdef USE_BOOST

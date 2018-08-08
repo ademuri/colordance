@@ -20,9 +20,10 @@ void SquareEffect::DoRun() {
     hueDirection = 1;
   }
 
+  int offset = paramController->Boost() ? 2 : 0;
   for (unsigned int i = 0; i < kNumLights; i++) {
     actualHues[i].h = baseHues[i].h + hueOsc;
-    lightController->Set(lightIds[i], actualHues[i]);
+    lightController->Set(lightIds[(i + offset) % kNumLights], actualHues[i]);
   }
 
   SleepMs((kMaxTempo - tempo));
@@ -59,6 +60,8 @@ void SquareEffect::ParamChanged(Params param) {
 
     case Params::kWidth:
     case Params::kPan:
+    case Params::kTilt:
+    case Params::kOrientation:
       break;
   }
 }
