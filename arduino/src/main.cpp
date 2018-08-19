@@ -61,13 +61,13 @@ extern "C" int main(void) {
   DirectParamController *paramController = new DirectParamController();
 
   std::vector<Effect *> effects = {
-      new SquareStrobeEffect(lightController, paramController),
       new ColorShiftEffect(lightController, paramController,
                            ColorShiftMode::straight),
       new ColorShiftEffect(lightController, paramController,
                            ColorShiftMode::ring),
       new BounceEffect(lightController, paramController),
       new SquareEffect(lightController, paramController),
+      new SquareStrobeEffect(lightController, paramController),
       new CircleStrobeEffect(lightController, paramController),
       // TODO: fully parameterize these and clean them up, then uncomment
       // new ThreeColorEffect(lightController, paramController),
@@ -80,6 +80,8 @@ extern "C" int main(void) {
 
   SleepEffect *sleepEffect = new SleepEffect(lightController, paramController);
 
+  // Clear any accidentally on lights from the constructors
+  lightController->Blackout();
   Effect *effect = effects[0];
   paramController->ScanForChanges(effect);
   effect->ChooseLights();
