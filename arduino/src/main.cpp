@@ -113,16 +113,19 @@ extern "C" int main(void) {
       if (millis() > flashControlsEndAt) {
         flashingControls = false;
         flashControlsAt = millis() + 2 * flashControlsEvery;
+        lightController->SetButtonLights(false);
       }
       for (int i = 44; i < 49; i++) {
-        const uint8_t brightness =
-            (millis() / 100) % 2 == 0 ? 0 : serialLedBrightness;
+        const bool lightsOn = (millis() / 100) % 2 == 0;
+        const uint8_t brightness = lightsOn ? 0 : serialLedBrightness;
         lightController->leds[i] = HSV{HUE_GREEN, 255, brightness};
+        lightController->SetButtonLights(lightsOn);
       }
     } else if (millis() > flashControlsAt) {
       flashingControls = true;
       flashControlsEndAt = millis() + flashControlsDuration;
     } else {
+      lightController->SetButtonLights(false);
       lightController->leds[44] = lightController->leds[47] =
           HSV{currentHue, 255, serialLedBrightness};
       lightController->leds[45] = lightController->leds[48] =

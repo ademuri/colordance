@@ -28,6 +28,13 @@ DirectLightController::DirectLightController() {
   for (int i = 0; i < kNumLeds; i++) {
     leds.push_back({0, 0, 0});
   }
+
+  // Set up the button lights
+  pinMode(kButtonLed1, OUTPUT);
+  pinMode(kButtonLed2, OUTPUT);
+  pinMode(kButtonLed3, OUTPUT);
+  pinMode(kButtonLed4, OUTPUT);
+  pinMode(kButtonLed5, OUTPUT);
 }
 
 void DirectLightController::Set(const int16_t lightId, HSV hsv) {
@@ -75,4 +82,12 @@ void DirectLightController::WriteLeds() {
 
   SPI1.endTransaction();
   SPI1.end();
+}
+
+void DirectLightController::SetButtonLights(bool status) {
+  digitalWrite(kButtonLed1, status);
+  digitalWrite(kButtonLed2, status);
+  digitalWrite(kButtonLed3, status);
+  digitalWrite(kButtonLed4, status);
+  digitalWrite(kButtonLed5, status);
 }
