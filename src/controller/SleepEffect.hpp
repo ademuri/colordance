@@ -30,7 +30,7 @@ class SleepEffect : public Effect {
   bool entice = false;
   unsigned long enticeEndAtMs = 0;
   const unsigned long kEnticeEveryMs = 60 * 1000;
-  const unsigned long kEnticeRandom = 2 * 60 * 1000;
+  const unsigned long kEnticeEveryRandom = 2 * 60 * 1000;
   // const unsigned long kEnticeEveryMs = 5 * 1000;
   // const unsigned long kEnticeEveryRandom = 5 * 1000;
   const unsigned long kEnticeDurationMs = 2 * 1000;
