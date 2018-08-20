@@ -77,20 +77,20 @@ ParamChanged DirectParamController::ScanForChanges(Effect *effect) {
     }
   }
 
-  if (bPrevEffect->update() && bPrevEffect->rose()) {
+  if (bPrevEffect->update() && bPrevEffect->fell()) {
     effectIndex = (effectIndex - 1 + numEffects) % numEffects;
     paramChanged = true;
-  } else if (bNextEffect->update() && bNextEffect->rose()) {
+  } else if (bNextEffect->update() && bNextEffect->fell()) {
     effectIndex = (effectIndex + 1 + numEffects) % numEffects;
     paramChanged = true;
   }
 
-  randomize = bRandomize->update() && bRandomize->rose();
+  randomize = bRandomize->update() && bRandomize->fell();
   if (randomize) {
     paramChanged = true;
   }
 
-  if (bOrientation->update() && bOrientation->rose()) {
+  if (bOrientation->update() && bOrientation->fell()) {
     params[Params::kOrientation] = (params[Params::kOrientation] + 1) %
                                    paramRangeMap[Params::kOrientation];
     paramChanged = true;
@@ -120,4 +120,4 @@ void DirectParamController::setNumEffects(int numEffects_) {
 
 bool DirectParamController::getRandomize() { return randomize; }
 
-bool DirectParamController::Boost() { return bBoost->read(); }
+bool DirectParamController::Boost() { return !bBoost->read(); }
