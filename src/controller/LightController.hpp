@@ -63,6 +63,9 @@ class LightController {
 
   virtual void WriteLeds() {}
 
+  /** Sets the state of the button lights. */
+  virtual void SetButtonLights(bool status) {}
+
   /**
    * The decorative LED strips placed as part of the installation. These values
    * are written out when WriteLeds is called.

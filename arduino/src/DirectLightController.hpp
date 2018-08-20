@@ -16,9 +16,7 @@ class DirectLightController : public LightController {
   void Set(const int16_t lightId, HSV hsv) override;
   unsigned long GetMs() override;
   void WriteLeds() override;
-
-  /** Sets the state of the button lights. */
-  void SetButtonLights(bool status);
+  void SetButtonLights(bool status) override;
 
  private:
   teensydmx::Sender dmx{Serial2};

@@ -31,8 +31,8 @@ void log(const std::string &format, Args... args) {
 
 // Tuning constants
 /** Fall asleep if not interacted with for this long. */
-const unsigned long kNoInteractionSleepMs = 5 * 60 * 1000;
-// const unsigned long kNoInteractionSleepMs = 60 * 60 * 1000;
+// const unsigned long kNoInteractionSleepMs = 5 * 60 * 1000;
+const unsigned long kNoInteractionSleepMs = 60 * 60 * 1000;
 // const long kNoInteractionSleepMs = 5 * 1000;
 
 // How long after no controls have been changed to randomly change the effect
