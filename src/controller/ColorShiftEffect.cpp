@@ -20,12 +20,22 @@ void ColorShiftEffect::DoRun() {
                                         lightIds.size() - (step * kMaxLights));
   }
 
-  // TODO: this might flicker
-  lightController->Blackout();
+  // The light ids that were used
+  std::vector<int> usedLights;
   for (int16_t i = 0; i < kMaxLights && i < lightIds.size(); i++) {
+    int lightIndex = i * step + offset;
     lightController->Set(
-        lightIds[i * step + offset],
+        lightIds[lightIndex],
         {(uint16_t)(hsv.h + sign * i * hsvShift), hsv.s, hsv.v});
+    usedLights.push_back(lightIds[lightIndex]);
+  }
+
+  // Turn off the lights that weren't used.
+  for (int i = 0; i < lightIds.size(); i++) {
+    if (std::find(usedLights.begin(), usedLights.end(), lightIds[i]) ==
+        usedLights.end()) {
+      lightController->Set(lightIds[i], {0, 0, 0});
+    }
   }
 
   hsv.h += hsvAdvance;
