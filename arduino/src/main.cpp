@@ -134,10 +134,6 @@ extern "C" int main(void) {
           HSV{currentHue + 240, 255, serialLedBrightness};
     }
 
-    if ((controlUsedAt + flashControlsEvery) < millis()) {
-      flashControlsAt = controlMotionAt + flashControlsAt;
-    }
-
     bool motion = false;
     if (analogRead(kScreenMotionPin) > kMotionThresh) {
       motion = true;
@@ -197,6 +193,7 @@ extern "C" int main(void) {
             millis() + kAutoEffectBaseMs + random(kAutoEffectRandomMs);
         controlUsedAt = millis();
         usingAutoEffect = false;
+        flashControlsAt = millis() + flashControlsEvery;
       }
 
       if (millis() > sleepAt) {

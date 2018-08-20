@@ -30,7 +30,7 @@ unsigned long flashControlsEndAt = 0;
 bool flashingControls = false;
 
 const unsigned long flashControlsEvery = 30 * 1000;
-const unsigned long flashControlsDuration = 4 * 1000;
+const unsigned long flashControlsDuration = 1 * 1000;
 
 // Motion sensors. Note that these are connected to analog inputs which, unlike
 // ATMEGA-based Arduino devices, cannot be read using digitalRead.
