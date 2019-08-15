@@ -17,7 +17,7 @@ void SleepEffect::DoRun() {
       enticeAtMs = lightController->GetMs() + kEnticeEveryMs +
                    random(kEnticeEveryRandom);
     } else {
-      lightController->SetButtonLights((millis() / 100) % 2);
+      lightController->SetButtonLights((lightController->GetMs() / 100) % 2);
       HSV bright = {hsv.h, hsv.s,
                     127 + 127 * sin(lightController->GetMs() / 100.0)};
       lightController->Set(lightIds[0], bright);
