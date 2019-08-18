@@ -11,48 +11,28 @@ SquareStrobeEffect::SquareStrobeEffect(LightController *lightController,
 void SquareStrobeEffect::BeatDetected() {}
 
 void SquareStrobeEffect::SetLights() {
-  switch (state) {
-    case 0:
-      for (auto index : aLights) {
-        lightController->Set(lightIds[index], hues[index]);
-      }
-      break;
-
-    case 2:
-      for (auto index : bLights) {
-        lightController->Set(lightIds[index], hues[index]);
-      }
-      break;
-
-    case 1:
-    case 3:
-    default:
-      lightController->Blackout();
-      break;
+  for (unsigned int i = 0; i < aLights.size(); i++) {
+    hues[i].v = (1 + sin(time * 3.14)) * 127.5;
+    lightController->Set(lightIds[aLights[i]], hues[i]);
+  }
+  for (unsigned int i = 0; i < bLights.size(); i++) {
+    // Offset the brightness by 90 degrees
+    hues[aLights.size() + i].v = (1 + sin(time * 3.14 + 3.14)) * 127.5;
+    lightController->Set(lightIds[bLights[i]], hues[aLights.size() + i]);
   }
 }
 
 void SquareStrobeEffect::DoRun() {
   // TODO: upgrade this to tap tempo or at least backoff so that the user can
   // tap slower than tempo
-  if (paramController->Boost() && !prevBoost) {
-    stateChangeAt = lightController->GetMs() + kOnMs;
-    if ((state % 2) == 1) {
-      state = (state + 1) % 4;
-    }
-    SetLights();
+  if (paramController->Boost()) {
+    tempo = tempoFromParams / 2;
+  } else {
+    tempo = tempoFromParams;
   }
 
-  if (lightController->GetMs() > stateChangeAt) {
-    state = (state + 1) % 4;
-    if (state % 2) {
-      stateChangeAt = lightController->GetMs() + tempo;
-    } else {
-      stateChangeAt = lightController->GetMs() + kOnMs;
-    }
-    SetLights();
-  }
-  prevBoost = paramController->Boost();
+  time += 5.0 / tempo;
+  SleepMs(5);
 }
 
 void SquareStrobeEffect::ParamChanged(Params param) {
@@ -82,9 +62,9 @@ void SquareStrobeEffect::ParamChanged(Params param) {
       break;
 
     case Params::kTempo:
-      // Get a tempo ~in the range (1000, 50) ms.
-      tempo = paramController->GetScaled(Params::kTempo, 700, 400);
-      tempo = exp(tempo / 100.0);
+      // Get a tempo ~in the range (1000, 200) ms.
+      tempoFromParams = paramController->GetScaled(Params::kTempo, 700, 520);
+      tempoFromParams = exp(tempoFromParams / 100.0);
       break;
 
     case Params::kOrientation:
@@ -140,14 +120,14 @@ void SquareStrobeEffect::ChooseLights() {
 
 void SquareStrobeEffect::RandomizeParams() {
 #ifdef ARDUINO
-  paramController->SetScaled(Params::kTempo, 10 + random(50), 0, 100);
+  paramController->SetScaled(Params::kTempo, random(100), 0, 100);
   paramController->SetScaled(Params::kWidth, random(5), 0, 4);
   paramController->SetScaled(Params::kPan, random(5), 0, 4);
   paramController->SetScaled(Params::kTilt, random(5), 0, 4);
   // Height
   paramController->SetScaled(Params::kParam2, random(5), 0, 4);
   // Saturation
-  paramController->SetScaled(Params::kParam1, 50 + random(206), 100, 255);
+  paramController->SetScaled(Params::kParam1, 100 + random(155), 0, 255);
 
   paramController->SetScaled(Params::kHue0, random(360), 0, 359);
   paramController->SetScaled(Params::kHue1, random(360), 0, 359);

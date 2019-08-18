@@ -42,32 +42,22 @@ class SquareStrobeEffect : public Effect {
       {270, 255, 255},
   };
 
-  /** Param for the tempo. 0 is no change, kMaxTempo is fast change. */
-  int16_t tempo = 0;
+  /** Current tempo. Bigger is slower. */
+  int16_t tempo = 1000;
+
+  /**
+   * The tempo according to the params. Used so that we can double the tempo when boost is pressed.
+   */
+  int16_t tempoFromParams = 1000;
+
+  /**
+   * Time used for sin calculations. Use this instead of GetMs so
+   * that the lights don't flicker when changing the tempo.
+   */
+  float time = 0;
 
   /** Tracks the state machine. */
   int32_t state = 0;
-
-  /**
-   * The time, in ms, when the next state change will occur. This effect doesn't
-   * use SleepMs so that it can respond to the boost button.
-   */
-  unsigned long stateChangeAt = 0;
-
-  const unsigned int kNumLights = 4;
-
-  /** The inverse of the max tempo. */
-  const int16_t kMaxTempo = 50;
-
-  /** How long the lights are on for when strobing. Tempo controls the off
-   * delay. */
-  const int16_t kOnMs = 50;
-
-  /**
-   * Previous state of the boost button. Used to trigger a strobe on the rising
-   * edge.
-   */
-  bool prevBoost = false;
 };
 
 #endif
