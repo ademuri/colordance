@@ -102,7 +102,7 @@ extern "C" int main(void) {
         flashControlsAt = millis() + 2 * flashControlsEvery;
         lightController->SetButtonLights(false);
       }
-      for (int i = 44; i < 49; i++) {
+      for (int i = 44; i <= 49; i++) {
         const bool lightsOn = (millis() / 100) % 2 == 0;
         const uint8_t brightness = lightsOn ? 0 : serialLedBrightness;
         lightController->leds[i] = HSV{HUE_GREEN, 255, brightness};
@@ -119,6 +119,9 @@ extern "C" int main(void) {
           HSV{currentHue + 120, 255, serialLedBrightness};
       lightController->leds[46] = lightController->leds[49] =
           HSV{currentHue + 240, 255, serialLedBrightness};
+      // Turn off one of the box lights to indicate which effect is active
+      // Note: there should only be 6 effects, so the mod is for safety.
+      lightController->leds[44 + (effectIndex % 6)] = HSV{0, 0, 0};
     }
 
     bool motion = false;
