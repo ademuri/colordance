@@ -133,9 +133,6 @@ extern "C" int main(void) {
       motion = true;
       controlMotionAt = millis();
     }
-    if (motion) {
-      sleepAt = millis() + kNoInteractionSleepMs;
-    }
 
     if (sleeping) {
       sleepEffect->Run();

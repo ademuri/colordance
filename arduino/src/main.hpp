@@ -41,7 +41,7 @@ static const int kControlMotionPin = A11;
 
 // Since the motion pins are analog, we need to specify a threshold. The max
 // value is 1023.
-static const int kMotionThresh = 500;
+static const int kMotionThresh = 800;
 
 /** Fall asleep if not interacted with for this long. */
 static const unsigned long kNoInteractionSleepMs = 5 * 60 * 1000;
