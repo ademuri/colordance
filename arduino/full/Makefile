@@ -24,7 +24,7 @@ BUILDDIR = $(abspath $(CURDIR)/build)
 #************************************************************************
 
 # path location for Teensy Loader, teensy_post_compile and teensy_reboot
-TOOLSPATH = $(CURDIR)/tools
+TOOLSPATH = $(CURDIR)/../tools
 
 ifeq ($(OS),Windows_NT)
     $(error What is Win Dose?)
@@ -36,10 +36,10 @@ else
 endif
 
 # path location for Teensy 3 core
-COREPATH = teensy3
+COREPATH = $(CURDIR)/../teensy3
 
 # path location for Arduino libraries
-LIBRARYPATH = libraries
+LIBRARYPATH = $(CURDIR)/../libraries
 
 # path location for the arm-none-eabi compiler
 COMPILERPATH = $(TOOLSPATH)/arm/bin
@@ -109,9 +109,9 @@ LC_FILES := $(wildcard $(LIBRARYPATH)/*/*.c) $(wildcard $(LIBRARYPATH)/*/*/*.c)
 LCPP_FILES := $(wildcard $(LIBRARYPATH)/*/*.cpp) $(wildcard $(LIBRARYPATH)/*/*/*.cpp)
 TC_FILES := $(wildcard $(COREPATH)/*.c)
 TCPP_FILES := $(wildcard $(COREPATH)/*.cpp)
-C_FILES := $(wildcard src/*.c)
-CPP_FILES := $(wildcard src/*.cpp) $(wildcard $(CURDIR)/../src/color/*.cpp) $(wildcard $(CURDIR)/../src/controller/*.cpp)
-INO_FILES := $(wildcard src/*.ino)
+C_FILES := $(wildcard $(CURDIR)/*.c)
+CPP_FILES := $(wildcard $(CURDIR)/*.cpp) $(wildcard $(CURDIR)/../../src/color/*.cpp) $(wildcard $(CURDIR)/../../src/controller/*.cpp)
+INO_FILES := $(wildcard $(CURDIR)/*.ino)
 
 # include paths for libraries
 L_INC := $(foreach lib,$(filter %/, $(wildcard $(LIBRARYPATH)/*/)), -I$(lib))
