@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/thomasfredericks/Bounce2.git
+	branch = master
+	commit = 3e4738b4efa820da75483d0c5b93c707c8cb55e0
+	parent = 82fc81a52a97e3068090a3df340351c6a261f999
+	cmdver = 0.3.1
