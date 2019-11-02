@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/FastLED/FastLED.git
+	branch = master
+	commit = 8b31b643e42d8a53a3df9abc96bf45f00adf52df
+	parent = 90e0e833043b10cc3a6278fef5e8dfc6bea59d57
+	cmdver = 0.3.1
