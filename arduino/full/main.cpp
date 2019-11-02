@@ -105,7 +105,7 @@ extern "C" int main(void) {
       for (int i = 44; i <= 49; i++) {
         const bool lightsOn = (millis() / 100) % 2 == 0;
         const uint8_t brightness = lightsOn ? 0 : serialLedBrightness;
-        lightController->leds[i] = HSV{HUE_GREEN, 255, brightness};
+        lightController->leds[i] = HSV{C_HUE_GREEN, 255, brightness};
         lightController->SetButtonLights(lightsOn);
       }
     } else if (millis() > flashControlsAt) {

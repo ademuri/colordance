@@ -26,7 +26,7 @@ class BounceEffect : public Effect {
   int16_t leftLight = 0;
   int16_t step = 1;
 
-  HSV hsv = {HUE_RED, 255, 255};
+  HSV hsv = {C_HUE_RED, 255, 255};
   int16_t hsvShift = 0;
   int16_t hsvAdvance = 1;
 };

@@ -23,7 +23,7 @@ class SleepEffect : public Effect {
  private:
   std::vector<int16_t> lightIds;
 
-  HSV hsv = {HUE_RED, 255, 127};
+  HSV hsv = {C_HUE_RED, 255, 127};
 
   // Every so often, flash some lights to entice people to come play
   unsigned long enticeAtMs = 0;

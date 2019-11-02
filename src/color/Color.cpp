@@ -107,9 +107,9 @@ RGB Color::toRGB(HSV &hsv) {
   // TODO: is it bad to "fix" hsv.h here?
   hsv.h = hsv.h % 360;
 
-  rgb.r = GetColorValue(HUE_RED, hsv);
-  rgb.g = GetColorValue(HUE_GREEN, hsv);
-  rgb.b = GetColorValue(HUE_BLUE, hsv);
+  rgb.r = GetColorValue(C_HUE_RED, hsv);
+  rgb.g = GetColorValue(C_HUE_GREEN, hsv);
+  rgb.b = GetColorValue(C_HUE_BLUE, hsv);
 
   return rgb;
 }

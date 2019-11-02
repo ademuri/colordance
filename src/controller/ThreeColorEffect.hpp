@@ -30,9 +30,9 @@ class ThreeColorEffect : public Effect {
   int16_t light2;
   int16_t light3;
 
-  HSV hsv1 = {HUE_RED, 255, 200};
-  HSV hsv2 = {HUE_GREEN, 255, 200};
-  HSV hsv3 = {HUE_BLUE, 255, 200};
+  HSV hsv1 = {C_HUE_RED, 255, 200};
+  HSV hsv2 = {C_HUE_GREEN, 255, 200};
+  HSV hsv3 = {C_HUE_BLUE, 255, 200};
 };
 
 #endif

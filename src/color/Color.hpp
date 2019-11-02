@@ -7,12 +7,12 @@ struct HSV;
 struct RGB;
 
 enum Hue {
-  HUE_RED = 0,
-  HUE_YELLOW = 60,
-  HUE_GREEN = 120,
-  HUE_CYAN = 180,
-  HUE_BLUE = 240,
-  HUE_MAGENTA = 300,
+  C_HUE_RED = 0,
+  C_HUE_YELLOW = 60,
+  C_HUE_GREEN = 120,
+  C_HUE_CYAN = 180,
+  C_HUE_BLUE = 240,
+  C_HUE_MAGENTA = 300,
 };
 
 class Color {

@@ -29,7 +29,7 @@ class ColorShiftEffect : public Effect {
 
   std::vector<int16_t> lightIds;
 
-  HSV hsv = {HUE_RED, 255, 255};
+  HSV hsv = {C_HUE_RED, 255, 255};
   int16_t hsvShift = 0;
   int16_t hsvAdvance = 1;
 

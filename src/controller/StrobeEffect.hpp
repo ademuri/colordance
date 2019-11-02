@@ -23,7 +23,7 @@ class StrobeEffect : public Effect {
   int16_t currentLight = 0;
   int16_t hueAdjust = 0;
 
-  HSV hsv = {HUE_RED, 255, 255};
+  HSV hsv = {C_HUE_RED, 255, 255};
 };
 
 #endif

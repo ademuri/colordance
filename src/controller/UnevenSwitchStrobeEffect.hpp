@@ -23,8 +23,8 @@ class UnevenSwitchStrobeEffect : public Effect {
  private:
   std::vector<int16_t> lightIds;
 
-  HSV hsv1 = {HUE_RED, 255, 255};
-  HSV hsv2 = {HUE_BLUE, 255, 255};
+  HSV hsv1 = {C_HUE_RED, 255, 255};
+  HSV hsv2 = {C_HUE_BLUE, 255, 255};
   int16_t hsvShift = 0;
   int16_t hsvAdvance = 1;
   // Counter for where we are in the on-off cycle
