@@ -30,6 +30,7 @@ void SquareStrobeEffect::DoRun() {
   } else {
     tempo = tempoFromParams;
   }
+  SetLights();
 
   time += 5.0 / tempo;
   SleepMs(5);
