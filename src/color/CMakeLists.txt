@@ -11,6 +11,6 @@ target_include_directories(color PUBLIC
 
 add_executable(colortest test/colortest.cpp)
 
-target_link_libraries(colortest color GTest::GTest GTest::Main)
+target_link_libraries(colortest color gmock_main gtest)
 
 add_test(colortest colortest)

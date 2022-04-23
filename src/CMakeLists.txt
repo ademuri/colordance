@@ -27,8 +27,15 @@ endif()
 file(COPY textures DESTINATION ${CMAKE_BINARY_DIR})
 file(COPY config/resources.cfg DESTINATION ${CMAKE_BINARY_DIR})
 
-find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
+# Download GoogleTest for mocks and test runner.
+include(DownloadProject.cmake)
+download_project(PROJ                googletest	
+                 GIT_REPOSITORY      https://github.com/google/googletest.git
+                 GIT_TAG             master
+                 UPDATE_DISCONNECTED 1
+)
+
+add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
 
 enable_testing()
 
